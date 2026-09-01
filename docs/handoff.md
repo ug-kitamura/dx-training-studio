@@ -396,10 +396,14 @@ start-mandala.bat       # 入れ物直下。ビルド → out/ をローカル�
 - **`is_start` / `is_goal`**（コース `.meta.json`・省略時 false）は**カリキュラムの入口・到達点の宣言**。**制約は一切無い**——前のコースを持つコースでも Start にでき、複数コースが宣言してよい。⚠ **`cross_series_prev` / `next` の配列に番兵 ID を混ぜてはいけない**（`stripDanglingCourseLinks` が実在しない ID として黙って消す）
 - **`Course` 型に必須フィールドを足さない。** `style` と同じ `optional` にする——必須にすると全テストフィクスチャが型エラーになる
 - ⚠ **shadcn base（Base UI）の `Select` はラベル解決に Root の `items` を渡す。** `SelectItem` の children だけではトリガーに**生の value** が出る。保存済みの値は候補一覧に無くても項目に入れること
-- **Studio の Vercel デモは読み取り専用**（要件の正本は spec `studio-demo-deployment`）。ツリー・本文はビルド時に焼き込み、画像は Vercel Blob、保存・Agent は read-only FS で**失敗する。許容された仕様**
+- **Studio の Vercel デモは読み取り専用**（要件の正本は spec `studio-demo-deployment`）。ツリー・本文はビルド時に焼き込み、**画像は `outputFileTracingIncludes` で関数へ明示同梱**、保存・Agent は read-only FS で**失敗する。許容された仕様**
   - ⚠ **`Include files outside the root directory` は Enabled から動かさないこと。** 正本 `contents/` は Root Directory の**外**にあり、無効にすると `loadContentsFolder` が**黙って空を返す**ため、**ビルド緑・デプロイ成功・中身が空のデモ**という気づけない壊れ方をする
-  - ⚠ **`next.config.ts` の `outputFileTracingRoot` を素朴に `__dirname` へ戻さないこと。** include-outside が ON だと Vercel はリポジトリ丸ごとを `/vercel/path0` に置き、ズレると `ENOENT: .../.next/routes-manifest-deterministic.json` で落ちる。`turbopack.root` は逆に `studio/` のまま動かさない
-  - **番人がいる**: `studio/scripts/check-vercel-build-root.mjs` が `npm run build` の前段で上の2点を検査して止める
+  - ⚠ **`Include files outside the root directory` が保証するのはビルドコンテナへの配置まで。** 関数への同梱は別の話で、`outputFileTracing` は動的に組み立てたパスを追跡できない。だから `contents/` は焼き込み、`images/` は `outputFileTracingIncludes` で明示同梱している
+  - ⚠ **`next.config.ts` の `outputFileTracingIncludes` から `../images/*` を消さないこと。** 消すとデプロイ先で一覧が空・実体が 404 になる。**ローカルは fs を直接読むので気づけない**
+  - ⚠ **`outputFileTracingRoot` と `turbopack.root` は必ず同じ値にすること。** Next 16 はこの2つを1つのルートへ畳み、食い違うと警告のうえ `turbopack.root` を捨てる。値は両環境とも入れ物ルート（Vercel は `/vercel/path0`、ローカルは `path.resolve(__dirname, "..")`）。素朴に `__dirname` へ戻すと `ENOENT: .../.next/routes-manifest-deterministic.json` で落ちる
+  - ⚠ **ルート設定を変えたら `.next` を削除する。** 古い dev チャンクが残ると `Cannot find module '@vercel/blob'` のような、原因と無関係な解決エラーが出る（実際に踏んだ）
+  - **番人がいる**: `studio/scripts/check-vercel-build-root.mjs` が `npm run build` の前段で正本の可視性とソースルートの前提を検査して止める
+  - 📖 **切り出し前は画像が「勝手に」表示できていた**（2026-09-02 に判明）。旧構成ではアプリが `/vercel/path0/dx-training-studio/studio` にあり、**中間ディレクトリ `dx-training-studio/` ごと関数へ入っていた**ため、`images/` も `contents/` も実体が届いていた。切り出しでアプリが `path0` の直下へ移り中間が消えた結果、その暗黙の同梱が止まった。⚠ **設定で要求していない同梱に依存しないこと**——`getProjectRoot()` の解決先は新旧とも正しく、壊れたのは実体の届き方だけだった
 
 #### `contents/` の書込規約
 

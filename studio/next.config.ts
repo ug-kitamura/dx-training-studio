@@ -1,15 +1,12 @@
 import type { NextConfig } from "next";
 import path from "node:path";
 
-// プロジェクトルートを明示する。次の事故を防ぐ目的:
-//   1. 親ディレクトリ（ホーム直下など）に lockfile が紛れていると Next.js が
-//      そこをワークスペースルートと誤認識し、`outputFileTracing` が想定外の範囲を辿る
-//   2. モノレポ内でも本ディレクトリを tracing の基準にする
-const projectRoot = path.resolve(__dirname);
+// 入れ物ルート。正本（`../contents/` `../images/`）はアプリ（`studio/`）の外＝ここの直下にある。
+const containerRoot = path.resolve(__dirname, "..");
 
 // Vercel 上でリポジトリが展開される場所。
 //
-// 正本 `../contents/` は Root Directory（= 本ディレクトリ）の外にあるため、Vercel の
+// 正本 `../contents/` は Root Directory（= `studio/`）の外にあるため、Vercel の
 // `Include files outside the root directory` を Enabled にしている。すると Vercel は
 // リポジトリ丸ごとをここへ置き、`@vercel/next` は「Next アプリのルート == この場所」と
 // 決めつけて `.next` と `.nft.json` を re-root する。`outputFileTracingRoot` をそこへ
@@ -21,17 +18,45 @@ const projectRoot = path.resolve(__dirname);
 // ⚠ この前提が崩れていないかは `scripts/check-vercel-build-root.mjs` がビルド前に検査する。
 const VERCEL_SOURCE_ROOT = "/vercel/path0";
 
+// tracing と Turbopack の共通ルート。値はどちらの環境でも「入れ物ルート」を指す。
+//
+// ⚠ `outputFileTracingRoot` と `turbopack.root` に違う値を入れないこと。Next 16 は
+// この 2 つを 1 つのルートへ畳み、食い違うと警告のうえ `turbopack.root` を捨てる
+// （`node_modules/next/dist/server/config.js` の `result.outputFileTracingRoot = rootDir`）。
+// 以前ここは `turbopack.root` だけ `studio/` を指していたが、Vercel 上では Next が
+// `/vercel/path0` へ書き換えており、指定は効かないままビルドログに警告が出続けていた。
+const tracingRoot = process.env.VERCEL ? VERCEL_SOURCE_ROOT : containerRoot;
+
 const nextConfig: NextConfig = {
-  // ⚠ `turbopack.root` はリポジトリルートへ向けない。向けると ebex / mandala /
-  // minutes-maid の lockfile を巻き込んで走査し、上のコメントが防いでいる事故を自ら招く
   turbopack: {
-    root: projectRoot,
+    root: tracingRoot,
   },
-  outputFileTracingRoot: process.env.VERCEL ? VERCEL_SOURCE_ROOT : projectRoot,
-  // `.meta.json` の焼き込みは `createRequire` で読む（parity プローブが静的
-  // JSON import を扱えないため）。NFT が取りこぼさないよう全ルートへ明示同梱する
+  outputFileTracingRoot: tracingRoot,
+  // NFT が追跡できないものを、関数へ明示同梱する。
+  //
+  // ・`.meta.json` の焼き込みは `createRequire` で読む（parity プローブが静的
+  //   JSON import を扱えないため）。取りこぼさないよう全ルートへ明示同梱する
+  // ・正本画像は `/api/images/file` が論理パスから絶対パスを動的に組み立てて
+  //   `fs.readFile` するため、NFT からは見えない
+  //
+  // ⚠ 画像の行を消すと、デプロイ先で一覧が空・実体が 404 になる（ローカルは fs を
+  //   直接読むので気づけない）。リポジトリ切り出し前は Root Directory の外が Vercel に
+  //   よって暗黙に同梱されていて偶然動いていたが、アプリが `/vercel/path0` の直下へ
+  //   移った時点でその副作用は消えた。`Include files outside the root directory` が
+  //   保証するのは**ビルドコンテナへの配置まで**で、関数への同梱は別の話。
+  // ⚠ glob は上の `tracingRoot` の内側でなければ Turbopack に拒否される。
+  // ⚠ 拡張子は `lib/image-store.ts` の `MIME_BY_EXT` のうち `image/*` に揃えている。
+  //   `mp4` は `.gitignore` が正本から除外しているので含めない。
   outputFileTracingIncludes: {
-    "/*": ["./lib/contents-meta.generated.json"],
+    "/*": [
+      "./lib/contents-meta.generated.json",
+      "../images/*.png",
+      "../images/*.jpg",
+      "../images/*.jpeg",
+      "../images/*.gif",
+      "../images/*.webp",
+      "../images/*.svg",
+    ],
   },
   serverExternalPackages: ["playwright"],
 };
