@@ -50,7 +50,8 @@ openspec/changes/
 
 # Graphify
 .claude/skills/graphify/
-graphify-out/
+graphify-out/*
+!graphify-out/GRAPH_REPORT.md
 
 # Vercel
 .vercel
