@@ -76,6 +76,15 @@ const withNextra = nextra({
 
 export default withNextra({
   output: "export",
+  // 常時 ON・切り替え不可。各ページを `<slug>/index.html` で出力し、リンクを
+  // 末尾スラッシュ付きにする。「拡張子なし URL（/git）に .html を補って返す」
+  // というサーバー側の気配りに依存せず、ディレクトリインデックス（ディレクトリ
+  // URL に index.html を補う）だけを持つ素朴なサーバー（社内ホスティング等）でも
+  // 全リンク・アセットが解決する。⚠ 環境変数で配信先ごとに切り替えないこと——
+  // 配信先間のビルド差は NEXT_PUBLIC_BASE_PATH の1軸に閉じる（spec
+  // `publishing-site-pages`）。旧形式の拡張子なし URL は GitHub Pages / Vercel
+  // とも `<slug>/index.html` の存在を見て 301 されるため、既存リンクは死なない。
+  trailingSlash: true,
   // 画像最適化はサーバーが要るため静的 export では使えない
   images: { unoptimized: true },
   // Next.js が AGENTS.md / CLAUDE.md を自動生成するのを止める

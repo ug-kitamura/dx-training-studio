@@ -111,7 +111,7 @@ export const data = siteData as SiteData;
 /** 旧形式の site-data.json（site 無し）でも落とさないためのフォールバック */
 const FALLBACK_CHROME: SiteChrome = {
   name: "DX Training Mandala",
-  githubUrl: "https://github.com/ug-kitamura/AI_Driven_School",
+  githubUrl: "https://github.com/ug-kitamura/dx-training-studio",
   hero: null,
 };
 

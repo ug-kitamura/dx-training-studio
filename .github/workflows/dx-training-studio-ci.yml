@@ -21,22 +21,22 @@ on:
     branches:
       - main
     paths:
-      - "dx-training-studio/studio/**"
+      - "studio/**"
       # ⚠ mandala も入れる。Studio の parity テストは境界を越えて
       # `mandala/lib/site-labels.ts` を読み、語彙がずれたら落ちる設計なので、
       # mandala 側だけの変更で発火しないとテストの存在意義が消える。
       # ファイル単位に絞ると将来別のファイルが越境で読まれたとき穴が空くため、
       # ディレクトリ単位で広く取る（空振りは安く、見逃しは高い）。
-      - "dx-training-studio/mandala/lib/**"
+      - "mandala/lib/**"
       # ⚠ 正本も入れる。Studio のデモは正本をビルド時に静的ペイロードへ焼き込むので
       # （`lib/contents-loader.ts`）、正本の破損がビルドを壊しうる。
-      - "dx-training-studio/contents/**"
+      - "contents/**"
       - ".github/workflows/dx-training-studio-ci.yml"
   pull_request:
     paths:
-      - "dx-training-studio/studio/**"
-      - "dx-training-studio/mandala/lib/**"
-      - "dx-training-studio/contents/**"
+      - "studio/**"
+      - "mandala/lib/**"
+      - "contents/**"
       - ".github/workflows/dx-training-studio-ci.yml"
   workflow_dispatch:
 
@@ -53,7 +53,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: dx-training-studio/studio
+        working-directory: studio
     steps:
       - uses: actions/checkout@v5
 
@@ -61,7 +61,7 @@ jobs:
         with:
           node-version: 24
           cache: npm
-          cache-dependency-path: dx-training-studio/studio/package-lock.json
+          cache-dependency-path: studio/package-lock.json
 
       - name: Install dependencies
         run: npm ci

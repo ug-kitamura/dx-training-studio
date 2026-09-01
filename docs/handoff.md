@@ -124,6 +124,9 @@ node --experimental-strip-types dx-training-studio/.claude/skills/dx-training-tr
 - **DX免許皆伝の到達条件を決める** — `is_goal` 自体は**ハンズオン当日コースに設定済み**（Start は DX入門コース）。残るのは「何をもって修了とするか」の中身で、実質 3章の課題（→ 3章）
 - **社内AIチャットの正式名称・利用ガイドライン** — L04 執筆時にトレーナーが補う
 - **Vercel の設定**（→ 2.4）
+- **リポジトリ切り出しの残作業（サービス側の設定。コードは対応済み）**
+  1. **Vercel 2 プロジェクト**（Studio デモ・公開サイト）の git 連携を新リポジトリ `ug-kitamura/dx-training-studio` へ付け替え、Root Directory を `studio` / `mandala` に変更。Ignored Build Step（`main` 限定・→ 2.4 の向きの注意）を両プロジェクトで再確認
+  2. **新リポジトリで GitHub Pages を有効化**（Source の有効化 → `github-pages` environment のタグルール。手順は `mandala/README.md` が正本）。basePath はワークフローがリポ名から自動導出するので設定不要
 - `images/web-2562325-2.jpg` — ヒーロー画像の元データ。`mandala/app/hero.jpg` にコピー済みなので正本 `images/` には不要。未追跡のまま残っているので消すか判断する
 
 ---
@@ -460,9 +463,14 @@ contents-work/
 
 | ワークフロー | 契機 | やること |
 |---|---|---|
+| `dx-training-studio-ci.yml` | **`main` への push** / PR（`studio/` `mandala/lib/` `contents/` を含むもの）/ 手動 | Studio の型 → ビルド → テスト。**デプロイしない** |
 | `dx-training-mandala-ci.yml` | **`main` への push** / PR（`mandala/` `contents/` `images/` を含むもの）/ 手動 | 変換 → ビルド → テスト。**デプロイしない** |
-| `dx-training-site-release-pages.yml` | `v*` タグの push / **手動** | GitHub Pages へ配信（basePath 付き） |
-| `dx-training-site-release-vercel.yml` | **使っていない** | git 連携へ移行済み。逃げ道として残置（UI で disable ＋ タグ契機をコメントアウトの二重停止） |
+| `dx-training-mandala-release-pages.yml` | `v*` タグの push / **手動** | GitHub Pages へ配信（basePath はリポ名から自動導出。GHES 移行時は冒頭の1行を入れ替える） |
+| `dx-training-mandala-release-intranet.yml` | **不活性**（GHES 移行まで実行されない。本来は `v*` タグ / 手動） | 社内ホスティング（SMB 共有）へ配信。build + deploy 2方式（rclone / robocopy）を手動実行の入力で選ぶ。有効化手順・未確認事項はファイル冒頭コメントと `docs/grill-me/grill-me-20260828.md` |
+
+- **Vercel のタグ連動ワークフローは廃止した**（2026-09-01・リポジトリ切り出し時）。Vercel の配信は git 連携（`main` へのマージ）のみで完結し、復元しない
+- **リポジトリ切り出し（`AI_Driven_School` → `dx-training-studio`）でパス前提が変わった**。ワークフローの `paths` / `working-directory` は入れ物直下基準（`studio/**` `mandala/**` `contents/**`）。⚠ 旧 `dx-training-studio/` プレフィックスに戻すと **CI は発火しないだけで赤にもならない**——壊れに気づけない
+- **`trailingSlash: true` は常時 ON**（`mandala/next.config.mjs`）。出力は `<slug>/index.html` 形式で、配信先間のビルド差は `NEXT_PUBLIC_BASE_PATH` の1軸だけ
 
 - ⚠ **CI の `push` は `main` に絞ってある。外すと同じ push で2回走る**——`pull_request` と同じ paths を見ているため。`concurrency` の group は `github.ref` 依存で、push と PR は値が違うので相殺されない。**代償として PR を作る前のブランチ push では CI が回らない**
 - ⚠ **作業ブランチの内容を「配信して」確認する手段は無い。** Pages は environment 保護で弾かれ、Vercel は Ignored Build Step で `main` 限定。確認は**ローカルビルド**か **`main` へマージ**のどちらか

@@ -3,10 +3,10 @@ name: DX Training Mandala Release (GitHub Pages)
 # 公開サイトの GitHub Pages 配信（社内トライアル用）。main に含まれるコミットへ
 # v* タグを打ったときと、動作確認のための手動実行で走る。
 #
-# Vercel 向けの配信は dx-training-mandala-release-vercel.yml が別に担う。
-# 契機（v* タグ）は共有するが、Pages と Vercel は目的が異なる（社内トライアル /
-# ゲーミフィケーションを見据えた理想追求）ためファイルを分けている。
-# タグ検証ロジックは両ファイルに重複するが、単純さを優先して意図的に共通化していない。
+# Vercel（最新版・理想追求）はワークフローを持たない——Vercel 側の git 連携
+# （main へのマージ）だけで配信が完結する。タグ連動の Vercel 配信は廃止済み。
+# 同じ v* タグでは社内ホスティング配信（dx-training-mandala-release-intranet.yml・
+# GHES 移行までは不活性）も発火する設計になっている。
 
 on:
   push:
@@ -34,9 +34,16 @@ permissions:
 
 env:
   NODE_VERSION: "24"
-  SITE_DIR: dx-training-studio/mandala
-  # GitHub Pages はプロジェクトページ配信なのでサブパスになる
-  PAGES_BASE_PATH: /AI_Driven_School
+  SITE_DIR: mandala
+  # GitHub Pages はプロジェクトページ配信なのでサブパスになる。
+  # ⚠ ハードコードしない——リポジトリ名の変更・移設に追随できず、配信された
+  # サイトの CSS・JS・画像がすべて 404 になる事故の元（旧 /AI_Driven_School で実例）。
+  # github.com の project Pages: https://<owner>.github.io/<リポ名>/ → /<リポ名>
+  PAGES_BASE_PATH: /${{ github.event.repository.name }}
+  # 社内 GHES へ移行したら上の1行を次の1行に入れ替える（変更はこれだけ）:
+  #   GHES Pages: https://pages.github.<会社>.com/<組織名>/<リポ名>/ → /<組織名>/<リポ名>
+  #   github.repository は「組織名/リポ名」を返すので、移行後も自動導出が成立する
+  # PAGES_BASE_PATH: /${{ github.repository }}
   PAGES_ARTIFACT_DIR: _pages_out
 
 jobs:
@@ -68,7 +75,7 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: npm
-          cache-dependency-path: dx-training-studio/mandala/package-lock.json
+          cache-dependency-path: mandala/package-lock.json
 
       - name: Install dependencies
         working-directory: ${{ env.SITE_DIR }}
