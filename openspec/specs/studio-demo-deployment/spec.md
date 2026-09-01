@@ -23,7 +23,7 @@ Vercel 上の Studio は、社内に画面を見せるための**読み取り専
 
 Studio のデモ配信において、**正本 `contents/` はビルド時に読み込んで静的ペイロードへ焼き込まなければならない**（SHALL）。閲覧のためにランタイムのファイルシステムへ依存してはならない（MUST NOT）——`outputFileTracing` は動的に組み立てたパスの読み込みを追跡できず、正本はサーバーレス関数へ同梱されないため。
 
-画像は正本ファイルではなく**ストレージバックエンド（Vercel Blob）経由で配信**しなければならない（SHALL）。
+正本画像は例外とし、**`outputFileTracingIncludes` で明示同梱してランタイムのファイルシステムから配信**しなければならない（SHALL）。ストレージバックエンド（Vercel Blob 等）をデモ配信の前提にしてはならない（MUST NOT）——会社環境ではストレージを使えず、画面を見せるためだけに外部ストレージを運用する理由がないため。
 
 #### Scenario: ランタイムのファイルシステムに正本が無い
 
@@ -33,7 +33,37 @@ Studio のデモ配信において、**正本 `contents/` はビルド時に読�
 #### Scenario: 画像を表示する
 
 - **WHEN** レッスン本文に画像が含まれる
-- **THEN** 画像は Vercel Blob から配信される
+- **AND** 画像ストレージの設定が `local` である
+- **THEN** 画像は関数へ同梱された正本ファイルから配信される
+
+### Requirement: 正本画像をサーバーレス関数へ明示同梱する
+
+Studio のデモ配信において、正本画像（`images/<filename>`）は **`outputFileTracingIncludes` で全ルートへ明示同梱しなければならない**（SHALL）。Root Directory の外にあるファイルが暗黙に関数へ含まれることに依存してはならない（MUST NOT）——切り出し前のデプロイはこの暗黙の同梱に乗っており、リポジトリ構成が変わった瞬間に無言で表示が壊れた。
+
+同梱対象の拡張子は `lib/image-store.ts` の `MIME_BY_EXT` のうち `image/*` に対応するものとしなければならない（SHALL）。動画（`mp4` 等）は `.gitignore` が正本から除外しているため含めてはならない（MUST NOT）。
+
+`outputFileTracingIncludes` の glob は Next が統合したルート（`outputFileTracingRoot` と `turbopack.root` を同一視した値）の内側に収まらなければならない（SHALL）。そのため両者へ**同じ値**を設定しなければならない（SHALL）——異なる値を与えると Next が警告のうえ一方を捨て、ローカルと Vercel でルートが食い違う。
+
+#### Scenario: デプロイ先で正本画像を取得する
+
+- **WHEN** デプロイされた Studio が `GET /api/images/file?path=images/<name>&storageMode=local` を受ける
+- **THEN** 関数へ同梱された実体が 200 で返る
+
+#### Scenario: デプロイ先で正本画像を一覧する
+
+- **WHEN** デプロイされた Studio が `GET /api/images/list?scope=used&storageMode=local` を受ける
+- **THEN** 正本画像の一覧が返り、本文から参照されていない画像も含まれる
+
+#### Scenario: ビルド成果物に同梱されたかを確認する
+
+- **WHEN** `npm run build` が完了する
+- **THEN** `.next/server/app/api/images/file/route.js.nft.json` の `files` に正本画像が並ぶ
+
+#### Scenario: 2 つのルート設定が食い違う
+
+- **WHEN** `outputFileTracingRoot` と `turbopack.root` に異なる値が設定されている
+- **THEN** ビルドは警告を出し、片方の設定は無視される
+- **AND** それは是正すべき設定ミスであり、放置してはならない
 
 ### Requirement: Root Directory の外にある正本を読める設定を維持する
 
