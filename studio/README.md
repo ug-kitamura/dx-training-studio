@@ -250,7 +250,7 @@ shadcn 部品の追加: `npx shadcn@latest add <name> --diff`（設定は `compo
 
 ## Vercel にデプロイ（デモ）
 
-リポジトリ [`AI_Driven_School`](https://github.com/ug-kitamura/AI_Driven_School) のサブディレクトリとして Vercel に公開する。デモ URL: [https://ai-driven-school.vercel.app](https://ai-driven-school.vercel.app)
+リポジトリ [`dx-training-studio`](https://github.com/ug-kitamura/dx-training-studio) のサブディレクトリ `studio/` を Vercel に公開する。デモ URL: [https://ai-driven-school.vercel.app](https://ai-driven-school.vercel.app)
 
 ### プロジェクト設定
 
@@ -258,7 +258,7 @@ Vercel ダッシュボード → **Settings** → **Build and Deployment**
 
 | 項目 | 値 |
 |---|---|
-| Root Directory | `dx-training-studio/studio` |
+| Root Directory | `studio` |
 | Framework Preset | Next.js |
 | Build Command | `npm run build` |
 | Output Directory | デフォルト（Override しない） |

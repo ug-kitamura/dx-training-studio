@@ -1,0 +1,212 @@
+name: DX Training Mandala Release (Intranet)
+
+# 公開サイトの社内ホスティングサービス（SMB 共有）配信。
+# SMB 共有 \\<実ホスト名>\<共有名>\...\ccdx\dx-training-mandala\ に置いたものが
+# https://…/doku/ccdx/dx-training-mandala/ で配信される仕組みへ、v* タグを契機に
+# out/ を同期する。設計の正本は docs/grill-me/grill-me-20260828.md。
+#
+# ⚠⚠⚠ このワークフローは【不活性】である。実行されない。⚠⚠⚠
+#
+# 理由: 社内 GHES への移植前であり、このリポジトリは github.com にある。
+#   ・社内 secret（SMB 資格情報）と実ホスト名・UNC は github.com に置かない
+#   ・宛先の疎通（445/tcp 到達・認証・DFS 迂回・SPN・rclone 入手方式）が未確認
+#     （grill-me-20260828 チェックリスト⑦〜⑪。GHES 到着後に疎通スパイクで確定する）
+#
+# 不活性化は三重:
+#   1. 本番契機（v* タグ）のコメントアウト（下の on: を参照）
+#   2. 各ジョブの `if:` 冒頭の `false &&`（workflow_dispatch でも走らない）
+#   3. secret・self-hosted ランナーが github.com 側に存在しない
+#
+# 【GHES 移行時の有効化手順】
+#   1. 各ジョブの `if:` から `false &&` を消す（3ジョブ。まず workflow_dispatch で
+#      方式スパイクを回し、勝者を決める）
+#   2. <PLACEHOLDER> を実値化する（実ホスト名・共有名・self-hosted ランナーラベル）。
+#      SMB 資格情報は GHES の Environment secret に登録する（SMB_DOMAIN / SMB_USER /
+#      SMB_PASS_OBSCURED。パスワードは手元で `rclone obscure` を通した値を入れる——
+#      ランナー上で難読化すると平文がコマンドラインに乗る）
+#   3. 方式が確定したら、負けた側の deploy ジョブと method 入力を削除する
+#   4. on: の v* タグ契機のコメントを解除する。このとき Environment（承認必須）で
+#      保護すること——タグを打てる人＝社内共有へ書き込める人にしないため
+#   5. 初回配信前に、_next/ _pagefind/ のようなアンダースコア始まりのパスを
+#      ホスティングが隠し扱いで弾かないことを小さなテストファイルで確認する
+#      （grill-me-20260828「ファイル名・パス長の確認」）
+#
+# Pages 配信（dx-training-mandala-release-pages.yml）とは basePath が違うため
+# ビルド成果物は共有できない。それぞれ別途ビルドする。
+
+on:
+  # 本番契機。GHES 移行の有効化手順 4 までコメントアウトのまま維持すること。
+  # 解除時は Pages ワークフローと同様に「タグが main に含まれること」の検証を
+  # build ジョブへ足すこと（fetch-depth: 0 + git merge-base --is-ancestor）。
+  # push:
+  #   tags:
+  #     - "v*"
+  workflow_dispatch:
+    inputs:
+      method:
+        description: "配信方式（スパイク用。勝者確定後はこの入力ごと削除する）"
+        required: true
+        type: choice
+        default: rclone
+        options:
+          - rclone
+          - robocopy
+
+concurrency:
+  group: dx-training-mandala-release-intranet
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  NODE_VERSION: "24"
+  SITE_DIR: mandala
+  # 「URL のパス」であって「UNC のパス」ではない（grill-me-20260828）。
+  # 共有に置いたものが https://…/doku/ccdx/dx-training-mandala/ で見えるので、
+  # basePath はその URL パス部分。末尾スラッシュは付けない（Next がエラーにする）。
+  # 配信先ディレクトリを変えたら必ずビルドし直すこと——basePath は 600 以上の
+  # ファイルに絶対パスとして焼き込まれるため、コピーだけでは移せない。
+  #
+  # ⚠ この値は入れ物直下の preview-mandala-deploy.bat にも既定値として持たせて
+  # ある（二重定義。受け入れ済みの判断）。変えるときは両方を直すこと。同 bat で
+  # 「配信先での見え方」を手元で確認できる。
+  INTRANET_BASE_PATH: /doku/ccdx/dx-training-mandala
+  SITE_ARTIFACT_NAME: intranet-site
+
+jobs:
+  # ビルドは方式（rclone / robocopy）によらず常にここ・常に Linux で行う。
+  # deploy 側は artifact を運ぶだけ——方式比較のスパイク時に「ビルドが違ったのでは」
+  # というノイズを消すためと、「Next のセグメント .txt が Windows でだけ
+  # ディレクトリ化して 404 になる」既知問題の領域に入らないため。
+  build:
+    name: Build for intranet
+    # ⚠ 不活性ガード。GHES 移行時（有効化手順 1）に `false &&` を消す。
+    if: ${{ false && github.repository_owner != '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: mandala/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ${{ env.SITE_DIR }}
+        run: npm ci
+
+      - name: Build
+        working-directory: ${{ env.SITE_DIR }}
+        env:
+          NEXT_PUBLIC_BASE_PATH: ${{ env.INTRANET_BASE_PATH }}
+          NEXT_PUBLIC_SITE_RELEASE: ${{ github.event_name == 'push' && github.ref_name || '' }}
+        run: npm run build
+
+      - name: Upload site artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.SITE_ARTIFACT_NAME }}
+          path: ${{ env.SITE_DIR }}/out
+          if-no-files-found: error
+
+  # 方式 2-1（第一候補）: 共有 Linux ランナー + rclone の SMB バックエンド。
+  # rclone は「SMB クライアント」であり、mount と違い特権不要・ホストに状態を残さない。
+  deploy-rclone:
+    name: Deploy via rclone (SMB)
+    # ⚠ 不活性ガード。GHES 移行時（有効化手順 1）に `false &&` を消す。
+    if: ${{ false && (github.event_name == 'push' || inputs.method == 'rclone') }}
+    needs: build
+    runs-on: ubuntu-latest
+    # GHES 移行時: 承認必須の Environment を作ってここで参照する（有効化手順 4）。
+    # environment: intranet-deploy
+    steps:
+      - name: Install rclone
+        # 社内 Docker レジストリのイメージからバイナリを取り出す方式（外部への
+        # ホワイトリスト申請が不要）。rclone 公式イメージは CGO_ENABLED=0 の完全な
+        # 静的バイナリなので、Alpine ベースでも Ubuntu でそのまま動く。
+        # 取り出しが運用上認められない場合の代替（docker run 直接実行）は
+        # grill-me-20260828「rclone の入手」を参照。
+        env:
+          RCLONE_IMAGE: <PLACEHOLDER-社内レジストリ>/rclone/rclone:1.75.0
+        run: |
+          docker pull "$RCLONE_IMAGE"
+          cid=$(docker create "$RCLONE_IMAGE")
+          mkdir -p "$RUNNER_TEMP/bin"
+          docker cp "$cid:/usr/local/bin/rclone" "$RUNNER_TEMP/bin/rclone"
+          docker rm "$cid" >/dev/null
+          chmod +x "$RUNNER_TEMP/bin/rclone"
+          echo "$RUNNER_TEMP/bin" >> "$GITHUB_PATH"
+          "$RUNNER_TEMP/bin/rclone" version
+
+      - name: Download site artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.SITE_ARTIFACT_NAME }}
+          path: out
+
+      - name: Deploy to intranet share
+        # ⚠ 資格情報は必ず環境変数で渡す。--smb-pass のようなフラグで渡すと、
+        # 同じランナー上の他ジョブから ps でコマンドライン引数が見える。
+        # SMB_PASS_OBSCURED は手元で `rclone obscure` を通した値（可逆な難読化で
+        # あって暗号化ではない——平文と同格の秘密として扱う）。
+        env:
+          # ⚠ DFS 迂回のため、ドメインベースの UNC（\\<ドメイン名>\…）ではなく
+          # 実ホスト名を直書きする。ユーザー空間の SMB クライアントは DFS の参照解決に
+          # 対応していないことがあるため。**ファイルサーバーが移設されたらここを更新**。
+          RCLONE_SMB_HOST: <PLACEHOLDER-実ホスト名>
+          RCLONE_SMB_DOMAIN: ${{ secrets.SMB_DOMAIN }}
+          RCLONE_SMB_USER: ${{ secrets.SMB_USER }}
+          RCLONE_SMB_PASS: ${{ secrets.SMB_PASS_OBSCURED }}
+        # --delete-after: 新しいファイルを全部転送し終えてから不要になったものを
+        # 消す順序で動くため、コピー途中に壊れたページを踏む窓がほぼ消える。
+        # Next の資産はファイル名にハッシュが入り新旧が衝突しないので、この順序で安全。
+        # 宛先の最初のセグメントが共有名（:smb:<共有名>/<パス…>）。
+        run: rclone sync ./out ":smb:<PLACEHOLDER-共有名>/<PLACEHOLDER-中間パス>/ccdx/dx-training-mandala" --delete-after
+
+  # 方式 2-2（代替）: self-hosted Windows ランナー + robocopy。
+  # 認証はランナーのサービスを gMSA で動かして Kerberos に委ねる想定
+  # （GHES にも YAML にも資格情報が現れない）。詳細は grill-me-20260828。
+  deploy-robocopy:
+    name: Deploy via robocopy (Windows)
+    # ⚠ 不活性ガード。GHES 移行時（有効化手順 1）に `false &&` を消す。
+    if: ${{ false && github.event_name == 'workflow_dispatch' && inputs.method == 'robocopy' }}
+    needs: build
+    runs-on: [self-hosted, windows, "<PLACEHOLDER-ランナーラベル>"]
+    # GHES 移行時: 承認必須の Environment を作ってここで参照する（有効化手順 4）。
+    # environment: intranet-deploy
+    steps:
+      - name: Download site artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.SITE_ARTIFACT_NAME }}
+          path: out
+
+      - name: Deploy to intranet share
+        shell: powershell
+        env:
+          DEST: '\\<PLACEHOLDER-実ホスト名>\<PLACEHOLDER-共有名>\<PLACEHOLDER-中間パス>\ccdx\dx-training-mandala'
+        # ⚠ robocopy は正常時にも 0 以外を返す（0=コピーなし / 1=コピーした /
+        # 3=コピー＋余分あり… / 8 以上が本当の失敗）。素で呼ぶと成功しているのに
+        # ワークフローが赤になるため、終了コードの明示的な変換が必須。
+        #
+        # ⚠ /MIR を一発で当てない——先に削除が走り、コピー途中の閲覧者が壊れた
+        # 状態を踏む。①ハッシュ付き資産（_next 等）を追加 → ②HTML 等を上書き →
+        # ③消えたファイルの掃除、の順にして窓を潰す。
+        run: |
+          function Invoke-Robocopy {
+            param([string[]]$RoboArgs)
+            & robocopy @RoboArgs
+            $code = $LASTEXITCODE
+            if ($code -ge 8) {
+              Write-Error "robocopy failed with exit code $code"
+              exit 1
+            }
+            Write-Host "robocopy exit code $code (success)"
+          }
+          # ① 新しい資産を先に足す（削除しない）
+          Invoke-Robocopy @('out', $env:DEST, '/E', '/XX', '/R:2', '/W:5')
+          # ② 全ファイルを上書き同期し、③ 消えたファイルを掃除する（/PURGE）。
+          #    ①で新資産が既に揃っているため、この段の削除で踏む窓は最小になる。
+          Invoke-Robocopy @('out', $env:DEST, '/E', '/PURGE', '/R:2', '/W:5')

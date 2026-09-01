@@ -45,7 +45,7 @@ if (!fs.existsSync(contentsDir)) {
       "",
       "  このままビルドすると、中身が空のデモが成功として配信されます。",
       "  Vercel プロジェクトの設定を確認してください:",
-      "    ・Root Directory = dx-training-studio/studio",
+      "    ・Root Directory = studio",
       "    ・Include files outside the root directory = Enabled  ← 無効だとこうなる",
     ].join("\n"),
   );

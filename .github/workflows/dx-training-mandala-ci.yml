@@ -1,0 +1,60 @@
+name: DX Training Mandala CI
+
+# 公開サイトの継続的テスト。変換とビルドが通ることだけを確かめ、デプロイはしない。
+# リポジトリが private のままでも動く（contents: read しか要らない）。
+
+on:
+  # ⚠ push はブランチを絞ること。絞らずに pull_request と併用すると、pull request が
+  # 開いているブランチへの push で**両方が発火して同じ検証が2回走る**。concurrency の
+  # group は github.ref に依存し、push は refs/heads/<branch>・pull_request は
+  # refs/pull/<n>/merge と値が違うため相殺されない。
+  # 作業ブランチは pull_request の契機で、main へのマージは push の契機で拾う。
+  push:
+    branches:
+      - main
+    paths:
+      - "mandala/**"
+      - "contents/**"
+      - "images/**"
+      - ".github/workflows/dx-training-mandala-ci.yml"
+  pull_request:
+    paths:
+      - "mandala/**"
+      - "contents/**"
+      - "images/**"
+      - ".github/workflows/dx-training-mandala-ci.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    name: Convert, build and test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mandala
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: mandala/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      # 変換（正本の走査・slug 検証・画像コピー）とビルドを通す。
+      # slug 欠落や画像の参照切れはここで失敗する。
+      - name: Convert and build
+        run: npm run build
+
+      - name: Run tests
+        run: npx vitest run

@@ -124,6 +124,9 @@ node --experimental-strip-types dx-training-studio/.claude/skills/dx-training-tr
 - **DX免許皆伝の到達条件を決める** — `is_goal` 自体は**ハンズオン当日コースに設定済み**（Start は DX入門コース）。残るのは「何をもって修了とするか」の中身で、実質 3章の課題（→ 3章）
 - **社内AIチャットの正式名称・利用ガイドライン** — L04 執筆時にトレーナーが補う
 - **Vercel の設定**（→ 2.4）
+- **リポジトリ切り出しの残作業（サービス側の設定。コードは対応済み）**
+  1. **Vercel 2 プロジェクト**（Studio デモ・公開サイト）の git 連携を新リポジトリ `ug-kitamura/dx-training-studio` へ付け替え、Root Directory を `studio` / `mandala` に変更。Ignored Build Step（`main` 限定・→ 2.4 の向きの注意）を両プロジェクトで再確認
+  2. **新リポジトリで GitHub Pages を有効化**（Source の有効化 → `github-pages` environment のタグルール。手順は `mandala/README.md` が正本）。basePath はワークフローがリポ名から自動導出するので設定不要
 - `images/web-2562325-2.jpg` — ヒーロー画像の元データ。`mandala/app/hero.jpg` にコピー済みなので正本 `images/` には不要。未追跡のまま残っているので消すか判断する
 
 ---
@@ -460,9 +463,20 @@ contents-work/
 
 | ワークフロー | 契機 | やること |
 |---|---|---|
+| `dx-training-studio-ci.yml` | **`main` への push** / PR（`studio/` `mandala/lib/` `contents/` を含むもの）/ 手動 | Studio の型 → ビルド → テスト。**デプロイしない** |
 | `dx-training-mandala-ci.yml` | **`main` への push** / PR（`mandala/` `contents/` `images/` を含むもの）/ 手動 | 変換 → ビルド → テスト。**デプロイしない** |
-| `dx-training-site-release-pages.yml` | `v*` タグの push / **手動** | GitHub Pages へ配信（basePath 付き） |
-| `dx-training-site-release-vercel.yml` | **使っていない** | git 連携へ移行済み。逃げ道として残置（UI で disable ＋ タグ契機をコメントアウトの二重停止） |
+| `dx-training-mandala-release-pages.yml` | `v*` タグの push / **手動** | GitHub Pages へ配信（basePath はリポ名から自動導出。GHES 移行時は冒頭の1行を入れ替える） |
+| `dx-training-mandala-release-intranet.yml` | **不活性**（GHES 移行まで実行されない。本来は `v*` タグ / 手動） | 社内ホスティング（SMB 共有）へ配信。build + deploy 2方式（rclone / robocopy）を手動実行の入力で選ぶ。有効化手順・未確認事項はファイル冒頭コメントと `docs/grill-me/grill-me-20260828.md` |
+
+- **Vercel のタグ連動ワークフローは廃止した**（2026-09-01・リポジトリ切り出し時）。Vercel の配信は git 連携（`main` へのマージ）のみで完結し、復元しない
+- **配信先での見え方は `preview-mandala-deploy.bat`（入れ物直下）で確かめる。** 指定した basePath でビルドし、`%TEMP%` に配信先と同じ階層を再現して port 3003 で配信する。**社内ホスティングへ手でコピーする前の確認**が当面の用途だが、basePath を引数で選べるので Pages・ルート配信の確認にも使え、**社内配信ワークフローを有効化した後も残る**。手順は `mandala/README.md` が正本
+  - ⚠ **basePath の既定値がワークフローと二重定義**になっている（受け入れ済みの判断）。社内配信の値を変えるときは `dx-training-mandala-release-intranet.yml` の `INTRANET_BASE_PATH` と両方を直す
+  - ⚠ **`file://` で `index.html` を直接開いても原理的に表示できない**（`fetch()` が不透明オリジンでブロックされるため、basePath をどう設定しても直らない）。確認には必ずサーバーを立てる
+  - ⚠ **入れ物直下の `.bat` は ASCII・CRLF で書くこと。** cmd はバッチをシステムの ANSI コードページ（CP932）で読むので、日本語コメントを入れると化けて**コメント行がコマンドとして実行され、`set` 行が壊れる**（実測: ポート変数が空になり配信サーバーが起動失敗）。既存5本が英語のみなのはこの理由。日本語で残したい説明は spec・README・handoff に書く
+- **リポジトリ切り出し（`AI_Driven_School` → `dx-training-studio`）でパス前提が変わった**。ワークフローの `paths` / `working-directory` は入れ物直下基準（`studio/**` `mandala/**` `contents/**`）。⚠ 旧 `dx-training-studio/` プレフィックスに戻すと **CI は発火しないだけで赤にもならない**——壊れに気づけない
+- **`trailingSlash: true` は常時 ON**（`mandala/next.config.mjs`）。出力は `<slug>/index.html` 形式で、配信先間のビルド差は `NEXT_PUBLIC_BASE_PATH` の1軸だけ
+- **GitHub リンクの値は3層で決まる**: `contents/.meta.json` の `github_url`（最優先・Studio のホームメタ編集で変更可）>`mandala/site.config.json` の `repositoryUrl` >`mandala/lib/site-data.ts` の `FALLBACK_CHROME`（旧形式の生成物向け・通常は到達しない）。⚠ **現在はどの層も暫定的に `https://github.com/`** で、これは**意図的**（不具合ではない）。第1層はいずれ実リポジトリ URL へ手で更新し、社内 GHES 移行時は第2層・第3層を社内ドメインへ変える。第1層は UI から変えられるのでコード変更は要らない
+  - ⚠ spec `publishing-site-deployment` は「ナビバーにリポジトリへのリンクを表示する（SHALL）」としており、**暫定値のあいだは要件と乖離している**。第1層を実 URL にした時点で解消する——spec を先に書き換えないこと
 
 - ⚠ **CI の `push` は `main` に絞ってある。外すと同じ push で2回走る**——`pull_request` と同じ paths を見ているため。`concurrency` の group は `github.ref` 依存で、push と PR は値が違うので相殺されない。**代償として PR を作る前のブランチ push では CI が回らない**
 - ⚠ **作業ブランチの内容を「配信して」確認する手段は無い。** Pages は environment 保護で弾かれ、Vercel は Ignored Build Step で `main` 限定。確認は**ローカルビルド**か **`main` へマージ**のどちらか

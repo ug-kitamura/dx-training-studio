@@ -1,0 +1,105 @@
+name: DX Training Studio CI
+
+# 執筆スタジオの継続的検証。型・ビルド・テストが通ることだけを確かめ、デプロイはしない。
+# リポジトリが private のままでも動く（contents: read しか要らない）。
+#
+# なぜ要るか: Vercel の `dx-training-studio` プロジェクトは Ignore Build Step で
+# main 限定になっており、作業ブランチではプレビュービルドすら走らない。この CI が
+# 無いと、Studio の壊れは **main へマージされて初めて** 分かる（2026-08-22 に
+# 実際に本番ビルドが型エラーで停止した）。
+#
+# ⚠ paths を push と pull_request で二重に書いているのは、GitHub Actions が
+# YAML のアンカー（&/*）を解釈しないため。片方だけ直すと発火条件がずれる。
+
+on:
+  # ⚠ push はブランチを絞ること。絞らずに pull_request と併用すると、pull request が
+  # 開いているブランチへの push で**両方が発火して同じ検証が2回走る**。concurrency の
+  # group は github.ref に依存し、push は refs/heads/<branch>・pull_request は
+  # refs/pull/<n>/merge と値が違うため相殺されない。
+  # 作業ブランチは pull_request の契機で、main へのマージは push の契機で拾う。
+  push:
+    branches:
+      - main
+    paths:
+      - "studio/**"
+      # ⚠ mandala も入れる。Studio の parity テストは境界を越えて
+      # `mandala/lib/site-labels.ts` を読み、語彙がずれたら落ちる設計なので、
+      # mandala 側だけの変更で発火しないとテストの存在意義が消える。
+      # ファイル単位に絞ると将来別のファイルが越境で読まれたとき穴が空くため、
+      # ディレクトリ単位で広く取る（空振りは安く、見逃しは高い）。
+      - "mandala/lib/**"
+      # ⚠ 正本も入れる。Studio のデモは正本をビルド時に静的ペイロードへ焼き込むので
+      # （`lib/contents-loader.ts`）、正本の破損がビルドを壊しうる。
+      - "contents/**"
+      - ".github/workflows/dx-training-studio-ci.yml"
+  pull_request:
+    paths:
+      - "studio/**"
+      - "mandala/lib/**"
+      - "contents/**"
+      - ".github/workflows/dx-training-studio-ci.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  typecheck-build-and-test:
+    name: Typecheck, build and test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: studio
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: studio/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      # ⚠ tsc より先に必要。`next-env.d.ts` と `.next/types/` は Next の生成物で
+      # .gitignore に入っており、クリーンなチェックアウトには存在しない。画像 import
+      # の型（*.png 等）を宣言しているのは next-env.d.ts の
+      # `/// <reference types="next/image-types/global" />` なので、生成せずに tsc を
+      # 走らせると `Cannot find module './supergraphic.png'` で落ちる。
+      # typegen はフルビルドなしでこれらを生成する（数秒）。
+      # ⚠ gitignore された生成物の存在を暗黙の前提にしないこと。手元には過去の実行が
+      # 残した生成物があるため、この種の依存はローカル検証では検出できない。
+      - name: Generate Next types (next-env.d.ts, .next/types)
+        run: npx next typegen
+
+      # ⚠ ビルドより先に置くこと。`next build` の型検査は最初の1件で止まり、さらに
+      # `__tests__` 配下の診断を捨てる（Next の runTypeCheck が `**/__tests__/**` と
+      # `**/*.(spec|test).*` をフィルタする）。tsc を先に通せば失敗時に全件が並び、
+      # テストの型エラーも見える。逆順だと1件ずつの往復になる。
+      - name: Type check (includes __tests__)
+        run: npx tsc --noEmit
+
+      # Vercel の本番ビルドが落ちる条件をそのまま再現する唯一の段。
+      # tsc とも typegen とも対象が違う（コンパイル・ルート収集・静的生成はビルドで
+      # しか走らない）ので、省略しないこと。typegen はこの段の代替にならない。
+      - name: Build
+        run: npm run build
+
+      - name: Run tests
+        run: npx vitest run
+
+      # ⚠ `npm run lint` と `npm run format:check` は**意図的に入れていない**。
+      # 入れ忘れではない。
+      #   lint         : set-state-in-effect 系を中心に未修正のエラーが残っており、
+      #                  入れると初日から red になる。
+      #   format:check : 今回の障害と無関係であり、かつ Windows の CRLF ワーキング
+      #                  ツリーでは手元で状態を確かめられない（prettier の既定
+      #                  endOfLine: lf に対し、未変更のファイルまで警告する）。
+      # どちらも恒久的な除外ではない。負債を解消し、CI 上で緑になることを確かめてから
+      # 段階的に足すこと。確かめずに入れると「無視してよい赤」が生まれ、CI が無いより
+      # 悪くなる。

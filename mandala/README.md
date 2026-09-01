@@ -68,10 +68,11 @@ npm run test    # 変換・曼陀羅グラフのテスト
 {
   "siteName": "DX Training Mandala",
   "imageSource": "local",
-  "repositoryUrl": "https://github.com/ug-kitamura/AI_Driven_School"
+  "repositoryUrl": "https://github.com/"
 }
 ```
 
+- **`repositoryUrl`**: ナビバーの GitHub リンクの**フォールバック**。表示される値は3層で決まる——`contents/.meta.json` の `github_url`（最優先。Studio のホームメタ編集で変更可）>`site.config.json` の `repositoryUrl` >`lib/site-data.ts` の `FALLBACK_CHROME`（旧形式の生成物向けで通常は到達しない）。⚠ **現在はどの層も暫定的に `https://github.com/`（github.com トップ）** にしてある——**意図的な設定であり不具合ではない**ので、「リンクがリポジトリに飛ばない」を"修正"しないこと。第1層はいずれ実リポジトリの URL へ手で更新し、社内 GHES へ移行する際は第2層・第3層を社内ドメインへ変える
 - **`imageSource`**: `local`（正本画像を `public/images/` へコピー）か `blob`。
   **デプロイ先ごとの環境変数ではなくこのファイルで持つ**——GitHub Pages と Vercel で画像の参照先が食い違うと、画像の有無で挙動差が生まれるため。
 - **`blob` は未実装**。現在の Blob は `access: "private"` で公開サイトから参照できない。public 化の手順が決まるまでは `local` を使う（選ぶとエラーで停止する）。
@@ -80,11 +81,38 @@ npm run test    # 変換・曼陀羅グラフのテスト
 
 GitHub Pages のプロジェクトページ配信ではサブパスになる。環境変数で渡す。
 
-```bash
-NEXT_PUBLIC_BASE_PATH=/AI_Driven_School npm run build
+```powershell
+$env:NEXT_PUBLIC_BASE_PATH="/dx-training-studio"; npm run build
 ```
 
 未設定ならルート配信（Vercel・ローカル）。生の `<img>` には basePath が自動で付かないため、`lib/asset-path.ts` の `assetPath()` を通す。
+
+- ⚠ **Git Bash で `VAR=/path npm run build` の形は使えない**——MSYS のパス変換が `/dx-training-studio` を `C:/Program Files/Git/dx-training-studio` に書き換える。PowerShell を使うか、`MSYS_NO_PATHCONV=1` を付ける
+- **`trailingSlash: true` は常時 ON**（`next.config.mjs`）。各ページは `<slug>/index.html` で出力され、リンクは末尾スラッシュ付きになる。「拡張子なし URL に `.html` を補うサーバー」への依存を断ち、ディレクトリインデックスしか持たない素朴なサーバー（社内ホスティング等）でも動かすため。⚠ 配信先ごとに切り替えないこと——配信先間のビルド差は `NEXT_PUBLIC_BASE_PATH` の1軸に閉じる
+
+## 配信先での見え方を確かめる（`preview-mandala-deploy.bat`）
+
+入れ物直下の **`preview-mandala-deploy.bat`** が、指定した basePath でビルド → 一時フォルダに配信先と同じ階層を再現して展開 → ローカル配信 → ブラウザを開く、までをまとめて行う。**社内ホスティングへ手でコピーする前の確認**に使う。
+
+```powershell
+.\preview-mandala-deploy.bat /doku/ccdx/dx-training-mandala   # 社内ホスティング
+.\preview-mandala-deploy.bat /dx-training-studio              # GitHub Pages 相当
+.\preview-mandala-deploy.bat                                  # 引数なしなら対話で選ぶ
+```
+
+| basePath | 展開先（`%TEMP%\dx-training-mandala-preview\` 配下） | 開く URL |
+| --- | --- | --- |
+| `/doku/ccdx/dx-training-mandala` | `doku\ccdx\dx-training-mandala\` | `http://localhost:3003/doku/ccdx/dx-training-mandala/` |
+| `/dx-training-studio` | `dx-training-studio\` | `http://localhost:3003/dx-training-studio/` |
+| なし | 直下 | `http://localhost:3003/` |
+
+- **配信ルートは常に一時フォルダの最上位。** ⚠ サイト自身のディレクトリをルートにするとパスが二重になって 404 になる
+- ⚠ **ルート URL（`http://localhost:3003/`）はディレクトリ一覧か 404 になるのが正常**。中身は basePath 配下にしかない
+- **ポートは 3003** なので `start-mandala.bat`（3002）と並走して見比べられる
+- **一時フォルダは実行のたびに消して作り直す**（前回の別 basePath の残骸と混ざらないように）
+- ⚠ **`file://` で `index.html` を直接開いても表示できない。** ①絶対パスがドライブのルートを指す ②`trailingSlash` によりリンクがディレクトリ URL になるが `file://` は `index.html` を補わない ③`fetch()` が不透明オリジンとしてブロックされ検索とクライアント遷移が動かない。**③は basePath をどう設定しても直らない**ので、確認には必ずサーバーが要る
+- ⚠ **ローカルの `public/_pagefind` には過去ビルドの fragment が溜まる**（実測: CI 50 件に対しローカル 326 件）。動作に害は無いが、`out/` を「公開物と完全に同一」と見なすときは注意する。厳密に見たいなら `mandala/public/_pagefind` を消してから実行する
+- ⚠ **`.bat` は ASCII・CRLF で書くこと**（既存5本すべて）。cmd はバッチをシステムの ANSI コードページで読むため、日本語コメントを入れると化けて**コメント行がコマンドとして実行され、変数の設定が壊れる**
 
 ## デプロイ
 
@@ -99,13 +127,13 @@ NEXT_PUBLIC_BASE_PATH=/AI_Driven_School npm run build
 
 ⚠ **両者の内容は一致しない。**`main` にマージしてタグを打つまでの間、Vercel は最新・Pages は前回リリースのままになる。**どちらを見ているかで判断が変わる場面では URL を明示すること。**
 
-GitHub Actions のワークフローは3本。**契機が違う**ので混ぜない。
+GitHub Actions のワークフローは3本。**契機が違う**ので混ぜない。Vercel はワークフローを持たない（git 連携のみで完結。タグ連動の Vercel 配信は廃止済み）。
 
 | ワークフロー                           | 契機                                                    | やること                                   |
 | --------------------------------------- | ------------------------------------------------------- | ------------------------------------------ |
 | `dx-training-mandala-ci.yml`               | **`main` への push** / PR / 手動                        | 変換 → ビルド → テスト。**デプロイしない** |
 | `dx-training-mandala-release-pages.yml`    | `v*` タグの push / 手動                                 | GitHub Pages へ配信                        |
-| `dx-training-mandala-release-vercel.yml`   | **使っていない**（手動のみ・UI でも disable 済み）      | Vercel 配信は git 連携へ移行した。git 連携が壊れたときの逃げ道として残してある |
+| `dx-training-mandala-release-intranet.yml` | **不活性**（GHES 移行まで実行されない。本来は `v*` タグ / 手動） | 社内ホスティング（SMB 共有）へ配信。build + deploy 2方式（rclone / robocopy）。有効化手順はファイル冒頭のコメント |
 
 ```bash
 git tag v0.1.0 && git push origin v0.1.0
@@ -129,7 +157,7 @@ git tag v0.1.0 && git push origin v0.1.0
 ⚠ **作業ブランチの内容を「配信して」確認する手段は無い。**Pages は environment 保護で弾かれ、Vercel は `main` 限定にしてある。確認したいときは**ローカルで `npm run build` → `npm run start`** か、**`main` にマージする**かのどちらか。
 
 ⚠ `workflow_dispatch` の **Run workflow ボタンは、デフォルトブランチにあるワークフロー定義を見て出る**。手動トリガーを新しく足したときは、**一度 `main` にマージするまでボタンが現れない**。マージ後は任意のブランチを選んで起動できる。
-- Pages はサブパス配信なので `NEXT_PUBLIC_BASE_PATH=/AI_Driven_School` 付きでビルドし、Vercel は付けずにビルドする（ルート配信のため）。⚠ **この値はリポジトリ名に由来する**（`https://<owner>.github.io/<repo>/`）。**リポジトリ名を変えたら `dx-training-mandala-release-pages.yml` の `PAGES_BASE_PATH` も変えること**——変えないと配信されたサイトの CSS・JS・画像がすべて 404 になる
+- Pages はサブパス配信なので `NEXT_PUBLIC_BASE_PATH` 付きでビルドし、Vercel は付けずにビルドする（ルート配信のため）。値はリポジトリ名に由来する（`https://<owner>.github.io/<repo>/`）が、ワークフローが `${{ github.event.repository.name }}` から**自動導出する**のでハードコードは無い——リポジトリ名を変えても追随する。社内 GHES へ移行するときはワークフロー冒頭の `PAGES_BASE_PATH` の1行を入れ替える（併記されたコメントを参照）
 - タグ検証（main に含まれるかの確認）は Pages のワークフローに入っている
 - **サイドバー最上部の更新日行はすべてのビルドで出る**（`YYYY.MM.DD 更新`）。日付は **HEAD の commit date**（ビルド時刻ではない——再デプロイで動かないため）を `Asia/Tokyo` で整形した値。**時・分は出さない**（受講者には日付で足り、フォールバック経路とも表示が揃う）。⚠ 時刻を出さなくてもタイムゾーンの明示は外せない——UTC のビルドマシンでは日付そのものが前日にズレる。`next.config.mjs` がビルド時に `git show -s --format=%cI HEAD` で解決して `NEXT_PUBLIC_SITE_COMMIT_DATE` に注入し、git が読めない環境では正本 changelog の先頭日付で代替（表示形式は git 経路と同一）、それも無ければ行ごと消える。**どの経路で解決したかはビルドログに必ず出る**——⚠ Vercel の git 連携ビルドに `.git` があるかは未実測。次回 `main` マージ後の Vercel ビルドログで「サイト更新日時:」の行を確認すること
 - リリース番号（タグ名）は `NEXT_PUBLIC_SITE_RELEASE` としてビルドに渡され、タグ由来のビルドでは日付の後ろに ` (vX.Y.Z)` が併記される。タグが無ければ日付のみ（`dev` 等の代替文字列は出ない）
