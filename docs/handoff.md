@@ -124,9 +124,12 @@ node --experimental-strip-types dx-training-studio/.claude/skills/dx-training-tr
 - **DX免許皆伝の到達条件を決める** — `is_goal` 自体は**ハンズオン当日コースに設定済み**（Start は DX入門コース）。残るのは「何をもって修了とするか」の中身で、実質 3章の課題（→ 3章）
 - **社内AIチャットの正式名称・利用ガイドライン** — L04 執筆時にトレーナーが補う
 - **Vercel の設定**（→ 2.4）
-- **リポジトリ切り出しの残作業（サービス側の設定。コードは対応済み）**
+- **リポジトリ切り出しの残作業（サービス側の設定。コードは対応済み）** — change `repo-split-deploy-paths` の未了タスクと対応する
   1. **Vercel 2 プロジェクト**（Studio デモ・公開サイト）の git 連携を新リポジトリ `ug-kitamura/dx-training-studio` へ付け替え、Root Directory を `studio` / `mandala` に変更。Ignored Build Step（`main` 限定・→ 2.4 の向きの注意）を両プロジェクトで再確認
   2. **新リポジトリで GitHub Pages を有効化**（Source の有効化 → `github-pages` environment のタグルール。手順は `mandala/README.md` が正本）。basePath はワークフローがリポ名から自動導出するので設定不要
+  3. **ブランチを push して PR を開き、CI が発火して緑になることを確認する** — ⚠ paths が入れ物直下基準に変わったので、間違っていても**発火しないだけで赤にならない**（→ 2.4）
+  4. **main マージ後、`dx-training-mandala-release-pages.yml` を `workflow_dispatch` で実行**して Pages 配信を確認する
+  5. **`dx-training-mandala-release-intranet.yml` を `workflow_dispatch` で実行**し、全ジョブが不活性ガードでスキップされることを確認する
 - `images/web-2562325-2.jpg` — ヒーロー画像の元データ。`mandala/app/hero.jpg` にコピー済みなので正本 `images/` には不要。未追跡のまま残っているので消すか判断する
 
 ---
@@ -343,7 +346,6 @@ start-mandala.bat       # 入れ物直下。ビルド → out/ をローカル�
 | **モーダルの現在地はパス解決に依存** | レッスンページは素の MDX でページ側から現在地を渡せないため `usePathname()` から解く（`lib/current-course.ts`）。**URL 構造を変えると壊れる** |
 | **Blob 画像モードは未実装** | 器（設定値と分岐）だけあり、選ぶとエラーで停止する。現 Blob は `access: "private"` で公開参照できないため、使うなら public 再アップロードが前提 |
 | **ローカルの `npm ci` が EPERM で落ちる** | Windows で native モジュールがプロセスに掴まれるため。**CI（ubuntu）では起きない**。ローカルは `npm install` |
-| **`mandala` の `npm run lint` が動かない** | スクリプトが `next lint` のままで、Next 16 で削除されたサブコマンド。`Invalid project directory provided, no such directory: mandala\lint` と出る。`eslint.config.*` も無いので `npx eslint .` も走らない。**mandala 側の静的検査は実質 `npx tsc --noEmit` とテストだけ**（CI もこの2つ）。直すなら flat config の新設ごと独立した change にする |
 | **`cover` フィールドは温存だが未使用** | シリーズトップの画像表示を廃止したため、どのページでも表示しない |
 | **曼陀羅ノードがキャッチを描画しない** | `Mandala.tsx` の `VARIANT = "compact"` が固定で、`CompactNode` は `.dxm-node-catch` を持たない。キャッチを描く `CardNode`（コメント上は「ミニ曼陀羅（コーストップ）用」）はどこからも使われておらず、コーストップに react-flow は無い。`site-data.json` は各ノードに `catch` を持ったままなのでデータ経路は生きている。⚠ **`publishing-site-pages` spec の「曼陀羅ノードは…タイトルの下の行に置く従来の表示を維持する」は実装と食い違っている**。実装を戻すか、spec の一文と dead code（`CardNode` ＋ `.dxm-node-catch`）を落とすかを決める独立した change にする |
 
@@ -627,11 +629,10 @@ contents-work/
 
 ### P5: 技術的負債（実害なし・触ると痛い層）
 
-- ~~lint 9件（Studio 全体）~~ → **refactor-latent-bugs（2026-08-30）で studio の eslint を 47問題→0 に解消**。`set-state-in-effect` は「前回値を state に持ち render 中に比較する」React 公式パターンで置換（Effect+setState に戻さないこと）。⚠ 抑制コメントを使う場合は**エラー行の直前**に置く（依存配列の直前だと外れて Unused directive 警告が同時に出る）
-- ~~死んだ props 3件（`onEditLanguageChange`）~~ → **refactor-dedup-cycles（2026-08-30）で削除済み**（言語切替の入口は GlobalHeader の1つだけ、が正）
-- **mandala の lint は復旧済み**（2026-08-30）: `next lint` は Next 16 で廃止されていて実は死んでいた。`eslint.config.mjs` 新設＋`lint: "eslint ."` へ差し替え、現在 studio / mandala とも **eslint 0・tsc 0（クリーンを保つこと）**。旧記載の「テスト側の型エラー8件」は現存しない（tsc --noEmit 全緑を確認済み）
-- **死んだコード**: `resolveHeadContent()`（差分 API が使うのは `lesson-git-diff.ts` の `resolveLessonGitDiff()`）。~~移行スクリプト~~ → **refactor-dead-code（2026-08-30）で移行スクリプト4本・`_course.json` フォールバック・未使用依存7個を削除済み**
-- **古い spec 記述**: ~~`content-folder-loader` 前半の `_series-order.json` / `_course.json` / 数値プレフィックス~~ → **refactor-dead-code（2026-08-30）で spec から削除済み**／`agent-file-tools` が例に使う `data/workspace.json` は**廃止済み**（→ `lib/workspace-meta.ts`）／`training-create-skill` 前半5件が作業記録に読める・`## Purpose` も実態とずれ（⚠ **中身は生きているので消さない**）
+- **eslint 0・tsc 0 を保つこと**（studio / mandala とも）。⚠ `set-state-in-effect` は「前回値を state に持ち render 中に比較する」React 公式パターンで置換する——**Effect+setState に戻さない**。⚠ 抑制コメントを使う場合は**エラー行の直前**に置く（依存配列の直前だと外れて Unused directive 警告が同時に出る）
+- **言語切替の入口は GlobalHeader の1つだけ**が正（ペイン側に切替の props を生やさない）
+- **死んだコード**: `resolveHeadContent()`（差分 API が使うのは `lesson-git-diff.ts` の `resolveLessonGitDiff()`）
+- **古い spec 記述**: `agent-file-tools` が例に使う `data/workspace.json` は**廃止済み**（→ `lib/workspace-meta.ts`）／`training-create-skill` 前半5件が作業記録に読める・`## Purpose` も実態とずれ（⚠ **中身は生きているので消さない**）
 - `references/`（模範解答の置き場）が readme のディレクトリ構成に載っていない
 
 ---
@@ -705,26 +706,7 @@ contents-work/
 
 ## 6. リポジトリの状態
 
-ブランチは作業の区切りで変わる（⚠ **`git branch --show-current` を信じること**）。2026-08-26 時点は **`catch-improvement`**（その前は `improvement-for-release`）。⚠ **コミットするならブランチを切ってから**（→ 4.3）。
-
-**未コミットの作業ツリー**（2026-08-26 時点）:
-
-- **2026-08-26 ぶん**: change 7本（`translation-naming-rules` / `mandala-collapse-memory` / `docs-refresh` / `tree-initial-collapse` / `mandala-collapsed-fit-view` / `catch-progression-check` / `git-concepts-catch`）。
-  - `catch-progression-check` ＋ `git-concepts-catch`: **キャッチの通し整合**。review に検査 X を新設（`quality-checks.md` ＋ spec `training-review-skill`。判定は「獲得の時制」1点だけ・全件横断・advisory 固定 → 2.1）と、それが挙げた唯一の1件の修正——Git概念コースの `catch` を `道具の前に地図を` → **`Gitの世界の歩き方`**、`catch_en` を `A map before the tools` → **`An adventurer's guide to Git`**、`en_source_hash` を走査出力で更新。⚠ `description` と本文は触っていない（「3つの場所を地図として」は限定詞が効いていて衝突しない）。⚠ **コード変更なし**
-  - `mandala-collapsed-fit-view`: 全体曼陀羅3面の**収める初期表示**（→ 2.2）。両アプリの `Mandala.tsx` に `fitCollapsed` の札と `placeView` の枝、`mandala` 側へ `PlaceWhenNodesInitialized` を新設、`lib/mandala/viewport.ts` の経緯コメント（2コピー）、spec 2本（`publishing-site-mandala` / `training-studio-mandala-render`）。⚠ **純関数 `anchoredViewport` はコード無改造**——判定と札はコンポーネント側が持つ
-  - 正本の変更: `contents/changelog.en.md` のシリーズ名修正と、**レッスン2本のリネーム**（`リポジトリを作る _ clone` → `リポジトリを作る／clone` / `ファイル読み書き（CSV _ JSON）` → `ファイル読み書き（CSV／JSON）`）＋親 `order`・H1・`en_source_hash`・本文ハッシュの追随。⚠ `slug` と `id` は不変なので URL も曼陀羅の辺も無傷
-  - 曼陀羅: `lib/mandala/collapse-storage.ts` を**削除**し `collapse-memory.ts` を新設（両アプリ）。テストも `mandala-collapse-memory` へ差し替え。`studio/lib/storage-keys.ts` から `mandalaCollapsed` を削除
-  - ツリー: `tree-collapse-cookie.ts` に `allCollapsed` を新設・`parseTreeCollapseCookie` が3状態を返すよう変更、`restoredFromMemory` prop の追加（`page.tsx` / `Workspace` / `ContentTreePane`）
-  - 文書: `contracts/translation-contract.md`（新節「既存の英語表記に合わせる」）・`agent-write-contract.md`（ペイン番号の断り書き）・スキル3本・`readme.md` / `studio/readme.md` / `studio/CLAUDE.md`
-  - spec 10本（`ai-contracts` / `content-structure-sync` / `training-plan-skill` / `training-create-skill` / `training-translate-skill` / `publishing-site-mandala` / `training-studio-mandala-render` / `project-layout` / `workspace-state-hooks` / `workspace-pane-layout` / `unified-content-tree` / `studio-demo-deployment`）
-
-**それ以前の未コミット分**（2026-08-24 まで）:
-
-- **2026-08-23 ぶん**: 曼陀羅のシリーズ枠の非重なり＋既定ズーム縮小と、英語ビューの未翻訳赤字——change 2本（`mandala-series-frame-layout` / `studio-untranslated-notice`）。新規 `studio/components/workspace/translation/TranslationNotice.tsx`（`StaleTranslationNotice.tsx` を置換）と `mandala-layout.test.ts`（両アプリ）
-- **GitHub基礎シリーズ 7本ぶんの原稿**（`contents/GitHub基礎シリーズ/`）と AI基礎シリーズ。⚠ **`style` は後から手で足したもの**——create が書かなかった（→ 下の change で修正済み）
-- **2026-08-24 ぶん**: change 6本（`mandala-card-width` / `tree-collapse-persistence` / `create-skill-course-style` / `tree-collapse-cookie-ssr` / `mandala-modal-behaviors` / `tree-indent-tighten`）。曼陀羅: 新規 `lib/mandala/collapse-storage.ts`（両アプリ）・`layout.ts` の `orderSeriesColumns`（両アプリ）・テスト `mandala-collapse-storage` / `mandala-modal-behaviors`、spec 2本（`training-studio-mandala-render` / `publishing-site-mandala`）。ツリー: `CHILDREN_GUIDE_CLASS` の `pl-[7px]`→`pl-0`（3区間 13/14/13px、spec `unified-content-tree`）。新規 `studio/lib/tree-collapse-cookie.ts`・テスト2本（`mandala-node-size-parity` / `content-tree-collapse-persistence` / `tree-collapse-cookie`）、`app/page.tsx` の `async` 化と `cookies()`、spec 7本の更新、スキル4ファイルの更新。⚠ `tree-collapse-persistence` の localStorage 実装は同日中に `tree-collapse-cookie-ssr` で置き換えた（ちらつきが消えなかったため）
-
-- **2026-08-24 ぶん（第2波）**: change 1本（`collapse-all-and-pin-polish`）＋カーソル位置の追補（change 記録なし）。ツリー: `resolveCollapseAllTargets` を `lib/content-tree-flatten.ts` に新設し `ContentTreePane` の `collapseAll` から使う（**選択自身も畳む**／**畳んだ後のカーソルを選択行へ寄せる**）。ピン: `.dxm-node-here-pin` の `fill` を透過へ（両アプリの `globals.css`）。spec は `unified-content-tree` に ADDED 2件・曼陀羅2本にピンの ADDED 各1件。テストは `content-tree-flatten` / `content-tree-pane` に回帰を追加。⚠ **同日に入れた `mandala-series-rank-order`（曼陀羅の横順を段方式へ）は実機で読みにくくなったため全て revert 済み**——作業ツリーに曼陀羅レイアウトの差分は無い（撤回の理由は 2.2 の注記）
+ブランチは作業の区切りで変わる（⚠ **`git branch --show-current` を信じること**）。⚠ **コミットするならブランチを切ってから**（→ 4.3）。
 
 ⚠ **`openspec/changes/archive/` は git 追跡外**なので、設計記録はこのマシンにしか無い。
 
