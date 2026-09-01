@@ -1,0 +1,20 @@
+{
+  "order": [
+    "組分けスクリプトを作る（1日目）",
+    "応用課題に挑む（2日目）"
+  ],
+  "target": "ハンズオン参加者（定員8人）",
+  "id": "crs-n-cre76p-wpmxj6",
+  "style": "hands-on",
+  "cross_series_prev": [],
+  "cross_series_next": [],
+  "is_goal": true,
+  "slug": "workshop",
+  "catch": "動くツールを、この手で",
+  "description": "2時間で動くツールを1つ完成させる集合ハンズオン。1日目に組分けスクリプトを作って PR と相互レビューを通し、間の数日で応用課題に挑んで、2日目に自分のコードを自分の言葉で発表します。",
+  "name_en": "Hands-On Days Course",
+  "catch_en": "A working tool, built by your own hands",
+  "description_en": "A group hands-on where you finish one working tool in two hours. On day 1 you build a grouping script and take it through a pull request and peer review; over the days in between you tackle an advanced task; on day 2 you present your own code in your own words.",
+  "target_en": "Hands-on participants (8 seats)",
+  "en_source_hash": "sha256:c25cb6f929f1039e392d323ae557af5f66116c281e72cab04a8bdb13d12dd5ba"
+}

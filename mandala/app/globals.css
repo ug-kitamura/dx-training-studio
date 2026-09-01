@@ -1,0 +1,900 @@
+/* DX Training Mandala — Nextra テーマへの最小限の上乗せ */
+
+:root {
+  --dxm-brand: #007bc0;
+  --dxm-brand-soft: rgba(0, 123, 192, 0.12);
+
+  /* サイドバーメニュー（light: gray-600 / dark: neutral-400）より一段引いた色。
+     短い番号だけだった頃は「前に出る色」だったが、更新日を含む1行になったため
+     役割を反転した——目立たせず、必要なときに読めればよい。
+     ⚠ ダークを #737373 まで落とすと暗地でコントラスト比 3.5:1 になり AA を割る。
+     light #6b7280 (gray-500) は白地で 4.8:1、dark #8f8f8f は暗地で 5.7:1。 */
+  --dxm-release-color: #6b7280;
+
+  /* GitHub アラートの種別色。Studio のプレビューと同じ値を使う */
+  --alert-note: oklch(0.55 0.17 255);
+  --alert-tip: oklch(0.53 0.15 150);
+  --alert-important: oklch(0.52 0.2 300);
+  --alert-warning: oklch(0.62 0.14 80);
+  --alert-caution: oklch(0.55 0.2 25);
+  --alert-tint: 8%;
+
+  /* ラベルの種別色（状態=赤系 / 所要時間=緑系 / 受講形態=青系） */
+  --dxm-label-status-bg: color-mix(in srgb, #dc2626 14%, transparent);
+  --dxm-label-status-fg: #b91c1c;
+  --dxm-label-minutes-bg: color-mix(in srgb, #16a34a 14%, transparent);
+  --dxm-label-minutes-fg: #15803d;
+  --dxm-label-style-fg: var(--dxm-brand);
+
+  /* ナビバー右上の操作色（下の「ナビバー右上の3ボタン」を参照）。
+     サイドバーメニューと同じ gray-600 相当に置き、本文より一段引いて見せる。
+     Studio の --header-action と同値（両アプリのライト側を揃えてある） */
+  --dxm-navbar-action: #4b5563;
+  /* ホバーで向かう先（本文より前に出る濃さ。light gray-800 / dark neutral-200） */
+  --dxm-navbar-action-hover: #1f2937;
+}
+
+:is(html.dark, .dark) {
+  --dxm-release-color: #8f8f8f;
+
+  --alert-note: oklch(0.72 0.13 250);
+  --alert-tip: oklch(0.74 0.15 150);
+  --alert-important: oklch(0.74 0.14 300);
+  --alert-warning: oklch(0.8 0.14 85);
+  --alert-caution: oklch(0.72 0.16 25);
+  --alert-tint: 16%;
+
+  /* 暗い地ではグレーが沈むので明るい側へ振る（neutral-400 相当） */
+  --dxm-navbar-action: #a3a3a3;
+  --dxm-navbar-action-hover: #e5e5e5;
+
+  /* 暗い地では濃い文字色が沈むので、前景だけ明るい側へ振る */
+  --dxm-label-status-fg: #fca5a5;
+  --dxm-label-minutes-fg: #86efac;
+  --dxm-label-style-fg: #7dd3fc;
+}
+
+/* ===== supergraphic バナー ===== */
+
+/* 高さ 6px 固定・全幅。縦帯構成なので cover で中央を切り出しても色帯の横並びは保たれる。
+   スクロールしても最上部に留める。
+
+   ⚠ `sticky` にしないこと。要点は「帯がレイアウトの高さを占有しないこと」で、
+   `sticky` はフローに残るため帯が本文フローの先頭 6px を占める。テーマの navbar も
+   `sticky top:0` なので、navbar は y=6 から始まり top:0 まで 6px ずり上がってから固定される
+   ——「固定のはずのヘッダーがスクロール開始直後だけ動く」の正体。sidebar と toc も
+   `top: var(--nextra-navbar-height)` で同じ 6px 追随する。
+
+   z-index はテーマの navbar（z-30）より上。ただし覆いかぶさることには頼らない
+   ——帯の居場所は下の `--nextra-navbar-height` で navbar 側に確保してある。 */
+.dxm-supergraphic {
+  display: block;
+  position: fixed;
+  top: 0;
+  z-index: 40;
+  width: 100%;
+  height: 6px;
+  object-fit: cover;
+}
+
+/* 帯の 6px はナビバーの中身に覆いかぶせず、ナビバーの上端に居場所を作って収める。
+   覆う形（帯 6px が navbar の上端に重なる）だと、ヘッダーの中身も本文も 6px 上へ詰まって
+   見えるため——帯を足す前と同じ縦の間合いに戻す。
+
+   上書きはテーマの高さ変数 1 本で済む。sidebar / toc の `top` も、`100dvh - この変数` の
+   高さ計算も、mobile-nav の `padding-top` も、すべてこの変数を見ているので自動で追随する
+   ——個別に top や height を上書きすると 4 箇所に散る。
+   増やした 6px は帯の場所なので、ナビバーの中身は `padding-top` で下へ逃がす
+   （中身の高さもこの変数なので、border-box のまま 6 + 64 に割れる）。
+   `html:root` と1段上げる理由は `--nextra-content-width` と同じ（下のコメント参照）。
+
+   ⚠ 帯の高さ（`.dxm-supergraphic` の `height`）とこの 6px は同じ値。片方だけ変えないこと。 */
+html:root {
+  --nextra-navbar-height: 70px; /* 64px（テーマ既定）+ 帯 6px */
+}
+
+/* blur レイヤ（`.nextra-navbar-blur`）は絶対配置で navbar 全体を覆うので触らない。
+   中身の行だけ下げる */
+.nextra-navbar > :not(.nextra-navbar-blur) {
+  padding-top: 6px;
+}
+
+.dxm-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+}
+
+/* ===== 更新日＋リリース番号（サイドバー最上部） ===== */
+
+/* `aside.nextra-sidebar` は flex-col なので、`::before` がそのままメニューの上の1行になる。
+   値（`2026.08.21 更新` ／ Pages は ` (v1.2.3)` 併記）はルートレイアウトが
+   `--dxm-release-ja` / `--dxm-release-en` として body に**両方**注入する。
+   日付もタグも解決できないビルドでは変数が無く、`content` が無効になって擬似要素ごと
+   生成されない——「出せる情報が無ければ行も余白も出さない」がこれで成立する。
+   左端はメニュー文字の開始位置（inner の p-4 = 1rem ＋ リンクの px-2 = 0.5rem）に揃える。 */
+.nextra-sidebar::before {
+  content: var(--dxm-release-ja);
+  padding: 1rem 1rem 0 1.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--dxm-release-color);
+}
+
+/* 英語ページ（`/en` 配下）は `Updated on 2026.08.21` 表記に差し替える。
+   ⚠ 判定は `<html lang>` だけに委ねること——更新日行が独自の言語判定
+   （パス解析など）を持ってはならない（spec: publishing-site-deployment）。
+   lang は静的 HTML では postbuild（scripts/set-en-lang.mts）が、クライアント遷移では
+   SiteShell が正しくするので、この1行で SSG と SPA 遷移の両方に追随する。 */
+html[lang="en"] .nextra-sidebar::before {
+  content: var(--dxm-release-en);
+}
+
+/* ===== GitHub アラート（rehype-github-alerts の出力） =====
+   種別ごとの色分けは Studio のプレビュー（`app/globals.css` の `.lesson-preview`）と
+   同じ設計にする——執筆者が見ている姿と読者が見る姿を揃えるため */
+
+.markdown-alert {
+  --alert-color: var(--alert-note);
+  margin: 1rem 0;
+  padding: 0.5rem 0.75rem 0.5rem 1rem;
+  border-left: 4px solid var(--alert-color);
+  border-radius: 0.5rem;
+  background: color-mix(
+    in oklab,
+    var(--alert-color) var(--alert-tint),
+    transparent
+  );
+}
+
+.markdown-alert-tip {
+  --alert-color: var(--alert-tip);
+}
+
+.markdown-alert-important {
+  --alert-color: var(--alert-important);
+}
+
+.markdown-alert-warning {
+  --alert-color: var(--alert-warning);
+}
+
+.markdown-alert-caution {
+  --alert-color: var(--alert-caution);
+}
+
+.markdown-alert > :first-child {
+  margin-top: 0;
+}
+
+.markdown-alert > :last-child {
+  margin-bottom: 0;
+}
+
+.markdown-alert-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+  color: var(--alert-color);
+}
+
+.markdown-alert-title svg {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+  fill: currentColor;
+}
+
+/* ===== パンくず ===== */
+
+/* テーマ既定では本文がパンくずに接するので、下に余白を入れる */
+.nextra-breadcrumb {
+  margin-bottom: 1rem;
+}
+
+/* ===== レッスンのラベル行 ===== */
+
+/* 左にラベル群、右端に著者。狭い画面では折り返す */
+.dxm-lesson-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.dxm-lesson-labels {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* 配色は種別で決まる（状態=赤系 / 所要時間=緑系 / 受講形態=青系）。
+   目次でもラベル行でも同じ部品・同じ色を使う */
+.dxm-label {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.05rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.7;
+  white-space: nowrap;
+}
+
+.dxm-label-status {
+  background: var(--dxm-label-status-bg);
+  color: var(--dxm-label-status-fg);
+}
+
+.dxm-label-minutes {
+  background: var(--dxm-label-minutes-bg);
+  color: var(--dxm-label-minutes-fg);
+}
+
+.dxm-label-style {
+  background: var(--dxm-brand-soft);
+  color: var(--dxm-label-style-fg);
+}
+
+/* 未翻訳の断り。種別色を持たない補足なので地の色で出す */
+.dxm-label-note {
+  background: color-mix(in srgb, currentColor 10%, transparent);
+  opacity: 0.8;
+}
+
+.dxm-lesson-author {
+  font-size: 0.78rem;
+  opacity: 0.65;
+  white-space: nowrap;
+}
+
+/* ===== トップページ ===== */
+
+.dxm-hero {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+/* 全体トップのヒーロー画像。差し替えは `app/hero.jpg` の置き換えだけでよい。
+   切り抜かず全体を出すので高さは縦横比まかせ（3.75:1 なら本文幅 832px で約 222px） */
+.dxm-home-hero-image {
+  width: 100%;
+  height: auto;
+  border-radius: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+/* 見出しの右に続くキャッチコピー。サイズ・色は見出しに引きずられないよう自分で持つ */
+.dxm-hero-catch {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--dxm-brand);
+}
+
+.dxm-hero-title {
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.dxm-section-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 2rem 0 0.75rem;
+}
+
+.dxm-card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.dxm-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+  border-radius: 0.6rem;
+}
+
+.dxm-card:hover {
+  border-color: var(--dxm-brand);
+}
+
+.dxm-card-title {
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dxm-card-meta {
+  font-size: 0.82rem;
+  opacity: 0.7;
+}
+
+/* タイトル＋キャッチの包み（`TitleWithCatch`）。`.dxm-card-title` の中では
+   flex アイテム1つ分にあたる。内部は通常のインラインフローなので、タイトルと
+   キャッチをまたいで自然に折り返す。`min-width: 0` が無いと flex アイテムの
+   自動最小サイズ（min-content）で下限が張られ、長い英単語が溢れる。
+   ヒーロー（`h1` 直下のインライン）では効かないので害はない */
+.dxm-title-line {
+  min-width: 0;
+}
+
+/* 一覧カードのキャッチ。タイトルと同じ行に並ぶので、`.dxm-card-title` の
+   `font-weight: 700` を継がないよう**明示**する——ヒーローが 800 に対して 600 を
+   取っているのと同じ関係。サイズ・色は下の行だった頃の値をそのまま使う */
+.dxm-card-catch {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--dxm-brand);
+}
+
+/* 前後コース。レッスン一覧（カード）より軽い箇条書きにして、
+   コーストップの主役がレッスン一覧であることを保つ。
+   flex にするとリストマーカーが消えるのでブロックのまま並べる */
+.dxm-course-links {
+  list-style: disc;
+  padding-left: 1.25rem;
+}
+
+.dxm-course-links li + li {
+  margin-top: 0.35rem;
+}
+
+.dxm-course-links a {
+  color: var(--dxm-brand);
+}
+
+.dxm-course-links a:hover {
+  text-decoration: underline;
+}
+
+/* 他シリーズの相手にだけ添える。リンクの外なので読み上げも冗長にならない */
+.dxm-course-links-series {
+  margin-left: 0.5rem;
+  font-size: 0.78rem;
+  opacity: 0.65;
+}
+
+.dxm-course-links-empty {
+  opacity: 0.65;
+}
+
+/* ===== 曼陀羅 ===== */
+
+.dxm-mandala {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 1rem 0 2rem;
+}
+
+.dxm-mandala-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.dxm-mandala-toggle {
+  padding: 0.15rem 0.6rem;
+  border: 1px solid color-mix(in srgb, currentColor 18%, transparent);
+  border-radius: 999px;
+  font-size: 0.78rem;
+}
+
+.dxm-mandala-toggle[aria-pressed="true"] {
+  background: color-mix(in srgb, currentColor 8%, transparent);
+  opacity: 0.75;
+}
+
+/* 枠線も背景の格子も持たない——曼陀羅を「特別な箱」に見せず本文と地続きにする。
+   ただし完全な透明にはしない: クリック後はパン・ズームが働き、ノードは領域の縁で
+   切り落とされるので、輪郭がまったく無いと「何もない所で切れる」ように見える */
+.dxm-mandala-canvas {
+  background: color-mix(in srgb, currentColor 3%, transparent);
+  border-radius: 0.6rem;
+  overflow: hidden;
+}
+
+/* ミニマップと Controls の配色。React Flow の CSS 変数で与える——
+   コンポーネントの props で渡すとインラインスタイルになり、
+   ダークテーマの stylesheet から上書きできなくなる */
+.dxm-mandala-canvas .react-flow {
+  --xy-minimap-background-color: #ffffff;
+  --xy-minimap-mask-background-color: rgb(240 240 240 / 60%);
+  --xy-minimap-node-background-color: #c7d2da;
+  --xy-minimap-node-stroke-color: #6b7785;
+  --xy-minimap-node-stroke-width: 2;
+  --xy-controls-button-background-color: #ffffff;
+  --xy-controls-button-background-color-hover: #f0f0f0;
+  --xy-controls-button-color: #3c3c3c;
+  --xy-controls-button-color-hover: #000000;
+  --xy-controls-button-border-color: #eee;
+
+  /* 接続点の丸ポチ。辺・矢印と同じ色にそろえる（既定は塗りが濃紺・枠が白で、
+     線から浮いていた）。⚠ 辺側は `Mandala.tsx` の `EDGE_COLOR` にあるので、
+     変えるときは両方直す——SVG マーカーが CSS 変数を引けず1箇所にまとめられない */
+  --xy-handle-background-color: #7a8189;
+  --xy-handle-border-color: transparent;
+}
+
+/* 見える円は 4px。箱（6×6）は React Flow が辺の接続点の計測に使うので触らず、
+   1px の枠ぶんを塗らないことで小さく見せる（`background-clip` の既定は
+   `border-box` なので、枠を透明にしただけでは塗りが枠まで届いて 6px に太る）。
+   既定の見た目もこれと同じ大きさだった——枠が白で、塗りは内側 4px しか
+   見えていなかったため */
+.dxm-mandala-canvas .react-flow__handle {
+  background-clip: padding-box;
+}
+
+/* 丸ポチは「辺が出ていく側」にだけ残す。消すのは次の2つ:
+     .target          辺が刺さる側。受け側は縁に直接触れて見えるほうが読みやすい
+     .dxm-handle-idle どこにも繋がっていない出口（Goal の下辺など）。
+                      辺の有無は CSS から判定できないので、
+                      `nodes.tsx` の SourceHandle が class を付ける
+
+   ⚠ `display: none` にはしないこと——React Flow はハンドルの矩形から辺の
+   接続点を測るので、箱（6×6）は残したまま色だけ透明にする。
+   ⚠ `--xy-handle-*` 変数で一律に消さないこと——source と target の両方に効いてしまう。
+   透明は両テーマ共通なのでダーク側では上書きしない */
+.dxm-mandala-canvas .react-flow__handle.target,
+.dxm-mandala-canvas .react-flow__handle.dxm-handle-idle {
+  background-color: transparent;
+  border-color: transparent;
+}
+
+:is(html.dark, .dark) .dxm-mandala-canvas .react-flow {
+  --xy-minimap-background-color: #2b2f33;
+  --xy-minimap-mask-background-color: rgb(20 20 20 / 60%);
+  --xy-minimap-node-background-color: #5b6670;
+  --xy-minimap-node-stroke-color: #9aa4ae;
+  --xy-controls-button-background-color: #2b2f33;
+  --xy-controls-button-background-color-hover: #3a4046;
+  --xy-controls-button-color: #d7dade;
+  --xy-controls-button-color-hover: #ffffff;
+  --xy-controls-button-border-color: #44494e;
+}
+
+/* カードは白地・濃いめの枠。曼陀羅の背景から浮かせて読みやすくする */
+.dxm-node {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.5rem 0.7rem;
+  border: 1px solid color-mix(in srgb, currentColor 45%, transparent);
+  border-radius: 0.5rem;
+  background: #fff;
+  color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+
+/* ダークでは白カードが眩しいので地の色を使い、枠線だけ濃さを保つ。
+   `--nextra-bg` は `17,17,17` 形式のトリプレットなので rgb() で包む */
+:is(html.dark, .dark) .dxm-node {
+  background: rgb(var(--nextra-bg, 17 17 17));
+  color: inherit;
+}
+
+/* ⚠ 寸法は `Mandala.tsx` の SIZES.compact と一致させること——dagre は固定寸法を
+   前提に座標を出すので、片方だけ変えると辺の接続位置がノードの縁からずれる。
+   幅と高さは「名前を切らずに見せる」から逆算した実測値: 受講形態ラベルに約 61px を
+   取られるため、タイトルに残るのは約 150px。契約の上限（半角36字）はここで最大3行になる */
+.dxm-node-compact {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.4rem;
+  width: 240px;
+  height: 72px;
+}
+
+.dxm-node-card {
+  width: 280px;
+  height: 140px;
+}
+
+/* 折りたたんだシリーズ1つ分。展開時のシリーズ枠がそのまま1ブロックに縮んだ
+   ように見せるため、枠線の色と地を `.dxm-series-frame` に揃える。
+   破線を使わないのは、曼陀羅では破線が「跨ぎの辺・ゴースト＝確定でないもの」を
+   指す語彙で、確定した1シリーズには意味が合わないため。
+   枠線の色は素のクラス1つで書く——「いまここ」の青（`.dxm-node-here`）が
+   同じ詳細度で後から上書きするのを妨げないため。 */
+.dxm-node-collapsed {
+  width: 210px;
+  height: 72px;
+  border-color: color-mix(in srgb, var(--dxm-brand) 45%, transparent);
+}
+
+/* 地は両テーマとも同じ淡い青。セレクタを2本並べているのは詳細度の都合で、
+   ライトは `.dxm-node`(0,1,0) を、ダークは `:is(html.dark, .dark) .dxm-node`(0,2,1) を
+   それぞれ越える必要があるため。`:is()` の詳細度は引数の最大値を取るので、
+   クラス2つ(0,2,0)ではダーク側に届かない（実測で判明） */
+.dxm-node.dxm-node-collapsed,
+:is(html.dark, .dark) .dxm-node-collapsed {
+  background: color-mix(in srgb, var(--dxm-brand) 4%, transparent);
+}
+
+.dxm-node-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+/* 名前は折り返して全体を見せる（`…` で切らない）。曼陀羅は一目で見渡すための
+   図なので、名前の一部が隠れると目的が損なわれる。
+   ⚠ 行数の上限は「契約の上限（半角36字）がその幅で何行になるか」の実測値。
+   compact はラベルに幅を取られてタイトルが約 150px しかないので 3 行、
+   ラベルの無い折りたたみノードは約 188px 取れるので 2 行で収まる。
+   ⚠ 行数を変えるときはノードの height も一緒に見直すこと */
+.dxm-node-compact .dxm-node-title,
+.dxm-node-collapsed .dxm-node-title {
+  min-width: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.dxm-node-compact .dxm-node-title {
+  -webkit-line-clamp: 3;
+}
+
+.dxm-node-catch {
+  font-size: 0.74rem;
+  color: var(--dxm-brand);
+}
+
+.dxm-node-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.7rem;
+  opacity: 0.7;
+  margin-top: auto;
+}
+
+.dxm-node-series {
+  font-size: 0.68rem;
+  opacity: 0.7;
+}
+
+.dxm-node-pin {
+  align-self: flex-start;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--dxm-brand);
+  border-radius: 999px;
+  padding: 0.05rem 0.4rem;
+}
+
+.dxm-node-current {
+  border-color: var(--dxm-brand);
+  border-width: 2px;
+}
+
+/* 読者がいまいるコース、または現在地のコースを含む折りたたみ中のシリーズ。
+   枠を青く太くして、ノードの左外にピンを重ねる。
+   ピンは絶対配置なのでノードの寸法にも文字位置にも影響しない
+   （上下辺のハンドルは中央なので左外とは重ならない）。
+   ⚠ 状態の指定なので、必ず変種（`-compact` / `-collapsed` 等）より後に置く
+   ——同じ詳細度なら後勝ちで、集約ノードの枠色 45% をここが上書きする */
+.dxm-node-here {
+  position: relative;
+  border-color: var(--dxm-brand);
+  /* 太さは inset の影で出す。border-width を上げるとノードは固定寸法なので
+     内側が 1px 削れ、コース名の位置が他のノードとずれる */
+  box-shadow: inset 0 0 0 1px var(--dxm-brand);
+}
+
+/* ノード左辺とシリーズ枠線の間（22px。枠線 1.5px を除くと空き 20.5px）に
+   ピンの絵を落とす。`right: 100%` なのは、lucide の MapPin が箱の 2/3
+   （viewBox 24 のうち x∈[4,20]）しか使わず左右に size/6 の余白を持つため、
+   箱の右辺をノード左辺に合わせるだけで絵の中心が -size/2 に決まるから
+   ——実数のオフセットで置くとノード幅・枠の余白のどれかが変わったときに
+   黙ってずれる。`margin-right` は絶対配置の基準がパディングボックス
+   （枠線 1px の内側）であるぶんを戻す。
+   折りたたみ中の集約ノード（枠を持たない）にも同じ関係で乗る。
+
+   ⚠ 寸法は `nodes.tsx` の `HerePin` にある（size=18 → 絵は 12px）。
+   この置き方だと絵の中心が -size/2 なので、**小さくするほど中心がノード寄りに動く**
+   （18 では -9.0。空きの中点は -10.25 なので 1.25px ずれる）。
+   隙間 20.5px に対して枠線まで 5.5px・ノードまで 3.0px 空いており実害は無いが、
+   厳密に中点へ置きたくなったら `margin-right` を `size/2 - 10.25 + 1` にする
+   ——ただし寸法を変えるたび計算し直しになるので、いまは単純な側を採っている。 */
+.dxm-node-here-pin {
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  translate: 0 -50%;
+  margin-right: 1px;
+  color: var(--dxm-brand);
+  /* 塗りは透過。ピンはノードの外＝キャンバスの上に乗るので、塗ると背景や辺を
+     隠して浮いて見える。現在地は輪郭線（`color`）だけで示す（Studio と同じ） */
+  fill: transparent;
+}
+
+/* シリーズ外の相手コース。透明度を下げすぎると読めないので、
+   区別は破線とシリーズ名ラベルに寄せる */
+.dxm-node-ghost {
+  opacity: 0.85;
+  border-style: dashed;
+}
+
+/* コースの受講形態。compact では右端に寄せる */
+.dxm-node-style {
+  margin-left: auto;
+  padding: 0.02rem 0.4rem;
+  border-radius: 999px;
+  background: var(--dxm-brand-soft);
+  color: var(--dxm-brand);
+  font-size: 0.68rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* シリーズごとにコース群を囲う背景枠（全体曼陀羅のみ）。
+   クリックはコースノードに通す */
+/* Start / Goal。ノードに見えないよう枠も地色も持たない文字だけの目印 */
+.dxm-terminal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 90px;
+  height: 30px;
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  opacity: 0.75;
+}
+
+.dxm-series-frame {
+  position: relative;
+  border: 1.5px dashed color-mix(in srgb, var(--dxm-brand) 45%, transparent);
+  border-radius: 0.8rem;
+  background: color-mix(in srgb, var(--dxm-brand) 4%, transparent);
+  /* 当たり判定は React Flow の wrapper が持つ（`onNodeClick` を渡した時点で
+     `pointer-events: all` になる）。この div を none のままにしておくと、
+     枠の上でもコースノードが優先される……のではなく、実際には z-index で
+     決まる（コース 0 / 枠 -1）。ここを none にしているのは元の意図
+     「背景として敷くものは自分では何も拾わない」を保つため */
+  pointer-events: none;
+}
+
+/* 枠はクリックでシリーズトップへ飛ぶ。手がかりはカーソルだけにする
+   ——枠は 244 × 224〜348px と大きく、この面積が hover で色を変えると目障り */
+.dxm-mandala-canvas .react-flow__node-seriesFrame {
+  cursor: pointer;
+}
+
+/* 展開中のそのシリーズのトップを見ているときは、枠が現在地になる。
+   実線にして太さは影で出す——`.dxm-node-here` と同じ流儀（枠の中には
+   何もレイアウトしていないので border-width でも実害は無いが、
+   「現在地の太さはいつも影」を1つの規則にしておく） */
+.dxm-series-frame-here {
+  border-style: solid;
+  border-color: var(--dxm-brand);
+  box-shadow: inset 0 0 0 1px var(--dxm-brand);
+}
+
+/* 枠の現在地ピンは、基底の `.dxm-node-here-pin` をそのまま使う——専用の指定は要らない。
+   `right: 100%` ＋ `margin-right: 1px` が「箱の右辺を枠の左辺に合わせる」意味になり、
+   コースのピンがノードの左外に付くのとまったく同じ関係で枠の左外に付く
+   （枠線の実効値は 1px なので、ノードの枠線 1px を戻す補正がそのまま効く）。 */
+
+.dxm-series-frame-label {
+  display: inline-block;
+  margin: 0.3rem 0 0 0.7rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--dxm-brand);
+}
+
+/* 言語トグル。`EN`（約 35px）と `日本語`（約 58px）で幅が変わり、右端にあるため
+   切り替えると左の2アイコンが横にずれる。これは承知のうえで受け入れている
+   ——切り替え先が文字で読めるほうが分かりやすく、`JA` の2文字コードや
+   アイコン化ではそれが弱まるため。幅を揃える目的で作り替えないこと。
+   ⚠ 実測 36 × 27.6px で、枠線があるぶん視覚対象が文字ではなく板になり、
+   隣の GitHub（18px）より高さが 5割ほど大きい。**それでも縮めない**——
+   文字と余白を詰めれば `日本語` が読みにくくなり、枠線を外せば押せる感が減る。
+   どちらも「切り替え先が一目で分かる」という上の判断を削るため。 */
+.dxm-lang-toggle {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.2rem 0.55rem;
+  border-radius: 0.4rem;
+  border: 1px solid color-mix(in srgb, currentColor 20%, transparent);
+}
+
+/* ===== ナビバー右上の3ボタン（GitHub / 曼陀羅 / 言語）=====
+   通常はグレー（`--dxm-navbar-action`）、ホバーで前景寄りのグレー
+   （`--dxm-navbar-action-hover`）。**3つとも同じ挙動**に揃える——以前は GitHub が
+   色そのまま・曼陀羅だけ opacity と色・言語は無反応で、同じ列に並ぶ操作なのに
+   反応がばらばらだった。Studio の GlobalHeader 右側（操作色 → ホバーで前景色）と
+   同じ言葉遣いにしてある。
+   ⚠ **ホバーをブランド色（青）に戻さないこと。** 青は本文リンクの語彙で、
+   ヘッダーは「移動」ではなく「操作」を担う。同じ青を使うと役割の差が消える
+   （2026-08-20 に `--dxm-brand` から変更）。
+   ⚠ カーソルは3つとも明示する。曼陀羅だけが `<button>` で、ブラウザ既定が
+   `default` になり `<a>` の2つと揃わないため（Studio の共有 Button と同じ話）。
+   ⚠ GitHub リンクの `<a>` はテーマが描くので掴めるクラスが無い。こちらが渡す
+   `projectIcon` にだけクラスを付け、`:has()` で親の `<a>` を選ぶ——テーマ側の
+   クラス名に依存しないぶん、テーマ更新で外れにくい。`<a>` 側に当てるのは、
+   アイコンだけに当てると padding の上でホバーしても色が変わらないため。 */
+a:has(> .dxm-navbar-icon),
+.dxm-mandala-button,
+.dxm-lang-toggle {
+  color: var(--dxm-navbar-action);
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+a:has(> .dxm-navbar-icon):hover,
+.dxm-mandala-button:hover,
+.dxm-lang-toggle:hover {
+  color: var(--dxm-navbar-action-hover);
+}
+
+/* ===== ナビバーのアイコン =====
+   寸法は「箱の数字」ではなく「見た目」で揃える。glyph が箱をどれだけ埋めるかが
+   出所ごとに違うため、同じ size を与えても揃わない。
+
+     .dxm-logo-mark    塗りの正方形          被覆 100%  1.1rem  → 17.6px
+     GitHubIcon        viewBox "3 3 18 18"   被覆 100%  16      → 16.0px
+     lucide Network    viewBox "0 0 24 24"   被覆  92%  16      → 14.7px
+
+   基準は左上のサイトロゴ（1.1rem）。曼陀羅アイコンは Studio の全体曼陀羅ボタンと
+   同じ lucide `Network`（2026-08-19 に `Map` から変更・機能が同じなら絵も揃える）。
+   ⚠ **丸い絵と矩形の絵を並べるときは、矩形側を1割ほど小さくする。** 外接箱を
+   揃えるだけでは足りない——GitHub の猫はほぼ円形の塊、Network は角のある矩形の
+   組み合わせで、直径 d の円と一辺 d の正方形では面積が 4/π ≒ 1.27 倍違う。
+   ⚠ **被覆率は stroke を含めて数える。** `getBoundingClientRect()` は
+   stroke を含まない幾何ボックスを返すので、実測すると Network は 83% に見えるが、
+   `strokeWidth:2` が両側 1 単位ずつ張り出すので視覚上は 22/24 ≒ 92%。
+   ここから 16 × 0.92 ≒ 14.7px で、GitHub の 16px より約 8% 小さい。
+   ⚠ 以前は「線アイコンは少し小さめに」と書きつつ補正の向きが逆だった時期がある。
+   数値を動かすときは必ず**見た目の幅**（size × 被覆率）で比べること。 */
+/* 色とホバーは上の「ナビバー右上の3ボタン」で3つまとめて与える。
+   かつてここで opacity 0.9 → 1 も足していたが、透明度は隣の文字（言語トグル）と
+   見え方が揃わないので色指定に一本化した（2026-08-19） */
+.dxm-mandala-button {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* ===== 曼陀羅モーダル ===== */
+
+.dxm-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: rgb(0 0 0 / 45%);
+}
+
+.dxm-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: min(1100px, 100%);
+  padding: 1rem 1.15rem 1.25rem;
+  border-radius: 0.75rem;
+  background: rgb(var(--nextra-bg, 255 255 255));
+  box-shadow: 0 12px 40px rgb(0 0 0 / 25%);
+}
+
+.dxm-modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dxm-modal-title {
+  font-weight: 700;
+}
+
+.dxm-modal-close {
+  padding: 0.1rem 0.4rem;
+  border-radius: 0.35rem;
+  opacity: 0.7;
+}
+
+.dxm-modal-close:hover {
+  opacity: 1;
+  background: color-mix(in srgb, currentColor 10%, transparent);
+}
+
+/* モーダル内では曼陀羅の外側の余白を持たない（枠が余白を持っている） */
+.dxm-modal .dxm-mandala {
+  margin: 0;
+}
+
+/* ===== サイドバーのホーム項目 =====
+   アイコンは `content/_meta.tsx` が要素として持つ（Nextra の `_meta` は `title` に
+   React 要素を認めている）。CSS で後付けしないのは、`a[href="/"]` を狙うと
+   basePath 付き配信で外れ、`a[href$="/"]` に逃げると将来 trailingSlash を
+   入れた瞬間に全項目へアイコンが付いてしまうため。
+
+   色は指定しない——lucide の既定が `currentColor` なので、リンクの通常・hover・
+   active（brand 色）・ダークにそのまま乗る。
+   包む span が要るのは、サイドバーの `<a>` が flex で、素の空白文字が
+   フレックスアイテムの先頭で潰れて消えるから。間隔は gap で明示する。 */
+.dxm-home-item {
+  display: inline-flex;
+  align-items: center;
+  /* 半角スペース1個ぶん相当 */
+  gap: 0.35em;
+}
+
+/* 寸法も色と同じく文字に連動させる（サイドバーは 14px なので約 16px）。
+   House の被覆は 75% なので見た目は約 12px ＝ CJK の字面と揃う */
+.dxm-home-item svg {
+  width: 1.15em;
+  height: 1.15em;
+}
+
+/* ===== 3カラムの幅 =====
+   外側の余白は残したまま、両脇のメニューだけを外へ広げる。帯（sidebar + 本文 + toc）
+   の上限を 90rem → 95rem に上げ、両脇を 16rem → 18rem にすると、本文は flex で
+   伸びるぶんだけ広がる（928 → 944px）。本文用の変数は置かない。
+
+   その後、日本語のシリーズ名が窮屈だったので**サイドバーだけ**さらに全角2文字分
+   （18rem → 20rem）広げた（2026-08-19）。帯も同じ 2rem を足して 97rem にすることで、
+   広げたぶんは余白から取り、本文は 944px のまま動かない。toc は 18rem のまま。
+
+     |←─ 余白 ─→|[ side 320 ][ 本文 944 ][ toc 288 ]|←─ 余白 ─→|
+
+   ⚠ 1280〜1519px の画面では両メニューが出たまま帯が画面幅で頭打ちになるため、
+   広げたぶんが本文から引かれる（1440px で 928 → 864）。読めなくなる幅では
+   ないので全画面共通で入れている。気になったら `@media (min-width: 1520px)` で囲う。
+   なお navbar も同じ変数を使うので、ロゴと右上アイコンも一緒に外へ動き整列は保たれる。 */
+
+/* `--nextra-content-width` はテーマの `<Head>` が `<style>` で `:root` に注入する。
+   こちらも `:root` だと同じ詳細度でソース順勝負になるので `html:root` と1段上げる */
+html:root {
+  --nextra-content-width: 97rem;
+}
+
+/* ⚠ 展開状態（`x:w-64`）だけを狙う。平坦に `.nextra-sidebar` へ書くと、
+   手動トグルで畳んだときの `x:w-20`（5rem）まで潰れて畳めなくなる。
+   テーマがサイドバー幅のクラスを変えたら当たらなくなるが、
+   そのときの壊れ方は「広がらない」だけで機能に影響しない */
+.nextra-sidebar.x\:w-64 {
+  width: 20rem;
+}
+
+/* toc は状態が1つなので素直に指定できる。こちらは 18rem のまま
+   ——広げたのは日本語のシリーズ名が窮屈だった左メニューだけ */
+.nextra-toc {
+  width: 18rem;
+}
+
+.dxm-logo-mark {
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 0.3rem;
+  background: var(--dxm-brand);
+  /* 曼陀羅のノードを模した点 */
+  background-image:
+    radial-gradient(circle at 50% 22%, #fff 18%, transparent 19%),
+    radial-gradient(circle at 50% 78%, #fff 18%, transparent 19%),
+    radial-gradient(circle at 20% 50%, #fff 15%, transparent 16%),
+    radial-gradient(circle at 80% 50%, #fff 15%, transparent 16%);
+}

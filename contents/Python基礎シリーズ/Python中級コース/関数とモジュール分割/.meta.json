@@ -1,0 +1,16 @@
+{
+  "slug": "function-and-module",
+  "status": "in_progress",
+  "description": "処理を def で関数に切り出し、引数と戻り値を使い分け、自作モジュールを import で取り寄せる",
+  "tags": [
+    "python",
+    "intermediate"
+  ],
+  "estimated_minutes": 15,
+  "author": "北村",
+  "id": "lsn-function-and-module-ljzxxb",
+  "name_en": "Functions and modules",
+  "description_en": "Pull work out into functions with def, use arguments and return values for what each is good at, and bring in your own module with import",
+  "en_source_hash": "sha256:37d548e6e578d8b3bf5295125e147fc69cc37368d8938229c77d3793e5eb27af",
+  "author_en": "Kitamura"
+}

@@ -1,0 +1,22 @@
+{
+  "order": [
+    "ブランチを切る・切り替える",
+    "push して Pull Request を出す",
+    "レビューとマージ・コンフリクト解消"
+  ],
+  "target": "push/pull ができる人",
+  "id": "crs-github-pr-73nro4",
+  "cross_series_prev": [],
+  "cross_series_next": [
+    "crs-n-nwxppw-g267en"
+  ],
+  "style": "self-study",
+  "slug": "branch-pr",
+  "catch": "別ルートを本編に合流させる",
+  "description": "ブランチを切って作業し、push して Pull Request を出し、レビューコメントを付けてマージできるようになるコース。衝突（コンフリクト）の直し方もここで通します。",
+  "name_en": "GitHub Branches and PRs Course",
+  "catch_en": "Merge your side route into the main story",
+  "description_en": "A course where you create a branch to work on, push it, open a pull request, leave review comments, and merge. You also work through how to fix conflicts here.",
+  "target_en": "People who can push and pull",
+  "en_source_hash": "sha256:0e5cc7164551e2268cecd2da756998d81d3bc6acd153ce7be59a54d606d31dd4"
+}

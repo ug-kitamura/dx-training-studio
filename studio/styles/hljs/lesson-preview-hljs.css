@@ -1,0 +1,205 @@
+/* Pane3 preview: scoped GitHub / GitHub Dark highlight.js themes */
+
+html:not(.dark) .lesson-preview pre code.hljs {
+  display:block;
+  overflow-x:auto;
+  padding:1em
+}
+
+html:not(.dark) .lesson-preview code.hljs {
+  padding:3px 5px
+}
+
+html:not(.dark) .lesson-preview .hljs {
+  color:#24292e;
+  background:#fff
+}
+
+html:not(.dark) .lesson-preview .hljs-doctag,
+html:not(.dark) .lesson-preview .hljs-keyword,
+html:not(.dark) .lesson-preview .hljs-meta .hljs-keyword,
+html:not(.dark) .lesson-preview .hljs-template-tag,
+html:not(.dark) .lesson-preview .hljs-template-variable,
+html:not(.dark) .lesson-preview .hljs-type,
+html:not(.dark) .lesson-preview .hljs-variable.language_ {
+  color:#d73a49
+}
+
+html:not(.dark) .lesson-preview .hljs-title,
+html:not(.dark) .lesson-preview .hljs-title.class_,
+html:not(.dark) .lesson-preview .hljs-title.class_.inherited__,
+html:not(.dark) .lesson-preview .hljs-title.function_ {
+  color:#6f42c1
+}
+
+html:not(.dark) .lesson-preview .hljs-attr,
+html:not(.dark) .lesson-preview .hljs-attribute,
+html:not(.dark) .lesson-preview .hljs-literal,
+html:not(.dark) .lesson-preview .hljs-meta,
+html:not(.dark) .lesson-preview .hljs-number,
+html:not(.dark) .lesson-preview .hljs-operator,
+html:not(.dark) .lesson-preview .hljs-selector-attr,
+html:not(.dark) .lesson-preview .hljs-selector-class,
+html:not(.dark) .lesson-preview .hljs-selector-id,
+html:not(.dark) .lesson-preview .hljs-variable {
+  color:#005cc5
+}
+
+html:not(.dark) .lesson-preview .hljs-meta .hljs-string,
+html:not(.dark) .lesson-preview .hljs-regexp,
+html:not(.dark) .lesson-preview .hljs-string {
+  color:#032f62
+}
+
+html:not(.dark) .lesson-preview .hljs-built_in,
+html:not(.dark) .lesson-preview .hljs-symbol {
+  color:#e36209
+}
+
+html:not(.dark) .lesson-preview .hljs-code,
+html:not(.dark) .lesson-preview .hljs-comment,
+html:not(.dark) .lesson-preview .hljs-formula {
+  color:#6a737d
+}
+
+html:not(.dark) .lesson-preview .hljs-name,
+html:not(.dark) .lesson-preview .hljs-quote,
+html:not(.dark) .lesson-preview .hljs-selector-pseudo,
+html:not(.dark) .lesson-preview .hljs-selector-tag {
+  color:#22863a
+}
+
+html:not(.dark) .lesson-preview .hljs-subst {
+  color:#24292e
+}
+
+html:not(.dark) .lesson-preview .hljs-section {
+  color:#005cc5;
+  font-weight:700
+}
+
+html:not(.dark) .lesson-preview .hljs-bullet {
+  color:#735c0f
+}
+
+html:not(.dark) .lesson-preview .hljs-emphasis {
+  color:#24292e;
+  font-style:italic
+}
+
+html:not(.dark) .lesson-preview .hljs-strong {
+  color:#24292e;
+  font-weight:700
+}
+
+html:not(.dark) .lesson-preview .hljs-addition {
+  color:#22863a;
+  background-color:#f0fff4
+}
+
+html:not(.dark) .lesson-preview .hljs-deletion {
+  color:#b31d28;
+  background-color:#ffeef0
+}
+
+html.dark .lesson-preview pre code.hljs {
+  display:block;
+  overflow-x:auto;
+  padding:1em
+}
+
+html.dark .lesson-preview code.hljs {
+  padding:3px 5px
+}
+
+html.dark .lesson-preview .hljs {
+  color:#c9d1d9;
+  background:#0d1117
+}
+
+html.dark .lesson-preview .hljs-doctag,
+html.dark .lesson-preview .hljs-keyword,
+html.dark .lesson-preview .hljs-meta .hljs-keyword,
+html.dark .lesson-preview .hljs-template-tag,
+html.dark .lesson-preview .hljs-template-variable,
+html.dark .lesson-preview .hljs-type,
+html.dark .lesson-preview .hljs-variable.language_ {
+  color:#ff7b72
+}
+
+html.dark .lesson-preview .hljs-title,
+html.dark .lesson-preview .hljs-title.class_,
+html.dark .lesson-preview .hljs-title.class_.inherited__,
+html.dark .lesson-preview .hljs-title.function_ {
+  color:#d2a8ff
+}
+
+html.dark .lesson-preview .hljs-attr,
+html.dark .lesson-preview .hljs-attribute,
+html.dark .lesson-preview .hljs-literal,
+html.dark .lesson-preview .hljs-meta,
+html.dark .lesson-preview .hljs-number,
+html.dark .lesson-preview .hljs-operator,
+html.dark .lesson-preview .hljs-selector-attr,
+html.dark .lesson-preview .hljs-selector-class,
+html.dark .lesson-preview .hljs-selector-id,
+html.dark .lesson-preview .hljs-variable {
+  color:#79c0ff
+}
+
+html.dark .lesson-preview .hljs-meta .hljs-string,
+html.dark .lesson-preview .hljs-regexp,
+html.dark .lesson-preview .hljs-string {
+  color:#a5d6ff
+}
+
+html.dark .lesson-preview .hljs-built_in,
+html.dark .lesson-preview .hljs-symbol {
+  color:#ffa657
+}
+
+html.dark .lesson-preview .hljs-code,
+html.dark .lesson-preview .hljs-comment,
+html.dark .lesson-preview .hljs-formula {
+  color:#8b949e
+}
+
+html.dark .lesson-preview .hljs-name,
+html.dark .lesson-preview .hljs-quote,
+html.dark .lesson-preview .hljs-selector-pseudo,
+html.dark .lesson-preview .hljs-selector-tag {
+  color:#7ee787
+}
+
+html.dark .lesson-preview .hljs-subst {
+  color:#c9d1d9
+}
+
+html.dark .lesson-preview .hljs-section {
+  color:#1f6feb;
+  font-weight:700
+}
+
+html.dark .lesson-preview .hljs-bullet {
+  color:#f2cc60
+}
+
+html.dark .lesson-preview .hljs-emphasis {
+  color:#c9d1d9;
+  font-style:italic
+}
+
+html.dark .lesson-preview .hljs-strong {
+  color:#c9d1d9;
+  font-weight:700
+}
+
+html.dark .lesson-preview .hljs-addition {
+  color:#aff5b4;
+  background-color:#033a16
+}
+
+html.dark .lesson-preview .hljs-deletion {
+  color:#ffdcd7;
+  background-color:#67060c
+}

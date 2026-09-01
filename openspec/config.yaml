@@ -1,0 +1,27 @@
+schema: spec-driven
+
+context: |
+  Output language: Japanese
+  以下のルールに従って日本語で記述すること：
+  - テンプレートのセクションヘッダーはそのまま変更しないこと
+  - コードブロック・コマンド・固有名詞・ツール名は英語のままにすること
+  - それ以外の本文・説明・箇条書きはすべて日本語で記述すること
+
+# Project context (optional)
+# This is shown to AI when creating artifacts.
+# Add your tech stack, conventions, style guides, domain knowledge, etc.
+# Example:
+#   context: |
+#     Tech stack: TypeScript, React, Node.js
+#     We use conventional commits
+#     Domain: e-commerce platform
+
+# Per-artifact rules (optional)
+# Add custom rules for specific artifacts.
+# Example:
+#   rules:
+#     proposal:
+#       - Keep proposals under 500 words
+#       - Always include a "Non-goals" section
+#     tasks:
+#       - Break tasks into chunks of max 2 hours

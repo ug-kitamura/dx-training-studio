@@ -1,0 +1,16 @@
+{
+  "id": "lsn-first-commit-kv4ju4",
+  "slug": "first-commit",
+  "status": "in_progress",
+  "description": "練習用リポジトリで add と commit の流れを通し、生成物を.gitignoreで除外できるようになる",
+  "tags": [
+    "git",
+    "basics"
+  ],
+  "estimated_minutes": 15,
+  "author": "北村",
+  "name_en": "Your first commit",
+  "description_en": "Work through the add and commit flow in a practice repository, and learn to exclude generated files with .gitignore",
+  "en_source_hash": "sha256:1f7ee0a69d8f50b6e688f13052cd82674df2c63a17817f498d9bf845a71f495b",
+  "author_en": "Kitamura"
+}

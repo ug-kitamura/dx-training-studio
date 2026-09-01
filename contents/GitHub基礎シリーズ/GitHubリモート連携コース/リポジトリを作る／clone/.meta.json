@@ -1,0 +1,16 @@
+{
+  "slug": "repository",
+  "status": "in_progress",
+  "description": "社内GitHubに練習用リポジトリを作り、clone で手元に複製して、collaborator の招き方も知る",
+  "tags": [
+    "github",
+    "remote"
+  ],
+  "estimated_minutes": 15,
+  "author": "北村",
+  "id": "lsn-repository-974zxi",
+  "name_en": "Creating a repository and cloning",
+  "description_en": "Create a practice repository on internal GitHub, clone a copy to your machine, and learn how to invite a collaborator",
+  "en_source_hash": "sha256:0ceb9ef5619a3a0797a175b2901dba68472f9830b02bdb6008f853d9f3ca456e",
+  "author_en": "Kitamura"
+}

@@ -1,0 +1,16 @@
+{
+  "slug": "variables-and-types",
+  "status": "in_progress",
+  "description": "値に名前を付けて使い回し、str・int・float・bool の4つの型と変換・f-string を身につける",
+  "tags": [
+    "python",
+    "basics"
+  ],
+  "estimated_minutes": 15,
+  "author": "北村",
+  "id": "lsn-variables-and-types-q38pef",
+  "name_en": "Variables and types",
+  "description_en": "Give values names and reuse them, and pick up the four types str, int, float, and bool, along with conversion and f-strings",
+  "en_source_hash": "sha256:4d17275abd1da8e8ca67075487f20e2f8a898ad48c6aa9f9cf1170a7dbf33a66",
+  "author_en": "Kitamura"
+}

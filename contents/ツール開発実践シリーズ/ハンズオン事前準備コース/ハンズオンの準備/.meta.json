@@ -1,0 +1,16 @@
+{
+  "slug": "checklist",
+  "status": "in_progress",
+  "description": "ハンズオン当日を全部実装に使えるように、環境の最終確認とテンプレートからの自分のリポジトリの用意を済ませる",
+  "tags": [
+    "build",
+    "prep"
+  ],
+  "estimated_minutes": 10,
+  "author": "北村",
+  "id": "lsn-checklist-d3fiu8",
+  "name_en": "Preparing for the hands-on",
+  "description_en": "Do a final check of your environment and create your own repository from the template, so you can spend the whole hands-on day writing code",
+  "en_source_hash": "sha256:899abe64cc8828a8ce99725af475b37032afd0f3a778e006dc7f7b690433fac6",
+  "author_en": "Kitamura"
+}

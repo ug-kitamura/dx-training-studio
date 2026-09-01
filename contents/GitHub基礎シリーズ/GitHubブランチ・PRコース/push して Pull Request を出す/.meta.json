@@ -1,0 +1,16 @@
+{
+  "slug": "pull-request",
+  "status": "in_progress",
+  "description": "作業ブランチを push し、社内GitHub で Pull Request を1本作れるようになる",
+  "tags": [
+    "github",
+    "branch-pr"
+  ],
+  "estimated_minutes": 15,
+  "author": "北村",
+  "id": "lsn-pull-request-svgu3n",
+  "name_en": "Push and open a pull request",
+  "description_en": "Push your working branch and open one pull request on internal GitHub",
+  "en_source_hash": "sha256:df35eb0cdeb15621e3997ddfe5dd7f4b998addba58810016dbff84f7bd63e662",
+  "author_en": "Kitamura"
+}

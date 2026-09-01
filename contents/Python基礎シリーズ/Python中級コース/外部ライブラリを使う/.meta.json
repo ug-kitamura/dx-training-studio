@@ -1,0 +1,18 @@
+{
+  "slug": "libraries",
+  "status": "in_progress",
+  "description": "uv add で pandas を調達し、read_csv での読み込みと value_counts・sum の基本集計までを体験する",
+  "tags": [
+    "python",
+    "intermediate",
+    "pandas",
+    "uv"
+  ],
+  "estimated_minutes": 15,
+  "author": "北村",
+  "id": "lsn-libraries-lky4uo",
+  "name_en": "Using external libraries",
+  "description_en": "Get pandas with uv add, read a file with read_csv, and try basic aggregation with value_counts and sum",
+  "en_source_hash": "sha256:f6a4f9f9dfe31d79e8d8760b37269fe4188b98f6ecc72b66fc5b7cdfd317f89a",
+  "author_en": "Kitamura"
+}

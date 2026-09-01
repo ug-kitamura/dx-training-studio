@@ -1,0 +1,18 @@
+{
+  "order": [
+    "Gitのインストールと初期設定"
+  ],
+  "target": "Gitをインストールしていない人",
+  "id": "crs-n-f3becx-1vn361",
+  "slug": "setup",
+  "description": "IT Service Portal から Git を申請・導入し、名前とメールを設定してコマンドを打てる状態にするコース。承認待ちがあるため早めの着手が効きます。",
+  "catch": "手を動かす準備を整える",
+  "style": "self-study",
+  "cross_series_prev": [],
+  "cross_series_next": [],
+  "name_en": "Git Setup Course",
+  "catch_en": "Get ready to work hands-on",
+  "description_en": "A course to request and install Git through the IT Service Portal, set your name and email, and get to the point where you can run commands. There is an approval wait, so starting early pays off.",
+  "target_en": "People who have not installed Git yet",
+  "en_source_hash": "sha256:e214c352725461ff80c9643ed7a9cf01833379345140e6605e3dcb98dcd6a1ff"
+}

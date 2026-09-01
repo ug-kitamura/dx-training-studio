@@ -1,0 +1,882 @@
+{
+  "": {
+    "order": [
+      "はじめにシリーズ",
+      "AI基礎シリーズ",
+      "Git基礎シリーズ",
+      "GitHub基礎シリーズ",
+      "Python基礎シリーズ",
+      "ツール開発実践シリーズ"
+    ],
+    "description": "DX ツールを業務で使えるようになるためのトレーニング。曼陀羅で全体の道のりを見渡しながら、自分に必要なシリーズから進められます。",
+    "github_url": "https://github.com/",
+    "name": "DX Training Mandala",
+    "name_en": "DX Training Mandala",
+    "description_en": "Training to help you use DX tools in your daily work. The Mandala gives you a view of the whole journey, so you can start with whichever series you need.",
+    "en_source_hash": "sha256:107d90a70b99e48243321758ad8f5b7e9ca6678b4e05af046619333af7f8ebb8"
+  },
+  "AI基礎シリーズ": {
+    "order": [
+      "AI基礎コース"
+    ],
+    "slug": "ai",
+    "description": "社内AIチャットを業務の相談相手として使えるようになるシリーズ。質問の組み立て方と、入力してはいけないものの線引きを持ち帰り、詰まったときに自分で聞ける状態になります。",
+    "catch": "詰まったら、まず聞く",
+    "id": "srs-ai-fswrsf",
+    "name_en": "AI Basics Series",
+    "catch_en": "When you're stuck, just ask",
+    "description_en": "A series that gets you using the internal AI chat as a sounding board for your work. You take away how to frame a question and where the line is on what you must not type in, so you can ask for yourself whenever you get stuck.",
+    "en_source_hash": "sha256:d21e64cc7501cda0a1923817e762a9091d36b1fe3473ab0739abefb4bfd39763"
+  },
+  "AI基礎シリーズ/AI基礎コース": {
+    "order": [
+      "社内AIチャットの使い方"
+    ],
+    "target": "AIチャットを業務で使ったことがない人",
+    "id": "crs-ai-tsmvla",
+    "cross_series_prev": [
+      "crs-dx-675sw3"
+    ],
+    "cross_series_next": [
+      "crs-n-nwxppw-g267en"
+    ],
+    "style": "self-study",
+    "slug": "basics",
+    "catch": "最初の相棒をパーティに",
+    "description": "社内AIチャットを開いて質問し、エラーの意味を聞けるようになるコース。社内情報をどこまで入れてよいかの注意点もここで押さえます。",
+    "name_en": "AI Basics Course",
+    "catch_en": "Add your first companion to the party",
+    "description_en": "A course where you open the internal AI chat, ask it questions, and learn to ask what an error means. You also cover how much internal information you may put in.",
+    "target_en": "People who have never used AI chat for work",
+    "en_source_hash": "sha256:855bd5ea7d4bd4ab87cbe044d31751dafa948bbf8f6dc391187a494d97f3c652"
+  },
+  "AI基礎シリーズ/AI基礎コース/社内AIチャットの使い方": {
+    "slug": "chat-tool",
+    "status": "in_progress",
+    "description": "社内AIチャットを開いて、状況・やりたいこと・試したことを添えて質問し、エラーの意味を聞けるようになる",
+    "tags": [
+      "ai",
+      "basics"
+    ],
+    "estimated_minutes": 15,
+    "author": "北村",
+    "id": "lsn-chat-tool-hrj2ps",
+    "name_en": "Using the internal AI chat",
+    "description_en": "Open the internal AI chat and ask questions with your situation, your goal, and what you have already tried, so you can find out what an error means",
+    "en_source_hash": "sha256:28437d5dac04c716ae7fb2d7ea529ce169978729f6f223bfd070bc79f2f362ca",
+    "author_en": "Kitamura"
+  },
+  "GitHub基礎シリーズ": {
+    "order": [
+      "GitHub入門コース",
+      "GitHubリモート連携コース",
+      "GitHubブランチ・PRコース"
+    ],
+    "slug": "github",
+    "description": "手元のセーブデータを社内GitHubの共有保管庫に置き、ブランチを切って Pull Request を出し、レビューを経てマージするまでを身につけるシリーズ。修了すると、自分の作業を仲間と安全に合流させられるようになります。",
+    "catch": "セーブデータを、仲間と",
+    "id": "srs-github-ju9sfa",
+    "name_en": "GitHub Basics Series",
+    "catch_en": "Your save data, shared with your team",
+    "description_en": "A series that takes you from putting your local save data into the shared vault on internal GitHub, through creating a branch and opening a pull request, to merging after review. By the end, you can safely join your work with your teammates' work.",
+    "en_source_hash": "sha256:1116814ef51ed598edae5b1c3dd95bdcff79f308c5ebb1dfef0aa985430e13e3"
+  },
+  "GitHub基礎シリーズ/GitHubブランチ・PRコース": {
+    "order": [
+      "ブランチを切る・切り替える",
+      "push して Pull Request を出す",
+      "レビューとマージ・コンフリクト解消"
+    ],
+    "target": "push/pull ができる人",
+    "id": "crs-github-pr-73nro4",
+    "cross_series_prev": [],
+    "cross_series_next": [
+      "crs-n-nwxppw-g267en"
+    ],
+    "style": "self-study",
+    "slug": "branch-pr",
+    "catch": "別ルートを本編に合流させる",
+    "description": "ブランチを切って作業し、push して Pull Request を出し、レビューコメントを付けてマージできるようになるコース。衝突（コンフリクト）の直し方もここで通します。",
+    "name_en": "GitHub Branches and PRs Course",
+    "catch_en": "Merge your side route into the main story",
+    "description_en": "A course where you create a branch to work on, push it, open a pull request, leave review comments, and merge. You also work through how to fix conflicts here.",
+    "target_en": "People who can push and pull",
+    "en_source_hash": "sha256:0e5cc7164551e2268cecd2da756998d81d3bc6acd153ce7be59a54d606d31dd4"
+  },
+  "GitHub基礎シリーズ/GitHubブランチ・PRコース/push して Pull Request を出す": {
+    "slug": "pull-request",
+    "status": "in_progress",
+    "description": "作業ブランチを push し、社内GitHub で Pull Request を1本作れるようになる",
+    "tags": [
+      "github",
+      "branch-pr"
+    ],
+    "estimated_minutes": 15,
+    "author": "北村",
+    "id": "lsn-pull-request-svgu3n",
+    "name_en": "Push and open a pull request",
+    "description_en": "Push your working branch and open one pull request on internal GitHub",
+    "en_source_hash": "sha256:df35eb0cdeb15621e3997ddfe5dd7f4b998addba58810016dbff84f7bd63e662",
+    "author_en": "Kitamura"
+  },
+  "GitHub基礎シリーズ/GitHubブランチ・PRコース/ブランチを切る・切り替える": {
+    "slug": "branch",
+    "status": "in_progress",
+    "description": "本編を壊さずに試すための別ルート＝ブランチを作成・切替でき、なぜ切るかを説明できるようになる",
+    "tags": [
+      "github",
+      "branch-pr"
+    ],
+    "estimated_minutes": 15,
+    "author": "北村",
+    "id": "lsn-branch-4nk92k",
+    "name_en": "Creating and switching branches",
+    "description_en": "Create and switch branches — the side route that lets you try things without breaking the main story — and explain why you branch at all",
+    "en_source_hash": "sha256:68b0c44286e2fe3b837ff6441e53d91050f384db9c3ba8f2115bd016caf66750",
+    "author_en": "Kitamura"
+  },
+  "GitHub基礎シリーズ/GitHubブランチ・PRコース/レビューとマージ・コンフリクト解消": {
+    "slug": "review-merge",
+    "status": "in_progress",
+    "description": "PR の行にコメントを付け、マージして本編に合流させ、衝突（コンフリクト）を解消できるようになる",
+    "tags": [
+      "github",
+      "branch-pr"
+    ],
+    "estimated_minutes": 15,
+    "author": "北村",
+    "id": "lsn-review-merge-5iyy3o",
+    "name_en": "Review, merge, and fix conflicts",
+    "description_en": "Comment on a line in a pull request, merge to join the main story, and resolve conflicts",
+    "en_source_hash": "sha256:d5bf11b126b4002f4f46144e1b6542c86037780929a995fca3a7a9fcbf1cfb20",
+    "author_en": "Kitamura"
+  },
+  "GitHub基礎シリーズ/GitHubリモート連携コース": {
+    "order": [
+      "リポジトリを作る／clone",
+      "push と pull"
+    ],
+    "target": "社内GitHubアカウントがあり、ローカルのcommitはできる人",
+    "id": "crs-github-waedts",
+    "style": "self-study",
+    "cross_series_prev": [],
+    "cross_series_next": [],
+    "slug": "remote",
+    "catch": "手元と共有保管庫をつなぐ",
+    "description": "社内GitHubにリポジトリを作って手元に clone し、コミットを push して変更を pull できるようになるコース。README.md を書いて整形表示を確かめます。",
+    "name_en": "GitHub Remote Workflow Course",
+    "catch_en": "Connect your machine to the shared vault",
+    "description_en": "A course where you create a repository on internal GitHub, clone it to your machine, push your commits, and pull changes back. You also write a README.md and check how it renders.",
+    "target_en": "People with an internal GitHub account who can already commit locally",
+    "en_source_hash": "sha256:9ec348aa685f596c71e79ac20df30ccc04724425483427f4e788ce03d5e4c9fa"
+  },
+  "GitHub基礎シリーズ/GitHubリモート連携コース/push と pull": {
+    "slug": "push-pull",
+    "status": "in_progress",
+    "description": "README.md を編集して push し、GitHub 上の変更を pull で取り込めるようになる",
+    "tags": [
+      "github",
+      "remote"
+    ],
+    "estimated_minutes": 15,
+    "author": "北村",
+    "id": "lsn-push-pull-rb1fm9",
+    "name_en": "Push and pull",
+    "description_en": "Edit README.md and push it, then pull changes made on GitHub into your local copy",
+    "en_source_hash": "sha256:6faaecb29c1f7ce17bfadf861c04dc0880d61b44a68efed02526d0f0be615c2c",
+    "author_en": "Kitamura"
+  },
+  "GitHub基礎シリーズ/GitHubリモート連携コース/リポジトリを作る／clone": {
+    "slug": "repository",
+    "status": "in_progress",
+    "description": "社内GitHubに練習用リポジトリを作り、clone で手元に複製して、collaborator の招き方も知る",
+    "tags": [
+      "github",
+      "remote"
+    ],
+    "estimated_minutes": 15,
+    "author": "北村",
+    "id": "lsn-repository-974zxi",
+    "name_en": "Creating a repository and cloning",
+    "description_en": "Create a practice repository on internal GitHub, clone a copy to your machine, and learn how to invite a collaborator",
+    "en_source_hash": "sha256:0ceb9ef5619a3a0797a175b2901dba68472f9830b02bdb6008f853d9f3ca456e",
+    "author_en": "Kitamura"
+  },
+  "GitHub基礎シリーズ/GitHub入門コース": {
+    "order": [
+      "GitHubとは",
+      "アカウント申請とサインイン"
+    ],
+    "target": "GitHubを触ったことがない人／社内GitHubアカウントを持っていない人",
+    "id": "crs-github-b5q7ug",
+    "cross_series_prev": [
+      "crs-n-bj2gbl-52p5jz"
+    ],
+    "cross_series_next": [],
+    "style": "self-study",
+    "slug": "intro",
+    "catch": "共有保管庫の鍵を手に入れる",
+    "description": "GitHub が何をする場所かと、社内GitHubと GitHub.com の違いを理解し、社内GitHubのアカウントを申請してサインインできるようになるコース。",
+    "name_en": "GitHub Introduction Course",
+    "catch_en": "Get the key to the shared vault",
+    "description_en": "A course to understand what GitHub is for and how internal GitHub differs from GitHub.com, then request an internal GitHub account and sign in.",
+    "target_en": "People who have never touched GitHub, or who do not have an internal GitHub account yet",
+    "en_source_hash": "sha256:2b0d1e1440421eb06fafecfbf9b11b456221511e7f1fdb30ab0a6085b0070d15"
+  },
+  "GitHub基礎シリーズ/GitHub入門コース/GitHubとは": {
+    "slug": "what-is-github",
+    "status": "in_progress",
+    "description": "GitHub を「共有保管庫」として捉え、社内GitHubと GitHub.com の違い、申請と費用、制約と窓口が分かるようになる",
+    "tags": [
+      "github",
+      "intro"
+    ],
+    "estimated_minutes": 10,
+    "author": "北村",
+    "id": "lsn-what-is-github-eony4k",
+    "name_en": "What is GitHub?",
+    "description_en": "See GitHub as a shared vault, and understand how internal GitHub differs from GitHub.com, the request process and cost, the constraints, and who to contact",
+    "en_source_hash": "sha256:6703df69b4134e9d3b42d9e1d5a6dca3c1c149f8ed3e2cbed40c3a73b96c45c4",
+    "author_en": "Kitamura"
+  },
+  "GitHub基礎シリーズ/GitHub入門コース/アカウント申請とサインイン": {
+    "slug": "account",
+    "status": "in_progress",
+    "description": "IT Service Portal から社内GitHubのアカウントを申請し、承認後にサインインしてプロフィールとメールを整えられるようになる",
+    "tags": [
+      "github",
+      "intro"
+    ],
+    "estimated_minutes": 10,
+    "author": "北村",
+    "id": "lsn-account-m9ur6i",
+    "name_en": "Account request and sign-in",
+    "description_en": "Request an internal GitHub account through the IT Service Portal, then sign in once it is approved and set up your profile and email",
+    "en_source_hash": "sha256:da2b6f7a91c312e9c3e0fa21defa92d50b2bf87cec5f64f9a544a7c96ba951c7",
+    "author_en": "Kitamura"
+  },
+  "Git基礎シリーズ": {
+    "order": [
+      "Git概念コース",
+      "Git環境構築コース",
+      "Git基本操作コース"
+    ],
+    "id": "srs-git-klejoi",
+    "slug": "git",
+    "description": "バージョン管理の考え方から、記録して読んで戻すまでの基本操作までを身につけるシリーズ。修了すると、自分の作業をいつでもセーブして安全に元へ戻せるようになります。",
+    "catch": "セーブポイントのある開発へ",
+    "name_en": "Git Basics Series",
+    "catch_en": "Toward development with save points",
+    "description_en": "A series that takes you from the idea of version control through the basic operations of recording, reading, and reverting. By the end, you can save your work at any time and safely go back to it.",
+    "en_source_hash": "sha256:715aecffab0c8f8355fc470e1eea6e7d1589671d1d86cdaf1c6a33e3a5225f5d"
+  },
+  "Git基礎シリーズ/Git基本操作コース": {
+    "order": [
+      "最初のコミット",
+      "履歴と差分を読む",
+      "変更を取り消す"
+    ],
+    "target": "Gitを入れたがコマンドを打ったことがない人",
+    "id": "crs-n-bj2gbl-52p5jz",
+    "cross_series_prev": [],
+    "cross_series_next": [
+      "crs-github-b5q7ug"
+    ],
+    "name_en": "Git Basic Operations Course",
+    "catch_en": "Record it, read it, revert it",
+    "description_en": "A course where you work through all three yourself: recording, reading, and reverting. You save your work with add and commit, check the current state with status, log, and diff, and safely go back with restore.",
+    "target_en": "People who have installed Git but have never run a command",
+    "en_source_hash": "sha256:e1baf2aa3d76df0e4329090254ad3eb376d8acae0a442cbe6ec787d36a4ed0ae",
+    "style": "self-study",
+    "slug": "basics",
+    "catch": "記録して、読んで、戻せる",
+    "description": "記録する・読む・戻すの3つを自分の手で通すコース。add と commit で作業を残し、status・log・diff で状態を確かめ、restore で安全に元へ戻せるようになります。"
+  },
+  "Git基礎シリーズ/Git基本操作コース/変更を取り消す": {
+    "id": "lsn-undo-uzwouz",
+    "slug": "undo",
+    "status": "in_progress",
+    "description": "コミット前の変更を restore で安全に戻し、「失敗しても戻れる」を自分の手で確かめる",
+    "tags": [
+      "git",
+      "basics"
+    ],
+    "estimated_minutes": 10,
+    "author": "北村",
+    "name_en": "Undoing your changes",
+    "description_en": "Safely revert uncommitted changes with restore, and confirm for yourself that you can go back even when you get it wrong",
+    "en_source_hash": "sha256:74fd791ba6e88568e626fb33ddff67a070deada66ad95eee1bd1ab05a534d75d",
+    "author_en": "Kitamura"
+  },
+  "Git基礎シリーズ/Git基本操作コース/履歴と差分を読む": {
+    "id": "lsn-log-and-diff-fymalx",
+    "slug": "log-and-diff",
+    "status": "in_progress",
+    "description": "status・log・diffの3つを使い分けて、いま何がどうなっているかを自分で確かめられるようになる",
+    "tags": [
+      "git",
+      "basics"
+    ],
+    "estimated_minutes": 15,
+    "author": "北村",
+    "name_en": "Reading history and diffs",
+    "description_en": "Use status, log, and diff for what each one is good at, so you can check what is going on right now by yourself",
+    "en_source_hash": "sha256:1f90dc14106bf13ba2b7aef849b6c1173d677ddfd9ac05f21b3fdfcf7397ad85",
+    "author_en": "Kitamura"
+  },
+  "Git基礎シリーズ/Git基本操作コース/最初のコミット": {
+    "id": "lsn-first-commit-kv4ju4",
+    "slug": "first-commit",
+    "status": "in_progress",
+    "description": "練習用リポジトリで add と commit の流れを通し、生成物を.gitignoreで除外できるようになる",
+    "tags": [
+      "git",
+      "basics"
+    ],
+    "estimated_minutes": 15,
+    "author": "北村",
+    "name_en": "Your first commit",
+    "description_en": "Work through the add and commit flow in a practice repository, and learn to exclude generated files with .gitignore",
+    "en_source_hash": "sha256:1f7ee0a69d8f50b6e688f13052cd82674df2c63a17817f498d9bf845a71f495b",
+    "author_en": "Kitamura"
+  },
+  "Git基礎シリーズ/Git概念コース": {
+    "order": [
+      "バージョン管理ってなに？",
+      "Gitの三大エリア"
+    ],
+    "target": "バージョン管理を全く知らない開発者",
+    "id": "crs-n-ih0z-lwbmql",
+    "cross_series_prev": [
+      "crs-n-sojhjp-2nx20n"
+    ],
+    "cross_series_next": [],
+    "slug": "concepts",
+    "description": "コマンドを打つ前に、Git が何のための道具かを掴むコース。バージョン管理が必要な理由と、変更が置かれる3つの場所を地図として持ち帰ります。",
+    "catch": "Gitの世界の歩き方",
+    "style": "self-study",
+    "name_en": "Git Concepts Course",
+    "catch_en": "An adventurer's guide to Git",
+    "description_en": "A course to grasp what Git is a tool for before you type any commands. You take away why version control is needed, and a map of the three places a change can sit.",
+    "target_en": "Developers who know nothing about version control",
+    "en_source_hash": "sha256:976913f577db7486620121db67c074ae99bf4080c131d11dc8b5470fc79e2b0e"
+  },
+  "Git基礎シリーズ/Git概念コース/Gitの三大エリア": {
+    "id": "lsn-three-areas-unvulm",
+    "slug": "three-areas",
+    "status": "done",
+    "description": "作業ツリー・ステージ・リポジトリの3つの場所を地図として持ち、変更がどこにあるかを説明できるようになる",
+    "tags": [
+      "git",
+      "concepts"
+    ],
+    "estimated_minutes": 15,
+    "author": "北村",
+    "name_en": "The three areas of Git",
+    "description_en": "Carry a map of the three places — working tree, staging area, and repository — and be able to explain where a change currently lives",
+    "en_source_hash": "sha256:efe2e43f3bc2e73482d3d05d588ddb9ba8e2a18150099f3620da418d48c963d6",
+    "author_en": "Kitamura"
+  },
+  "Git基礎シリーズ/Git概念コース/バージョン管理ってなに？": {
+    "id": "lsn-what-is-version-control-eghku6",
+    "slug": "what-is-version-control",
+    "status": "in_progress",
+    "description": "「最終版2」が並ぶフォルダを入口に、バージョン管理が必要な理由を3つ挙げられるようになる",
+    "tags": [
+      "git",
+      "concepts"
+    ],
+    "estimated_minutes": 15,
+    "author": "北村",
+    "name_en": "What is version control?",
+    "description_en": "Starting from a folder full of files named \"report_final2\", learn to name three reasons why version control is needed",
+    "en_source_hash": "sha256:92cf067f7ab6d0fe9e8dc96066ce3b0ff86dc10a401cd9333a6a25baaf2f64b4",
+    "author_en": "Kitamura"
+  },
+  "Git基礎シリーズ/Git環境構築コース": {
+    "order": [
+      "Gitのインストールと初期設定"
+    ],
+    "target": "Gitをインストールしていない人",
+    "id": "crs-n-f3becx-1vn361",
+    "slug": "setup",
+    "description": "IT Service Portal から Git を申請・導入し、名前とメールを設定してコマンドを打てる状態にするコース。承認待ちがあるため早めの着手が効きます。",
+    "catch": "手を動かす準備を整える",
+    "style": "self-study",
+    "cross_series_prev": [],
+    "cross_series_next": [],
+    "name_en": "Git Setup Course",
+    "catch_en": "Get ready to work hands-on",
+    "description_en": "A course to request and install Git through the IT Service Portal, set your name and email, and get to the point where you can run commands. There is an approval wait, so starting early pays off.",
+    "target_en": "People who have not installed Git yet",
+    "en_source_hash": "sha256:e214c352725461ff80c9643ed7a9cf01833379345140e6605e3dcb98dcd6a1ff"
+  },
+  "Git基礎シリーズ/Git環境構築コース/Gitのインストールと初期設定": {
+    "id": "lsn-install-1i4euc",
+    "slug": "install",
+    "status": "in_progress",
+    "description": "IT Service Portal から Git を申請・導入し、名前とメールを設定してコマンドが打てる状態にする",
+    "tags": [
+      "git",
+      "setup"
+    ],
+    "estimated_minutes": 15,
+    "author": "北村",
+    "name_en": "Installing and setting up Git",
+    "description_en": "Request and install Git through the IT Service Portal, set your name and email, and get to the point where you can run commands",
+    "en_source_hash": "sha256:e6b1f4b8d75fb685ab42e2ae136c06db0f42ecc9a987fcbba07bc9896382f2e9",
+    "author_en": "Kitamura"
+  },
+  "Python基礎シリーズ": {
+    "order": [
+      "Python概要コース",
+      "Python環境構築コース",
+      "Python文法基礎コース",
+      "Python中級コース"
+    ],
+    "slug": "python",
+    "description": "変数と型からファイル処理・pandas まで、業務データを読んで加工し、別の形式で書き出すスクリプトを書けるようになるシリーズ。修了すると、繰り返しの手作業をスクリプトに任せられるようになります。",
+    "catch": "繰り返し作業を、武器に変える",
+    "id": "srs-python-a39x3z",
+    "name_en": "Python Basics Series",
+    "catch_en": "Turn repetitive work into a weapon",
+    "description_en": "A series that takes you from variables and types through file handling and pandas, until you can write scripts that read your work data, transform it, and write it out in another format. By the end, you can hand your repetitive manual work over to a script.",
+    "en_source_hash": "sha256:2d778cc1bb097a2408950792dc5c6a6b50a1445157acb7bb312f99d13eacb509"
+  },
+  "Python基礎シリーズ/Python中級コース": {
+    "order": [
+      "関数とモジュール分割",
+      "ファイル読み書き（CSV／JSON）",
+      "外部ライブラリを使う"
+    ],
+    "target": "基礎文法を一通り終えた人",
+    "id": "crs-python-tmai1p",
+    "style": "self-study",
+    "cross_series_prev": [],
+    "cross_series_next": [
+      "crs-n-nwxppw-g267en"
+    ],
+    "slug": "intermediate",
+    "catch": "道具がそろえば、あとは作るだけ",
+    "description": "処理を関数に分け、CSV を読んで JSON で書き出し、pandas で集計するコース。ハンズオンでツールを組み立てるための道具がひとそろい手に入ります。",
+    "name_en": "Python Intermediate Course",
+    "catch_en": "With the tools in hand, just build",
+    "description_en": "A course where you split work into functions, read a CSV and write out JSON, and aggregate with pandas. You come away with a full set of tools for building something in the hands-on.",
+    "target_en": "People who have been through the basic syntax",
+    "en_source_hash": "sha256:73020f39c336053dc88dfa8ae89254dec5469ee5314f7da869b9f299620b87c7"
+  },
+  "Python基礎シリーズ/Python中級コース/ファイル読み書き（CSV／JSON）": {
+    "slug": "file-io",
+    "status": "in_progress",
+    "description": "CSV を辞書のリストとして読み、条件で絞り込み、JSON に書き出す「読む→加工→書き出す」の背骨を通す",
+    "tags": [
+      "python",
+      "intermediate",
+      "csv",
+      "json"
+    ],
+    "estimated_minutes": 15,
+    "author": "北村",
+    "id": "lsn-file-io-vm3m3t",
+    "name_en": "Reading and writing CSV and JSON",
+    "description_en": "Read a CSV as a list of dictionaries, filter it by a condition, and write it out as JSON — the read, transform, write backbone",
+    "en_source_hash": "sha256:bed7cda2b889ef47da17045df22ef8f078b93c41362e08dac33ce51b1c395fc1",
+    "author_en": "Kitamura"
+  },
+  "Python基礎シリーズ/Python中級コース/外部ライブラリを使う": {
+    "slug": "libraries",
+    "status": "in_progress",
+    "description": "uv add で pandas を調達し、read_csv での読み込みと value_counts・sum の基本集計までを体験する",
+    "tags": [
+      "python",
+      "intermediate",
+      "pandas",
+      "uv"
+    ],
+    "estimated_minutes": 15,
+    "author": "北村",
+    "id": "lsn-libraries-lky4uo",
+    "name_en": "Using external libraries",
+    "description_en": "Get pandas with uv add, read a file with read_csv, and try basic aggregation with value_counts and sum",
+    "en_source_hash": "sha256:f6a4f9f9dfe31d79e8d8760b37269fe4188b98f6ecc72b66fc5b7cdfd317f89a",
+    "author_en": "Kitamura"
+  },
+  "Python基礎シリーズ/Python中級コース/関数とモジュール分割": {
+    "slug": "function-and-module",
+    "status": "in_progress",
+    "description": "処理を def で関数に切り出し、引数と戻り値を使い分け、自作モジュールを import で取り寄せる",
+    "tags": [
+      "python",
+      "intermediate"
+    ],
+    "estimated_minutes": 15,
+    "author": "北村",
+    "id": "lsn-function-and-module-ljzxxb",
+    "name_en": "Functions and modules",
+    "description_en": "Pull work out into functions with def, use arguments and return values for what each is good at, and bring in your own module with import",
+    "en_source_hash": "sha256:37d548e6e578d8b3bf5295125e147fc69cc37368d8938229c77d3793e5eb27af",
+    "author_en": "Kitamura"
+  },
+  "Python基礎シリーズ/Python文法基礎コース": {
+    "order": [
+      "変数と型",
+      "条件分岐とループ",
+      "リストと辞書"
+    ],
+    "target": "Pythonを動かせる状態の人",
+    "slug": "basics",
+    "style": "self-study",
+    "description": "変数と型・条件分岐とループ・リストと辞書という、どんなスクリプトにも出てくる基本文法を、手を動かしながら身につけるコース。",
+    "catch": "名札付きの箱を使いこなす",
+    "id": "crs-python-kgm515",
+    "name_en": "Python Syntax Basics Course",
+    "catch_en": "Master the boxes with name tags",
+    "description_en": "A course to pick up the basic syntax that shows up in every script — variables and types, conditionals and loops, lists and dictionaries — by working through it hands-on.",
+    "target_en": "People who can already run Python",
+    "en_source_hash": "sha256:9cd1dac269c38ed9dc0ee41b939ee36bab7de447c7773e78aeb140fbba765062"
+  },
+  "Python基礎シリーズ/Python文法基礎コース/リストと辞書": {
+    "slug": "list-and-dict",
+    "status": "in_progress",
+    "description": "番号で引くリストと名札で引く辞書を使い分け、実務データの定番「辞書のリスト」の形に見覚えを作る",
+    "tags": [
+      "python",
+      "basics"
+    ],
+    "estimated_minutes": 15,
+    "author": "北村",
+    "id": "lsn-list-and-dict-8iyzqz",
+    "name_en": "Lists and dictionaries",
+    "description_en": "Use lists, which you look up by number, and dictionaries, which you look up by name tag, and get familiar with the list-of-dictionaries shape that real data usually takes",
+    "en_source_hash": "sha256:cb8716580599d2149009200241c89989698540c59f84518d654ff65395798fb6",
+    "author_en": "Kitamura"
+  },
+  "Python基礎シリーズ/Python文法基礎コース/変数と型": {
+    "slug": "variables-and-types",
+    "status": "in_progress",
+    "description": "値に名前を付けて使い回し、str・int・float・bool の4つの型と変換・f-string を身につける",
+    "tags": [
+      "python",
+      "basics"
+    ],
+    "estimated_minutes": 15,
+    "author": "北村",
+    "id": "lsn-variables-and-types-q38pef",
+    "name_en": "Variables and types",
+    "description_en": "Give values names and reuse them, and pick up the four types str, int, float, and bool, along with conversion and f-strings",
+    "en_source_hash": "sha256:4d17275abd1da8e8ca67075487f20e2f8a898ad48c6aa9f9cf1170a7dbf33a66",
+    "author_en": "Kitamura"
+  },
+  "Python基礎シリーズ/Python文法基礎コース/条件分岐とループ": {
+    "slug": "branch-and-loop",
+    "status": "in_progress",
+    "description": "if・elif・else と for・range で処理を分岐・反復し、インデントが文法であることを体得する",
+    "tags": [
+      "python",
+      "basics"
+    ],
+    "estimated_minutes": 15,
+    "author": "北村",
+    "id": "lsn-branch-and-loop-kqcwei",
+    "name_en": "Conditionals and loops",
+    "description_en": "Branch and repeat with if, elif, else, for, and range, and learn first-hand that indentation is part of the syntax",
+    "en_source_hash": "sha256:c6323f953ef6dfb31a60ba035f5ddf0ea97c60bff0f680de481722fb99f7d74d",
+    "author_en": "Kitamura"
+  },
+  "Python基礎シリーズ/Python概要コース": {
+    "order": [
+      "Pythonとは何か"
+    ],
+    "target": "Pythonを書いたことがない人",
+    "id": "crs-python-z70qbh",
+    "style": "self-study",
+    "cross_series_prev": [
+      "crs-n-sojhjp-2nx20n"
+    ],
+    "cross_series_next": [],
+    "slug": "overview",
+    "catch": "Pythonの得意技を知る",
+    "description": "Python がどんな作業に向く言語で、業務のどこで役立つのかをつかむコース。自分の業務で自動化したい作業をひとつ言葉にして、シリーズの目標を決めます。",
+    "name_en": "Python Overview Course",
+    "catch_en": "Learn what Python is good at",
+    "description_en": "A course to get a feel for the kind of work Python suits and where it helps in your job. You put one task you want to automate into words and set your goal for the series.",
+    "target_en": "People who have never written Python",
+    "en_source_hash": "sha256:1afb3d2591e07a4655350524fa40d474e7e936c80565b66a0a3b5db9da7b4cf9"
+  },
+  "Python基礎シリーズ/Python概要コース/Pythonとは何か": {
+    "slug": "what-is-python",
+    "status": "in_progress",
+    "description": "Python がどんな作業に向く言語かをつかみ、自分の業務で自動化したい作業を1つ言葉にする",
+    "tags": [
+      "python",
+      "overview"
+    ],
+    "estimated_minutes": 10,
+    "author": "北村",
+    "id": "lsn-what-is-python-822ck5",
+    "name_en": "What is Python?",
+    "description_en": "Get a feel for the kind of work Python suits, and put one task from your own job that you want to automate into words",
+    "en_source_hash": "sha256:7d0a7b6aa5ec05a94d16bbcf78f6cdbf57c648827a34823857d894ea00376861",
+    "author_en": "Kitamura"
+  },
+  "Python基礎シリーズ/Python環境構築コース": {
+    "order": [
+      "Python環境のセットアップ",
+      "はじめてのスクリプトを動かす"
+    ],
+    "target": "Pythonを入れていない人（Chocolatey は導入済み）",
+    "slug": "setup",
+    "style": "self-study",
+    "description": "Chocolatey から uv を導入し、はじめてのスクリプトを自分の環境で動かすコース。Python 本体の手配は uv に任せられるようになります。",
+    "catch": "調達係の uv を雇う",
+    "id": "crs-python-8gm6ri",
+    "name_en": "Python Setup Course",
+    "catch_en": "Hire uv as your quartermaster",
+    "description_en": "A course to install uv through Chocolatey and run your first script in your own environment. Getting Python itself is something you can leave to uv.",
+    "target_en": "People who have not installed Python (Chocolatey already installed)",
+    "en_source_hash": "sha256:50ab6ad006353a9ddc2dd2dc763b1ac2c19b2c8efa0d932bccbebd4df122acc7"
+  },
+  "Python基礎シリーズ/Python環境構築コース/Python環境のセットアップ": {
+    "slug": "install",
+    "status": "in_progress",
+    "description": "Chocolatey から uv を申請なしで導入し、Python 本体の手配を uv に任せられる状態を作る",
+    "tags": [
+      "python",
+      "setup",
+      "uv"
+    ],
+    "estimated_minutes": 10,
+    "author": "北村",
+    "id": "lsn-install-wzrafe",
+    "name_en": "Setting up your Python environment",
+    "description_en": "Install uv through Chocolatey with no request needed, and get to where uv can take care of getting Python itself",
+    "en_source_hash": "sha256:b354587dc6e78c229d85472d30975b41811dc24f4a64bd94d7da9aee237a1211",
+    "author_en": "Kitamura"
+  },
+  "Python基礎シリーズ/Python環境構築コース/はじめてのスクリプトを動かす": {
+    "slug": "first-script",
+    "status": "in_progress",
+    "description": "uv init で練習用プロジェクトを作り、hello.py を書いて uv run で実行する一周を体験する",
+    "tags": [
+      "python",
+      "setup",
+      "uv"
+    ],
+    "estimated_minutes": 15,
+    "author": "北村",
+    "id": "lsn-first-script-j7z7q9",
+    "name_en": "Running your first script",
+    "description_en": "Create a practice project with uv init, write hello.py, and run it with uv run to go through the whole loop once",
+    "en_source_hash": "sha256:54681bc299fb178b2331c06ee33d54513c025225f695a1659b43d6ba14ce4d06",
+    "author_en": "Kitamura"
+  },
+  "はじめにシリーズ": {
+    "order": [
+      "DX入門コース",
+      "開発環境準備コース"
+    ],
+    "id": "srs-n-9rw0x0-667ahk",
+    "slug": "start",
+    "catch": "ここから旅がはじまる",
+    "description": "すべての受講者が最初に通るシリーズ。曼陀羅の見方と進め方を理解して自分が取り組む順番を決め、Chocolatey と VSCode が使える状態になります。",
+    "name_en": "Getting Started Series",
+    "catch_en": "Your journey starts here",
+    "description_en": "The series every learner goes through first. You learn how to read the Mandala and how to work through it, decide your own order of study, and get Chocolatey and VSCode up and running.",
+    "en_source_hash": "sha256:02dbab8da0de856af31f54c153743e42ae43bdba463ae59947c34d6a4091c143"
+  },
+  "はじめにシリーズ/DX入門コース": {
+    "order": [
+      "トレーニングの進め方"
+    ],
+    "target": "受講者全員",
+    "id": "crs-dx-675sw3",
+    "cross_series_prev": [],
+    "cross_series_next": [
+      "crs-ai-tsmvla"
+    ],
+    "name_en": "Intro to DX Course",
+    "catch_en": "Get the map",
+    "description_en": "Check the purpose and goal of the training and what you will walk away with, then look at the Mandala and decide the order you will work in.",
+    "target_en": "All learners",
+    "en_source_hash": "sha256:f888e657c871358380c597b3bc2052f2c88bc8ba06f994634366940078f3052f",
+    "style": "lecture",
+    "is_start": true,
+    "slug": "intro",
+    "catch": "地図を手に入れる",
+    "description": "トレーニングの目的とゴール、修了時に手にするものを確認し、曼陀羅を見て自分の進む順番を決めます。"
+  },
+  "はじめにシリーズ/DX入門コース/トレーニングの進め方": {
+    "id": "lsn-how-to-learn-hjeex6",
+    "slug": "how-to-learn",
+    "status": "in_progress",
+    "description": "トレーニングのゴールと曼陀羅の見方を手に入れ、自分が取り組む順番を自分で決められるようになる",
+    "tags": [
+      "start",
+      "intro"
+    ],
+    "estimated_minutes": 15,
+    "author": "北村",
+    "name_en": "How to proceed with training",
+    "description_en": "Get a clear picture of the training goal and learn how to read the Mandala, so you can decide your own order of study",
+    "en_source_hash": "sha256:1bfa311e8fdea8852033b7445fc8ced2fe2de06a45d1de5e19f423531649e7c7",
+    "author_en": "Kitamura"
+  },
+  "はじめにシリーズ/開発環境準備コース": {
+    "order": [
+      "Chocolatey のセットアップ",
+      "VSCodeのインストールと初期設定"
+    ],
+    "target": "Chocolatey / VSCode を入れていない人",
+    "id": "crs-n-sojhjp-2nx20n",
+    "cross_series_prev": [],
+    "cross_series_next": [
+      "crs-n-ih0z-lwbmql",
+      "crs-python-z70qbh"
+    ],
+    "name_en": "Development Environment Setup Course",
+    "catch_en": "Gather your tools",
+    "description_en": "A course to gather the tools you will use in the series ahead. You install Chocolatey, use it to install the department's customized build of VSCode, and get to the point where you can open a folder and edit files.",
+    "target_en": "People who have not installed Chocolatey or VSCode",
+    "en_source_hash": "sha256:35d90a16f0ce5f7a1dceec529fde4d75a754229b307d2406fe7a460af6febe1a",
+    "style": "self-study",
+    "slug": "setup",
+    "catch": "道具をそろえる",
+    "description": "この先のシリーズで使う道具をそろえるコース。Chocolatey を導入し、そこから部門向けカスタマイズ版の VSCode を入れて、フォルダを開いて編集できる状態にします。"
+  },
+  "はじめにシリーズ/開発環境準備コース/Chocolatey のセットアップ": {
+    "id": "lsn-chocolatey-iiwwkb",
+    "slug": "chocolatey",
+    "status": "in_progress",
+    "description": "社内の IT Service Portal から Chocolatey を申請・導入し、VSCode と uv の供給元を準備する",
+    "tags": [
+      "start",
+      "setup"
+    ],
+    "estimated_minutes": 10,
+    "author": "北村",
+    "name_en": "Setting up Chocolatey",
+    "description_en": "Request and install Chocolatey through the internal IT Service Portal, preparing the source you will install VSCode and uv from",
+    "en_source_hash": "sha256:378c82d9e87a78c2238f1b5c38183fe54f377b3e55778c26cd2013ec59a1b7e2",
+    "author_en": "Kitamura"
+  },
+  "はじめにシリーズ/開発環境準備コース/VSCodeのインストールと初期設定": {
+    "id": "lsn-vscode-4ght2s",
+    "slug": "vscode",
+    "status": "in_progress",
+    "description": "Chocolatey から部門向けカスタマイズ版の VSCode を導入し、フォルダを開いてファイルを編集できるようになる",
+    "tags": [
+      "start",
+      "setup"
+    ],
+    "estimated_minutes": 15,
+    "author": "北村",
+    "name_en": "Installing and setting up VSCode",
+    "description_en": "Install the department's customized build of VSCode through Chocolatey, and get to the point where you can open a folder and edit files",
+    "en_source_hash": "sha256:87596e1ec68f07c1f48a01649bff4be9aa91e2ed28d3e7c63d6951bd48025273",
+    "author_en": "Kitamura"
+  },
+  "ツール開発実践シリーズ": {
+    "order": [
+      "ハンズオン事前準備コース",
+      "ハンズオン当日コース"
+    ],
+    "slug": "build",
+    "description": "これまでのシリーズで手にした道具を全部使って、課題を解く Python スクリプトを1つ完成させるシリーズ。Pull Request と相互レビューを通し、自分のコードを自分の言葉で説明できるようになります。",
+    "catch": "集めた武器で、実践へ",
+    "id": "srs-n-6vrm6h-5re3qx",
+    "name_en": "Tool Development Practice Series",
+    "catch_en": "Into the field, with the weapons you gathered",
+    "description_en": "A series where you use every tool you picked up in the earlier series to finish one Python script that solves a real task. You go through a pull request and peer review, and learn to explain your own code in your own words.",
+    "en_source_hash": "sha256:8cbed0da491996442ee87f838674b2bc8f3c2d7d42fa01608edeeb11bc1853f2"
+  },
+  "ツール開発実践シリーズ/ハンズオン事前準備コース": {
+    "order": [
+      "ハンズオンの準備"
+    ],
+    "target": "ハンズオン参加予定者",
+    "id": "crs-n-nwxppw-g267en",
+    "cross_series_prev": [
+      "crs-ai-tsmvla",
+      "crs-github-pr-73nro4",
+      "crs-python-tmai1p"
+    ],
+    "cross_series_next": [],
+    "style": "self-study",
+    "slug": "prep",
+    "catch": "実践前の装備確認",
+    "description": "ハンズオン当日を実装に全部使えるように、環境の最終確認と自分のリポジトリの用意を済ませるコース。当日の流れもここで頭に入れます。",
+    "name_en": "Hands-On Prep Course",
+    "catch_en": "Check your gear before the battle",
+    "description_en": "A course to do a final check of your environment and get your own repository ready, so you can spend the whole hands-on day writing code. You also get the plan for the day into your head here.",
+    "target_en": "People signed up for the hands-on",
+    "en_source_hash": "sha256:2bb6cb63b240d195fc56136a5cd73467f75415346890b91e6e17bcad3441a8ff"
+  },
+  "ツール開発実践シリーズ/ハンズオン事前準備コース/ハンズオンの準備": {
+    "slug": "checklist",
+    "status": "in_progress",
+    "description": "ハンズオン当日を全部実装に使えるように、環境の最終確認とテンプレートからの自分のリポジトリの用意を済ませる",
+    "tags": [
+      "build",
+      "prep"
+    ],
+    "estimated_minutes": 10,
+    "author": "北村",
+    "id": "lsn-checklist-d3fiu8",
+    "name_en": "Preparing for the hands-on",
+    "description_en": "Do a final check of your environment and create your own repository from the template, so you can spend the whole hands-on day writing code",
+    "en_source_hash": "sha256:899abe64cc8828a8ce99725af475b37032afd0f3a778e006dc7f7b690433fac6",
+    "author_en": "Kitamura"
+  },
+  "ツール開発実践シリーズ/ハンズオン当日コース": {
+    "order": [
+      "組分けスクリプトを作る（1日目）",
+      "応用課題に挑む（2日目）"
+    ],
+    "target": "ハンズオン参加者（定員8人）",
+    "id": "crs-n-cre76p-wpmxj6",
+    "style": "hands-on",
+    "cross_series_prev": [],
+    "cross_series_next": [],
+    "is_goal": true,
+    "slug": "workshop",
+    "catch": "動くツールを、この手で",
+    "description": "2時間で動くツールを1つ完成させる集合ハンズオン。1日目に組分けスクリプトを作って PR と相互レビューを通し、間の数日で応用課題に挑んで、2日目に自分のコードを自分の言葉で発表します。",
+    "name_en": "Hands-On Days Course",
+    "catch_en": "A working tool, built by your own hands",
+    "description_en": "A group hands-on where you finish one working tool in two hours. On day 1 you build a grouping script and take it through a pull request and peer review; over the days in between you tackle an advanced task; on day 2 you present your own code in your own words.",
+    "target_en": "Hands-on participants (8 seats)",
+    "en_source_hash": "sha256:c25cb6f929f1039e392d323ae557af5f66116c281e72cab04a8bdb13d12dd5ba"
+  },
+  "ツール開発実践シリーズ/ハンズオン当日コース/応用課題に挑む（2日目）": {
+    "slug": "advanced-challenge",
+    "status": "in_progress",
+    "description": "ハンズオン2日目。応用課題を仕上げて PR とレビューを通し、自分のコードを自分の言葉で2分間発表して、トレーニングを修了する",
+    "tags": [
+      "build",
+      "workshop"
+    ],
+    "estimated_minutes": 60,
+    "author": "北村",
+    "id": "lsn-advanced-challenge-k8q2pe",
+    "name_en": "Tackling the advanced task (day 2)",
+    "description_en": "Day 2 of the hands-on. Finish the advanced task and take it through a pull request and review, present your own code in your own words for two minutes, and complete the training",
+    "en_source_hash": "sha256:9dede5b409746667c77b610f0cb2772da89000e9f0f6779b05facf7174d6b46b",
+    "author_en": "Kitamura"
+  },
+  "ツール開発実践シリーズ/ハンズオン当日コース/組分けスクリプトを作る（1日目）": {
+    "slug": "grouping-script",
+    "status": "in_progress",
+    "description": "ハンズオン1日目。休暇者を除いて3組に分ける組分けスクリプトを作り、相方との相互レビューを経て main にマージする",
+    "tags": [
+      "build",
+      "workshop"
+    ],
+    "estimated_minutes": 60,
+    "author": "北村",
+    "id": "lsn-grouping-script-rj0805",
+    "name_en": "Building a grouping script (day 1)",
+    "description_en": "Day 1 of the hands-on. Build a grouping script that splits people into three groups, leaving out anyone on leave, then merge it into main after a peer review with your partner",
+    "en_source_hash": "sha256:d1bac96cb3f55cec8f16887f00a77c3a4abb46f58a0a56d3ef1d8a8dfd1e85b9",
+    "author_en": "Kitamura"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "order": [
+    "Pythonとは何か"
+  ],
+  "target": "Pythonを書いたことがない人",
+  "id": "crs-python-z70qbh",
+  "style": "self-study",
+  "cross_series_prev": [
+    "crs-n-sojhjp-2nx20n"
+  ],
+  "cross_series_next": [],
+  "slug": "overview",
+  "catch": "Pythonの得意技を知る",
+  "description": "Python がどんな作業に向く言語で、業務のどこで役立つのかをつかむコース。自分の業務で自動化したい作業をひとつ言葉にして、シリーズの目標を決めます。",
+  "name_en": "Python Overview Course",
+  "catch_en": "Learn what Python is good at",
+  "description_en": "A course to get a feel for the kind of work Python suits and where it helps in your job. You put one task you want to automate into words and set your goal for the series.",
+  "target_en": "People who have never written Python",
+  "en_source_hash": "sha256:1afb3d2591e07a4655350524fa40d474e7e936c80565b66a0a3b5db9da7b4cf9"
+}

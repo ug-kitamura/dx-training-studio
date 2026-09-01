@@ -1,0 +1,22 @@
+{
+  "order": [
+    "Chocolatey のセットアップ",
+    "VSCodeのインストールと初期設定"
+  ],
+  "target": "Chocolatey / VSCode を入れていない人",
+  "id": "crs-n-sojhjp-2nx20n",
+  "cross_series_prev": [],
+  "cross_series_next": [
+    "crs-n-ih0z-lwbmql",
+    "crs-python-z70qbh"
+  ],
+  "name_en": "Development Environment Setup Course",
+  "catch_en": "Gather your tools",
+  "description_en": "A course to gather the tools you will use in the series ahead. You install Chocolatey, use it to install the department's customized build of VSCode, and get to the point where you can open a folder and edit files.",
+  "target_en": "People who have not installed Chocolatey or VSCode",
+  "en_source_hash": "sha256:35d90a16f0ce5f7a1dceec529fde4d75a754229b307d2406fe7a460af6febe1a",
+  "style": "self-study",
+  "slug": "setup",
+  "catch": "道具をそろえる",
+  "description": "この先のシリーズで使う道具をそろえるコース。Chocolatey を導入し、そこから部門向けカスタマイズ版の VSCode を入れて、フォルダを開いて編集できる状態にします。"
+}

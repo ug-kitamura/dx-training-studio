@@ -1,0 +1,18 @@
+{
+  "order": [
+    "変数と型",
+    "条件分岐とループ",
+    "リストと辞書"
+  ],
+  "target": "Pythonを動かせる状態の人",
+  "slug": "basics",
+  "style": "self-study",
+  "description": "変数と型・条件分岐とループ・リストと辞書という、どんなスクリプトにも出てくる基本文法を、手を動かしながら身につけるコース。",
+  "catch": "名札付きの箱を使いこなす",
+  "id": "crs-python-kgm515",
+  "name_en": "Python Syntax Basics Course",
+  "catch_en": "Master the boxes with name tags",
+  "description_en": "A course to pick up the basic syntax that shows up in every script — variables and types, conditionals and loops, lists and dictionaries — by working through it hands-on.",
+  "target_en": "People who can already run Python",
+  "en_source_hash": "sha256:9cd1dac269c38ed9dc0ee41b939ee36bab7de447c7773e78aeb140fbba765062"
+}

@@ -1,0 +1,22 @@
+[project]
+name = "dx-training-studio"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "ug-kitamura", email = "ug.kitamura@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = []
+
+[project.scripts]
+dx-training-studio = "dx_training_studio:main"
+
+[build-system]
+requires = ["uv_build>=0.12.6,<0.13.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "graphifyy>=0.9.50",
+]

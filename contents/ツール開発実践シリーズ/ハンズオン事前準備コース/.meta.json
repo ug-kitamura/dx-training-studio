@@ -1,0 +1,22 @@
+{
+  "order": [
+    "ハンズオンの準備"
+  ],
+  "target": "ハンズオン参加予定者",
+  "id": "crs-n-nwxppw-g267en",
+  "cross_series_prev": [
+    "crs-ai-tsmvla",
+    "crs-github-pr-73nro4",
+    "crs-python-tmai1p"
+  ],
+  "cross_series_next": [],
+  "style": "self-study",
+  "slug": "prep",
+  "catch": "実践前の装備確認",
+  "description": "ハンズオン当日を実装に全部使えるように、環境の最終確認と自分のリポジトリの用意を済ませるコース。当日の流れもここで頭に入れます。",
+  "name_en": "Hands-On Prep Course",
+  "catch_en": "Check your gear before the battle",
+  "description_en": "A course to do a final check of your environment and get your own repository ready, so you can spend the whole hands-on day writing code. You also get the plan for the day into your head here.",
+  "target_en": "People signed up for the hands-on",
+  "en_source_hash": "sha256:2bb6cb63b240d195fc56136a5cd73467f75415346890b91e6e17bcad3441a8ff"
+}

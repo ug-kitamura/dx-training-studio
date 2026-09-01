@@ -1,0 +1,16 @@
+{
+  "slug": "branch",
+  "status": "in_progress",
+  "description": "本編を壊さずに試すための別ルート＝ブランチを作成・切替でき、なぜ切るかを説明できるようになる",
+  "tags": [
+    "github",
+    "branch-pr"
+  ],
+  "estimated_minutes": 15,
+  "author": "北村",
+  "id": "lsn-branch-4nk92k",
+  "name_en": "Creating and switching branches",
+  "description_en": "Create and switch branches — the side route that lets you try things without breaking the main story — and explain why you branch at all",
+  "en_source_hash": "sha256:68b0c44286e2fe3b837ff6441e53d91050f384db9c3ba8f2115bd016caf66750",
+  "author_en": "Kitamura"
+}

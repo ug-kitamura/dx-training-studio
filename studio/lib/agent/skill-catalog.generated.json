@@ -1,0 +1,42 @@
+[
+  {
+    "id": "dx-training-create",
+    "name": "dx-training-create",
+    "description": "トレーニング計画書をもとに、レッスンの本文草稿を `contents/` に生成するスキル。設計メモで内容を詰め、1レッスンずつ執筆する。\n「レッスンの草稿を作って」「レッスン本文を書いて」「コースの中身を作って」「計画書からレッスンを生成して」「レッスンを執筆して」と依頼された際に使用する。",
+    "hidden": false,
+    "mentionsSubagent": false,
+    "mentionsImageIO": false
+  },
+  {
+    "id": "dx-training-plan",
+    "name": "dx-training-plan",
+    "description": "トレーニングの企画を対話で深掘りし、シリーズ / コース / レッスンの構成と仕様を計画書としてまとめるスキル。\n「トレーニングを計画したい」「研修の構成を作りたい」「シリーズとコースを設計して」「カリキュラムを組みたい」「トレーニング計画を立てて」と依頼された際に使用する。",
+    "hidden": false,
+    "mentionsSubagent": false,
+    "mentionsImageIO": false
+  },
+  {
+    "id": "dx-training-review",
+    "name": "dx-training-review",
+    "description": "生成済みのレッスン原稿を通しでレビューし、修正案を指摘として書き出すスキル。整合チェックと公開前レビューの2段階から選ぶ。原稿は直さない。\n「原稿をレビューして」「レッスンをチェックして」「公開前に点検して」「リリース前のレビューをして」「原稿の整合性を確認して」と依頼された際に使用する。",
+    "hidden": false,
+    "mentionsSubagent": false,
+    "mentionsImageIO": false
+  },
+  {
+    "id": "dx-training-translate",
+    "name": "dx-training-translate",
+    "description": "日本語の教材（レッスン本文・各階層メタ・変更履歴）を英訳するスキル。範囲を指定して鮮度を走査し、未翻訳と古い翻訳を差分翻訳する。翻訳済みのものも確認のうえ契約に照らして再点検できる。日本語正本には触れない。\n「英訳して」「英語版を作って」「翻訳して」「translate」「英語版を最新にして」と依頼された際に使用する。",
+    "hidden": false,
+    "mentionsSubagent": true,
+    "mentionsImageIO": false
+  },
+  {
+    "id": "graphify",
+    "name": "graphify",
+    "description": "Use for any question about a codebase, its architecture, file relationships, or project content — especially when graphify-out/ exists, where the question should be treated as a graphify query first. Turns any input (code, docs, papers, images, videos) into a persistent knowledge graph with god nodes, community detection, and query/path/explain tools.",
+    "hidden": false,
+    "mentionsSubagent": false,
+    "mentionsImageIO": false
+  }
+]

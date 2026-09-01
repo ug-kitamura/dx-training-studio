@@ -1,0 +1,16 @@
+{
+  "id": "lsn-install-1i4euc",
+  "slug": "install",
+  "status": "in_progress",
+  "description": "IT Service Portal から Git を申請・導入し、名前とメールを設定してコマンドが打てる状態にする",
+  "tags": [
+    "git",
+    "setup"
+  ],
+  "estimated_minutes": 15,
+  "author": "北村",
+  "name_en": "Installing and setting up Git",
+  "description_en": "Request and install Git through the IT Service Portal, set your name and email, and get to the point where you can run commands",
+  "en_source_hash": "sha256:e6b1f4b8d75fb685ab42e2ae136c06db0f42ecc9a987fcbba07bc9896382f2e9",
+  "author_en": "Kitamura"
+}

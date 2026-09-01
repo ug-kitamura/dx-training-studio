@@ -1,0 +1,16 @@
+{
+  "order": [
+    "はじめにシリーズ",
+    "AI基礎シリーズ",
+    "Git基礎シリーズ",
+    "GitHub基礎シリーズ",
+    "Python基礎シリーズ",
+    "ツール開発実践シリーズ"
+  ],
+  "description": "DX ツールを業務で使えるようになるためのトレーニング。曼陀羅で全体の道のりを見渡しながら、自分に必要なシリーズから進められます。",
+  "github_url": "https://github.com/",
+  "name": "DX Training Mandala",
+  "name_en": "DX Training Mandala",
+  "description_en": "Training to help you use DX tools in your daily work. The Mandala gives you a view of the whole journey, so you can start with whichever series you need.",
+  "en_source_hash": "sha256:107d90a70b99e48243321758ad8f5b7e9ca6678b4e05af046619333af7f8ebb8"
+}

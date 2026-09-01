@@ -1,0 +1,16 @@
+{
+  "slug": "push-pull",
+  "status": "in_progress",
+  "description": "README.md を編集して push し、GitHub 上の変更を pull で取り込めるようになる",
+  "tags": [
+    "github",
+    "remote"
+  ],
+  "estimated_minutes": 15,
+  "author": "北村",
+  "id": "lsn-push-pull-rb1fm9",
+  "name_en": "Push and pull",
+  "description_en": "Edit README.md and push it, then pull changes made on GitHub into your local copy",
+  "en_source_hash": "sha256:6faaecb29c1f7ce17bfadf861c04dc0880d61b44a68efed02526d0f0be615c2c",
+  "author_en": "Kitamura"
+}

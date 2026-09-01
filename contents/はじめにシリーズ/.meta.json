@@ -1,0 +1,14 @@
+{
+  "order": [
+    "DX入門コース",
+    "開発環境準備コース"
+  ],
+  "id": "srs-n-9rw0x0-667ahk",
+  "slug": "start",
+  "catch": "ここから旅がはじまる",
+  "description": "すべての受講者が最初に通るシリーズ。曼陀羅の見方と進め方を理解して自分が取り組む順番を決め、Chocolatey と VSCode が使える状態になります。",
+  "name_en": "Getting Started Series",
+  "catch_en": "Your journey starts here",
+  "description_en": "The series every learner goes through first. You learn how to read the Mandala and how to work through it, decide your own order of study, and get Chocolatey and VSCode up and running.",
+  "en_source_hash": "sha256:02dbab8da0de856af31f54c153743e42ae43bdba463ae59947c34d6a4091c143"
+}

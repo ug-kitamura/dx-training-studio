@@ -1,0 +1,15 @@
+{
+  "order": [
+    "GitHub入門コース",
+    "GitHubリモート連携コース",
+    "GitHubブランチ・PRコース"
+  ],
+  "slug": "github",
+  "description": "手元のセーブデータを社内GitHubの共有保管庫に置き、ブランチを切って Pull Request を出し、レビューを経てマージするまでを身につけるシリーズ。修了すると、自分の作業を仲間と安全に合流させられるようになります。",
+  "catch": "セーブデータを、仲間と",
+  "id": "srs-github-ju9sfa",
+  "name_en": "GitHub Basics Series",
+  "catch_en": "Your save data, shared with your team",
+  "description_en": "A series that takes you from putting your local save data into the shared vault on internal GitHub, through creating a branch and opening a pull request, to merging after review. By the end, you can safely join your work with your teammates' work.",
+  "en_source_hash": "sha256:1116814ef51ed598edae5b1c3dd95bdcff79f308c5ebb1dfef0aa985430e13e3"
+}

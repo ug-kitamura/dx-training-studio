@@ -1,0 +1,16 @@
+{
+  "id": "lsn-undo-uzwouz",
+  "slug": "undo",
+  "status": "in_progress",
+  "description": "コミット前の変更を restore で安全に戻し、「失敗しても戻れる」を自分の手で確かめる",
+  "tags": [
+    "git",
+    "basics"
+  ],
+  "estimated_minutes": 10,
+  "author": "北村",
+  "name_en": "Undoing your changes",
+  "description_en": "Safely revert uncommitted changes with restore, and confirm for yourself that you can go back even when you get it wrong",
+  "en_source_hash": "sha256:74fd791ba6e88568e626fb33ddff67a070deada66ad95eee1bd1ab05a534d75d",
+  "author_en": "Kitamura"
+}

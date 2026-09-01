@@ -1,0 +1,16 @@
+{
+  "slug": "branch-and-loop",
+  "status": "in_progress",
+  "description": "if・elif・else と for・range で処理を分岐・反復し、インデントが文法であることを体得する",
+  "tags": [
+    "python",
+    "basics"
+  ],
+  "estimated_minutes": 15,
+  "author": "北村",
+  "id": "lsn-branch-and-loop-kqcwei",
+  "name_en": "Conditionals and loops",
+  "description_en": "Branch and repeat with if, elif, else, for, and range, and learn first-hand that indentation is part of the syntax",
+  "en_source_hash": "sha256:c6323f953ef6dfb31a60ba035f5ddf0ea97c60bff0f680de481722fb99f7d74d",
+  "author_en": "Kitamura"
+}

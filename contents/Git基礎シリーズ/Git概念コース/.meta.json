@@ -1,0 +1,21 @@
+{
+  "order": [
+    "バージョン管理ってなに？",
+    "Gitの三大エリア"
+  ],
+  "target": "バージョン管理を全く知らない開発者",
+  "id": "crs-n-ih0z-lwbmql",
+  "cross_series_prev": [
+    "crs-n-sojhjp-2nx20n"
+  ],
+  "cross_series_next": [],
+  "slug": "concepts",
+  "description": "コマンドを打つ前に、Git が何のための道具かを掴むコース。バージョン管理が必要な理由と、変更が置かれる3つの場所を地図として持ち帰ります。",
+  "catch": "Gitの世界の歩き方",
+  "style": "self-study",
+  "name_en": "Git Concepts Course",
+  "catch_en": "An adventurer's guide to Git",
+  "description_en": "A course to grasp what Git is a tool for before you type any commands. You take away why version control is needed, and a map of the three places a change can sit.",
+  "target_en": "Developers who know nothing about version control",
+  "en_source_hash": "sha256:976913f577db7486620121db67c074ae99bf4080c131d11dc8b5470fc79e2b0e"
+}

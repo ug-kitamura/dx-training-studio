@@ -1,0 +1,21 @@
+{
+  "order": [
+    "トレーニングの進め方"
+  ],
+  "target": "受講者全員",
+  "id": "crs-dx-675sw3",
+  "cross_series_prev": [],
+  "cross_series_next": [
+    "crs-ai-tsmvla"
+  ],
+  "name_en": "Intro to DX Course",
+  "catch_en": "Get the map",
+  "description_en": "Check the purpose and goal of the training and what you will walk away with, then look at the Mandala and decide the order you will work in.",
+  "target_en": "All learners",
+  "en_source_hash": "sha256:f888e657c871358380c597b3bc2052f2c88bc8ba06f994634366940078f3052f",
+  "style": "lecture",
+  "is_start": true,
+  "slug": "intro",
+  "catch": "地図を手に入れる",
+  "description": "トレーニングの目的とゴール、修了時に手にするものを確認し、曼陀羅を見て自分の進む順番を決めます。"
+}

@@ -1,0 +1,21 @@
+{
+  "order": [
+    "GitHubとは",
+    "アカウント申請とサインイン"
+  ],
+  "target": "GitHubを触ったことがない人／社内GitHubアカウントを持っていない人",
+  "id": "crs-github-b5q7ug",
+  "cross_series_prev": [
+    "crs-n-bj2gbl-52p5jz"
+  ],
+  "cross_series_next": [],
+  "style": "self-study",
+  "slug": "intro",
+  "catch": "共有保管庫の鍵を手に入れる",
+  "description": "GitHub が何をする場所かと、社内GitHubと GitHub.com の違いを理解し、社内GitHubのアカウントを申請してサインインできるようになるコース。",
+  "name_en": "GitHub Introduction Course",
+  "catch_en": "Get the key to the shared vault",
+  "description_en": "A course to understand what GitHub is for and how internal GitHub differs from GitHub.com, then request an internal GitHub account and sign in.",
+  "target_en": "People who have never touched GitHub, or who do not have an internal GitHub account yet",
+  "en_source_hash": "sha256:2b0d1e1440421eb06fafecfbf9b11b456221511e7f1fdb30ab0a6085b0070d15"
+}

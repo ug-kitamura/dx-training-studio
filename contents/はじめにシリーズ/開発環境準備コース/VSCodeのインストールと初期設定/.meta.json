@@ -1,0 +1,16 @@
+{
+  "id": "lsn-vscode-4ght2s",
+  "slug": "vscode",
+  "status": "in_progress",
+  "description": "Chocolatey から部門向けカスタマイズ版の VSCode を導入し、フォルダを開いてファイルを編集できるようになる",
+  "tags": [
+    "start",
+    "setup"
+  ],
+  "estimated_minutes": 15,
+  "author": "北村",
+  "name_en": "Installing and setting up VSCode",
+  "description_en": "Install the department's customized build of VSCode through Chocolatey, and get to the point where you can open a folder and edit files",
+  "en_source_hash": "sha256:87596e1ec68f07c1f48a01649bff4be9aa91e2ed28d3e7c63d6951bd48025273",
+  "author_en": "Kitamura"
+}

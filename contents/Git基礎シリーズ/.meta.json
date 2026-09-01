@@ -1,0 +1,15 @@
+{
+  "order": [
+    "Git概念コース",
+    "Git環境構築コース",
+    "Git基本操作コース"
+  ],
+  "id": "srs-git-klejoi",
+  "slug": "git",
+  "description": "バージョン管理の考え方から、記録して読んで戻すまでの基本操作までを身につけるシリーズ。修了すると、自分の作業をいつでもセーブして安全に元へ戻せるようになります。",
+  "catch": "セーブポイントのある開発へ",
+  "name_en": "Git Basics Series",
+  "catch_en": "Toward development with save points",
+  "description_en": "A series that takes you from the idea of version control through the basic operations of recording, reading, and reverting. By the end, you can save your work at any time and safely go back to it.",
+  "en_source_hash": "sha256:715aecffab0c8f8355fc470e1eea6e7d1589671d1d86cdaf1c6a33e3a5225f5d"
+}

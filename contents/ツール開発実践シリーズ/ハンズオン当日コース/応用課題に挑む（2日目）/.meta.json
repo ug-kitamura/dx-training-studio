@@ -1,0 +1,16 @@
+{
+  "slug": "advanced-challenge",
+  "status": "in_progress",
+  "description": "ハンズオン2日目。応用課題を仕上げて PR とレビューを通し、自分のコードを自分の言葉で2分間発表して、トレーニングを修了する",
+  "tags": [
+    "build",
+    "workshop"
+  ],
+  "estimated_minutes": 60,
+  "author": "北村",
+  "id": "lsn-advanced-challenge-k8q2pe",
+  "name_en": "Tackling the advanced task (day 2)",
+  "description_en": "Day 2 of the hands-on. Finish the advanced task and take it through a pull request and review, present your own code in your own words for two minutes, and complete the training",
+  "en_source_hash": "sha256:9dede5b409746667c77b610f0cb2772da89000e9f0f6779b05facf7174d6b46b",
+  "author_en": "Kitamura"
+}

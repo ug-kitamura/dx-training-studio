@@ -1,0 +1,18 @@
+{
+  "slug": "file-io",
+  "status": "in_progress",
+  "description": "CSV を辞書のリストとして読み、条件で絞り込み、JSON に書き出す「読む→加工→書き出す」の背骨を通す",
+  "tags": [
+    "python",
+    "intermediate",
+    "csv",
+    "json"
+  ],
+  "estimated_minutes": 15,
+  "author": "北村",
+  "id": "lsn-file-io-vm3m3t",
+  "name_en": "Reading and writing CSV and JSON",
+  "description_en": "Read a CSV as a list of dictionaries, filter it by a condition, and write it out as JSON — the read, transform, write backbone",
+  "en_source_hash": "sha256:bed7cda2b889ef47da17045df22ef8f078b93c41362e08dac33ce51b1c395fc1",
+  "author_en": "Kitamura"
+}

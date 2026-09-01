@@ -1,0 +1,22 @@
+{
+  "order": [
+    "最初のコミット",
+    "履歴と差分を読む",
+    "変更を取り消す"
+  ],
+  "target": "Gitを入れたがコマンドを打ったことがない人",
+  "id": "crs-n-bj2gbl-52p5jz",
+  "cross_series_prev": [],
+  "cross_series_next": [
+    "crs-github-b5q7ug"
+  ],
+  "name_en": "Git Basic Operations Course",
+  "catch_en": "Record it, read it, revert it",
+  "description_en": "A course where you work through all three yourself: recording, reading, and reverting. You save your work with add and commit, check the current state with status, log, and diff, and safely go back with restore.",
+  "target_en": "People who have installed Git but have never run a command",
+  "en_source_hash": "sha256:e1baf2aa3d76df0e4329090254ad3eb376d8acae0a442cbe6ec787d36a4ed0ae",
+  "style": "self-study",
+  "slug": "basics",
+  "catch": "記録して、読んで、戻せる",
+  "description": "記録する・読む・戻すの3つを自分の手で通すコース。add と commit で作業を残し、status・log・diff で状態を確かめ、restore で安全に元へ戻せるようになります。"
+}

@@ -1,0 +1,16 @@
+{
+  "order": [
+    "Python概要コース",
+    "Python環境構築コース",
+    "Python文法基礎コース",
+    "Python中級コース"
+  ],
+  "slug": "python",
+  "description": "変数と型からファイル処理・pandas まで、業務データを読んで加工し、別の形式で書き出すスクリプトを書けるようになるシリーズ。修了すると、繰り返しの手作業をスクリプトに任せられるようになります。",
+  "catch": "繰り返し作業を、武器に変える",
+  "id": "srs-python-a39x3z",
+  "name_en": "Python Basics Series",
+  "catch_en": "Turn repetitive work into a weapon",
+  "description_en": "A series that takes you from variables and types through file handling and pandas, until you can write scripts that read your work data, transform it, and write it out in another format. By the end, you can hand your repetitive manual work over to a script.",
+  "en_source_hash": "sha256:2d778cc1bb097a2408950792dc5c6a6b50a1445157acb7bb312f99d13eacb509"
+}

@@ -1,0 +1,16 @@
+{
+  "slug": "what-is-github",
+  "status": "in_progress",
+  "description": "GitHub を「共有保管庫」として捉え、社内GitHubと GitHub.com の違い、申請と費用、制約と窓口が分かるようになる",
+  "tags": [
+    "github",
+    "intro"
+  ],
+  "estimated_minutes": 10,
+  "author": "北村",
+  "id": "lsn-what-is-github-eony4k",
+  "name_en": "What is GitHub?",
+  "description_en": "See GitHub as a shared vault, and understand how internal GitHub differs from GitHub.com, the request process and cost, the constraints, and who to contact",
+  "en_source_hash": "sha256:6703df69b4134e9d3b42d9e1d5a6dca3c1c149f8ed3e2cbed40c3a73b96c45c4",
+  "author_en": "Kitamura"
+}

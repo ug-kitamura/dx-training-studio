@@ -1,0 +1,16 @@
+{
+  "id": "lsn-three-areas-unvulm",
+  "slug": "three-areas",
+  "status": "done",
+  "description": "作業ツリー・ステージ・リポジトリの3つの場所を地図として持ち、変更がどこにあるかを説明できるようになる",
+  "tags": [
+    "git",
+    "concepts"
+  ],
+  "estimated_minutes": 15,
+  "author": "北村",
+  "name_en": "The three areas of Git",
+  "description_en": "Carry a map of the three places — working tree, staging area, and repository — and be able to explain where a change currently lives",
+  "en_source_hash": "sha256:efe2e43f3bc2e73482d3d05d588ddb9ba8e2a18150099f3620da418d48c963d6",
+  "author_en": "Kitamura"
+}

@@ -1,0 +1,22 @@
+{
+  "order": [
+    "関数とモジュール分割",
+    "ファイル読み書き（CSV／JSON）",
+    "外部ライブラリを使う"
+  ],
+  "target": "基礎文法を一通り終えた人",
+  "id": "crs-python-tmai1p",
+  "style": "self-study",
+  "cross_series_prev": [],
+  "cross_series_next": [
+    "crs-n-nwxppw-g267en"
+  ],
+  "slug": "intermediate",
+  "catch": "道具がそろえば、あとは作るだけ",
+  "description": "処理を関数に分け、CSV を読んで JSON で書き出し、pandas で集計するコース。ハンズオンでツールを組み立てるための道具がひとそろい手に入ります。",
+  "name_en": "Python Intermediate Course",
+  "catch_en": "With the tools in hand, just build",
+  "description_en": "A course where you split work into functions, read a CSV and write out JSON, and aggregate with pandas. You come away with a full set of tools for building something in the hands-on.",
+  "target_en": "People who have been through the basic syntax",
+  "en_source_hash": "sha256:73020f39c336053dc88dfa8ae89254dec5469ee5314f7da869b9f299620b87c7"
+}

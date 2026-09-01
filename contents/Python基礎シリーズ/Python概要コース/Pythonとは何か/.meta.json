@@ -1,0 +1,16 @@
+{
+  "slug": "what-is-python",
+  "status": "in_progress",
+  "description": "Python がどんな作業に向く言語かをつかみ、自分の業務で自動化したい作業を1つ言葉にする",
+  "tags": [
+    "python",
+    "overview"
+  ],
+  "estimated_minutes": 10,
+  "author": "北村",
+  "id": "lsn-what-is-python-822ck5",
+  "name_en": "What is Python?",
+  "description_en": "Get a feel for the kind of work Python suits, and put one task from your own job that you want to automate into words",
+  "en_source_hash": "sha256:7d0a7b6aa5ec05a94d16bbcf78f6cdbf57c648827a34823857d894ea00376861",
+  "author_en": "Kitamura"
+}

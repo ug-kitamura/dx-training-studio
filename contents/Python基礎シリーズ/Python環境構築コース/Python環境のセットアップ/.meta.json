@@ -1,0 +1,17 @@
+{
+  "slug": "install",
+  "status": "in_progress",
+  "description": "Chocolatey から uv を申請なしで導入し、Python 本体の手配を uv に任せられる状態を作る",
+  "tags": [
+    "python",
+    "setup",
+    "uv"
+  ],
+  "estimated_minutes": 10,
+  "author": "北村",
+  "id": "lsn-install-wzrafe",
+  "name_en": "Setting up your Python environment",
+  "description_en": "Install uv through Chocolatey with no request needed, and get to where uv can take care of getting Python itself",
+  "en_source_hash": "sha256:b354587dc6e78c229d85472d30975b41811dc24f4a64bd94d7da9aee237a1211",
+  "author_en": "Kitamura"
+}

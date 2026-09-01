@@ -1,0 +1,16 @@
+{
+  "slug": "chat-tool",
+  "status": "in_progress",
+  "description": "社内AIチャットを開いて、状況・やりたいこと・試したことを添えて質問し、エラーの意味を聞けるようになる",
+  "tags": [
+    "ai",
+    "basics"
+  ],
+  "estimated_minutes": 15,
+  "author": "北村",
+  "id": "lsn-chat-tool-hrj2ps",
+  "name_en": "Using the internal AI chat",
+  "description_en": "Open the internal AI chat and ask questions with your situation, your goal, and what you have already tried, so you can find out what an error means",
+  "en_source_hash": "sha256:28437d5dac04c716ae7fb2d7ea529ce169978729f6f223bfd070bc79f2f362ca",
+  "author_en": "Kitamura"
+}

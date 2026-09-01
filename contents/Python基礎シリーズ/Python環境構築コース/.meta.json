@@ -1,0 +1,17 @@
+{
+  "order": [
+    "Python環境のセットアップ",
+    "はじめてのスクリプトを動かす"
+  ],
+  "target": "Pythonを入れていない人（Chocolatey は導入済み）",
+  "slug": "setup",
+  "style": "self-study",
+  "description": "Chocolatey から uv を導入し、はじめてのスクリプトを自分の環境で動かすコース。Python 本体の手配は uv に任せられるようになります。",
+  "catch": "調達係の uv を雇う",
+  "id": "crs-python-8gm6ri",
+  "name_en": "Python Setup Course",
+  "catch_en": "Hire uv as your quartermaster",
+  "description_en": "A course to install uv through Chocolatey and run your first script in your own environment. Getting Python itself is something you can leave to uv.",
+  "target_en": "People who have not installed Python (Chocolatey already installed)",
+  "en_source_hash": "sha256:50ab6ad006353a9ddc2dd2dc763b1ac2c19b2c8efa0d932bccbebd4df122acc7"
+}

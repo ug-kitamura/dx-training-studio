@@ -1,0 +1,13 @@
+{
+  "order": [
+    "AI基礎コース"
+  ],
+  "slug": "ai",
+  "description": "社内AIチャットを業務の相談相手として使えるようになるシリーズ。質問の組み立て方と、入力してはいけないものの線引きを持ち帰り、詰まったときに自分で聞ける状態になります。",
+  "catch": "詰まったら、まず聞く",
+  "id": "srs-ai-fswrsf",
+  "name_en": "AI Basics Series",
+  "catch_en": "When you're stuck, just ask",
+  "description_en": "A series that gets you using the internal AI chat as a sounding board for your work. You take away how to frame a question and where the line is on what you must not type in, so you can ask for yourself whenever you get stuck.",
+  "en_source_hash": "sha256:d21e64cc7501cda0a1923817e762a9091d36b1fe3473ab0739abefb4bfd39763"
+}

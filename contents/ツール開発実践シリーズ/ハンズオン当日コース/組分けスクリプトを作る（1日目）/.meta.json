@@ -1,0 +1,16 @@
+{
+  "slug": "grouping-script",
+  "status": "in_progress",
+  "description": "ハンズオン1日目。休暇者を除いて3組に分ける組分けスクリプトを作り、相方との相互レビューを経て main にマージする",
+  "tags": [
+    "build",
+    "workshop"
+  ],
+  "estimated_minutes": 60,
+  "author": "北村",
+  "id": "lsn-grouping-script-rj0805",
+  "name_en": "Building a grouping script (day 1)",
+  "description_en": "Day 1 of the hands-on. Build a grouping script that splits people into three groups, leaving out anyone on leave, then merge it into main after a peer review with your partner",
+  "en_source_hash": "sha256:d1bac96cb3f55cec8f16887f00a77c3a4abb46f58a0a56d3ef1d8a8dfd1e85b9",
+  "author_en": "Kitamura"
+}

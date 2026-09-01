@@ -1,0 +1,22 @@
+{
+  "order": [
+    "社内AIチャットの使い方"
+  ],
+  "target": "AIチャットを業務で使ったことがない人",
+  "id": "crs-ai-tsmvla",
+  "cross_series_prev": [
+    "crs-dx-675sw3"
+  ],
+  "cross_series_next": [
+    "crs-n-nwxppw-g267en"
+  ],
+  "style": "self-study",
+  "slug": "basics",
+  "catch": "最初の相棒をパーティに",
+  "description": "社内AIチャットを開いて質問し、エラーの意味を聞けるようになるコース。社内情報をどこまで入れてよいかの注意点もここで押さえます。",
+  "name_en": "AI Basics Course",
+  "catch_en": "Add your first companion to the party",
+  "description_en": "A course where you open the internal AI chat, ask it questions, and learn to ask what an error means. You also cover how much internal information you may put in.",
+  "target_en": "People who have never used AI chat for work",
+  "en_source_hash": "sha256:855bd5ea7d4bd4ab87cbe044d31751dafa948bbf8f6dc391187a494d97f3c652"
+}

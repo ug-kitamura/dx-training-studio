@@ -1,0 +1,16 @@
+{
+  "slug": "account",
+  "status": "in_progress",
+  "description": "IT Service Portal から社内GitHubのアカウントを申請し、承認後にサインインしてプロフィールとメールを整えられるようになる",
+  "tags": [
+    "github",
+    "intro"
+  ],
+  "estimated_minutes": 10,
+  "author": "北村",
+  "id": "lsn-account-m9ur6i",
+  "name_en": "Account request and sign-in",
+  "description_en": "Request an internal GitHub account through the IT Service Portal, then sign in once it is approved and set up your profile and email",
+  "en_source_hash": "sha256:da2b6f7a91c312e9c3e0fa21defa92d50b2bf87cec5f64f9a544a7c96ba951c7",
+  "author_en": "Kitamura"
+}

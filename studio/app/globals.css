@@ -1,0 +1,1323 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  /* `--font-inter` は next/font/google（app/layout.tsx）が <html> に注入する CSS 変数。
+     欧文・数字は Inter、日本語はシステムの日本語フォントに自然にフォールバックする。 */
+  --font-sans:
+    var(--font-inter), "Hiragino Sans", "BIZ UDPGothic", "Yu Gothic UI",
+    system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  /* font-sans と同じ。見出し専用フォントに切り替える場合はここを変更 */
+  --font-heading: var(--font-sans);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-header-action: var(--header-action);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-button-outline-hover: var(--button-outline-hover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-canvas: var(--canvas);
+  --color-workspace-tree-row: var(--workspace-tree-row);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+  --font-serif: "Georgia", serif;
+  --radius: 0.625rem;
+  --tracking-tighter: calc(var(--tracking-normal) - 0.05em);
+  --tracking-tight: calc(var(--tracking-normal) - 0.025em);
+  --tracking-wide: calc(var(--tracking-normal) + 0.025em);
+  --tracking-wider: calc(var(--tracking-normal) + 0.05em);
+  --tracking-widest: calc(var(--tracking-normal) + 0.1em);
+  --tracking-normal: var(--tracking-normal);
+  --shadow-2xl: var(--shadow-2xl);
+  --shadow-xl: var(--shadow-xl);
+  --shadow-lg: var(--shadow-lg);
+  --shadow-md: var(--shadow-md);
+  --shadow: var(--shadow);
+  --shadow-sm: var(--shadow-sm);
+  --shadow-xs: var(--shadow-xs);
+  --shadow-2xs: var(--shadow-2xs);
+  --spacing: var(--spacing);
+  --letter-spacing: var(--letter-spacing);
+  --shadow-offset-y: var(--shadow-offset-y);
+  --shadow-offset-x: var(--shadow-offset-x);
+  --shadow-spread: var(--shadow-spread);
+  --shadow-blur: var(--shadow-blur);
+  --shadow-opacity: var(--shadow-opacity);
+  --color-shadow-color: var(--shadow-color);
+  --color-destructive-foreground: var(--destructive-foreground);
+  /* ステータスカラーを役割トークンとして配線する。
+     これがないと `text-status-done` が生成されない */
+  --color-status-done: var(--status-done);
+  --color-status-wip: var(--status-wip);
+  --color-status-draft: var(--status-draft);
+}
+
+:root {
+  /* supergraphic 帯の高さ。帯そのものと、ビューポート高から差し引く側
+     （ワークスペース本体・fixed のサイドバー）で同じ値を使う */
+  --supergraphic-h: 0.375rem;
+
+  /* DX Training Studio カラーパレット（custom-colors.xlsx より） */
+  --background: #EFF1F2;        /* Custom_Gray_95: ページ背景 */
+  --foreground: #1A1C1D;        /* Custom_Gray_10: テキスト（メイン） */
+  --card: #FFFFFF;              /* White: カード・ペイン背景 */
+  --card-foreground: #1A1C1D;
+  --canvas: #FFFFFF;
+  --popover: #FFFFFF;
+  --popover-foreground: #1A1C1D;
+  --primary: #007BC0;           /* Custom_Blue_50: プライマリ */
+  --primary-hover: color-mix(in oklab, var(--primary) 90%, black);
+  --button-outline-hover: color-mix(in oklab, var(--background) 82%, var(--input));
+  --primary-foreground: #FFFFFF;
+  --secondary: #D1E4FF;         /* Custom_Blue_90: 淡いアクセント */
+  --secondary-foreground: #007BC0;
+  --muted: #EFF1F2;
+  --muted-foreground: #71767C;  /* Custom_Gray_50: テキスト（サブ） */
+  /* ヘッダー右上ボタン群の通常色。サブテキスト（--muted-foreground）より一段濃く、
+     本文（--foreground）よりは引いた「操作の色」。
+     ⚠ --muted-foreground を直接使わないのは、あちらが説明文・補助ラベル全般に
+     効いているため——ヘッダーだけ濃くしたいのに関係ない場所まで巻き込む。
+     値は公開サイトの --dxm-navbar-action と同値（gray-600）。両アプリのライト側が
+     これで一致する。⚠ ダーク側だけは揃っていない（.dark 側のコメントを参照） */
+  --header-action: #4B5563;
+  --accent: #D1E4FF;
+  --accent-foreground: #007BC0;
+  --destructive: oklch(0.5624 0.0956 20.5303);
+  --border: #D0D4D8;            /* Custom_Gray_85: ボーダー */
+  --input: #D0D4D8;
+  --ring: #007BC0;
+  /* ステータスカラー */
+  --status-done: #00884A;       /* Custom_Green_50 */
+  --status-done-fg: #FFFFFF;
+  --status-wip: #EEC100;        /* Custom_Yellow_80 */
+  --status-wip-fg: #FFFFFF;
+  --status-draft: #A4ABB3;      /* Custom_Gray_70 */
+  --status-draft-fg: #FFFFFF;
+  --chart-1: #007BC0;
+  --chart-2: #00884A;
+  --chart-3: #EEC100;
+  --chart-4: #A4ABB3;
+  --chart-5: #D1E4FF;
+  --radius: 0.5rem;
+  --sidebar: #FFFFFF;
+  --sidebar-foreground: #1A1C1D;
+  --sidebar-primary: #007BC0;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #D1E4FF;
+  --sidebar-accent-foreground: #007BC0;
+  --sidebar-border: #D0D4D8;
+  --sidebar-ring: #007BC0;
+  --destructive-foreground: oklch(1 0 0);
+  --font-sans:
+    var(--font-inter), "Hiragino Sans", "BIZ UDPGothic", "Yu Gothic UI",
+    system-ui, sans-serif;
+  --font-serif: "Georgia", serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --shadow-color: #000000;
+  --shadow-opacity: 0.05;
+  --shadow-blur: 12px;
+  --shadow-spread: 0px;
+  --shadow-offset-x: 0px;
+  --shadow-offset-y: 4px;
+  --letter-spacing: 0;
+  --spacing: 0.25rem;
+  --shadow-2xs: 0px 4px 12px 0px hsl(0 0% 0% / 0.03);
+  --shadow-xs: 0px 4px 12px 0px hsl(0 0% 0% / 0.03);
+  --shadow-sm:
+    0px 4px 12px 0px hsl(0 0% 0% / 0.05), 0px 1px 2px -1px hsl(0 0% 0% / 0.05);
+  --shadow:
+    0px 4px 12px 0px hsl(0 0% 0% / 0.05), 0px 1px 2px -1px hsl(0 0% 0% / 0.05);
+  --shadow-md:
+    0px 4px 12px 0px hsl(0 0% 0% / 0.05), 0px 2px 4px -1px hsl(0 0% 0% / 0.05);
+  --shadow-lg:
+    0px 4px 12px 0px hsl(0 0% 0% / 0.05), 0px 4px 6px -1px hsl(0 0% 0% / 0.05);
+  --shadow-xl:
+    0px 4px 12px 0px hsl(0 0% 0% / 0.05), 0px 8px 10px -1px hsl(0 0% 0% / 0.05);
+  --shadow-2xl: 0px 4px 12px 0px hsl(0 0% 0% / 0.13);
+  --tracking-normal: 0;
+  /* ワークスペーススクロールバー（形状共通・色はテーマの semantic トークンから算出） */
+  --workspace-scrollbar-track: var(--card);
+  --workspace-scrollbar-thumb: color-mix(
+    in oklab,
+    var(--muted-foreground) 50%,
+    var(--border)
+  );
+  --workspace-scrollbar-thumb-hover: var(--muted-foreground);
+  /*
+   * レッスン本文のコード用フォント（編集モード・プレビュー・差分で共有する正本）。
+   * 3 者で同じ字送りにならないとアスキーアートの罫線がビュー間でズレる。
+   * `--font-mono`（JetBrains Mono 先頭）は罫線素片・日本語のグリフを持たず、
+   * ASCII だけ別フォントになる混植を起こすためここでは使わない。
+   */
+  --font-code:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+  /* GitHub アラート（レッスンプレビュー）: 種別ごとのアクセント色。背景は算出する */
+  --alert-note: oklch(0.55 0.17 255);
+  --alert-tip: oklch(0.53 0.15 150);
+  --alert-important: oklch(0.52 0.2 300);
+  --alert-warning: oklch(0.62 0.14 80);
+  --alert-caution: oklch(0.55 0.2 25);
+  --alert-tint: 8%;
+  /* ツリー行のフォーカス・ホバー背景。
+     ⚠ EBEX（ライト 7% / ダーク 10%）より意図的に薄い——EBEX はペイン1 全体が
+     グレー地でその上に置く前提だが、Studio のペイン1 は白地なので同じ比率だと
+     濃く出る。前景 4% で確定した時期があるが（2026-08-18）、ペイン2 編集ビューの
+     カーソル行と並べると濃さが揃わないため、**編集行と同じ算出**へ統一した
+     （2026-08-19）。値を動かすときは `.lesson-active-line` と一対で動かすこと */
+  --workspace-tree-row: color-mix(
+    in oklab,
+    var(--muted) 50%,
+    var(--background)
+  );
+  /* ペイン1 の中身検索でヒットした語の地色。値の出どころは @codemirror/search の
+     baseTheme——Ctrl+F の一致色と同一にしないと、同じ「検索の一致」なのに
+     2 種類の色が混在してどちらが何なのか分からなくなる。
+     下の文字が透けるようアルファ付きのまま使う（塗りつぶすと文字が読めない） */
+  --search-highlight: #ffff0054;
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+  --background: oklch(0.2252 0.0049 248.0473);
+  --foreground: oklch(0.9168 0.0035 67.7802);
+  --card: oklch(0.2668 0.0071 248.094);
+  --card-foreground: oklch(0.9168 0.0035 67.7802);
+  --canvas: oklch(0.246 0.006 248.07);
+  --popover: oklch(0.2668 0.0071 248.094);
+  --popover-foreground: oklch(0.9168 0.0035 67.7802);
+  --primary: oklch(0.7441 0.1311 264.2789);
+  --primary-hover: color-mix(in oklab, var(--primary) 92%, black);
+  --button-outline-hover: color-mix(in oklab, var(--background) 88%, var(--input));
+  --primary-foreground: oklch(0.2077 0.0398 265.7549);
+  --secondary: oklch(0.2972 0 0);
+  --secondary-foreground: oklch(0.9168 0.0035 67.7802);
+  --muted: oklch(0.2972 0 0);
+  --muted-foreground: oklch(0.709 0 0);
+  /* 暗い地では「濃く」＝地との差を広げる＝明るい側へ振る（ライトと逆向き）。
+     ⚠ 公開サイトのダーク値（#a3a3a3 ≒ oklch(0.72)）は Studio の
+     --muted-foreground とほぼ同値で、そのままだとダークでは「一段濃くした」が
+     体感できない。そのため Studio 側だけ 0.80 へ上げてある——**ダークだけ
+     両アプリで約 0.09 の明度差が残る**。揃えるならサイトの --dxm-navbar-action
+     （ダーク）も同じだけ上げること（2026-08-20・目視で最終判断する値） */
+  --header-action: oklch(0.80 0 0);
+  --accent: oklch(0.2972 0 0);
+  --accent-foreground: oklch(0.9168 0.0035 67.7802);
+  --destructive: oklch(0.6338 0.1208 21.0422);
+  --border: oklch(0.3211 0 0);
+  --input: oklch(0.3211 0 0);
+  --ring: oklch(0.7441 0.1311 264.2789);
+  --chart-1: oklch(0.6318 0.06 244.8148);
+  --chart-2: oklch(0.6441 0.0496 146.8813);
+  --chart-3: oklch(0.719 0.1077 74.6093);
+  --chart-4: oklch(0.7107 0.0351 256.7878);
+  --chart-5: oklch(0.7118 0.0129 286.0665);
+  /* ライトと同じ理由で EBEX（ダーク 10%）より薄い。暗い地では同じ比率でも
+     明るく見えるため、ライトの 4% に対してこちらは 6.5%（2026-08-18 目視で確定） */
+  --workspace-tree-row: color-mix(
+    in oklab,
+    var(--foreground) 6.5%,
+    var(--background)
+  );
+  --sidebar: oklch(0.1989 0.0051 248.0841);
+  --sidebar-foreground: oklch(0.9168 0.0035 67.7802);
+  --sidebar-primary: oklch(0.7441 0.1311 264.2789);
+  --sidebar-primary-foreground: oklch(0.2077 0.0398 265.7549);
+  --sidebar-accent: oklch(0.2972 0 0);
+  --sidebar-accent-foreground: oklch(0.9168 0.0035 67.7802);
+  --sidebar-border: oklch(0.3211 0 0);
+  --sidebar-ring: oklch(0.7441 0.1311 264.2789);
+  --destructive-foreground: oklch(1 0 0);
+  --radius: 0.625rem;
+  --font-sans:
+    var(--font-inter), "Hiragino Sans", "BIZ UDPGothic", "Yu Gothic UI",
+    system-ui, sans-serif;
+  --font-serif: "Georgia", serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --shadow-color: #000000;
+  --shadow-opacity: 0.3;
+  --shadow-blur: 20px;
+  --shadow-spread: 0px;
+  --shadow-offset-x: 0px;
+  --shadow-offset-y: 10px;
+  --letter-spacing: 0;
+  --spacing: 0.25rem;
+  --shadow-2xs: 0px 10px 20px 0px hsl(0 0% 0% / 0.15);
+  --shadow-xs: 0px 10px 20px 0px hsl(0 0% 0% / 0.15);
+  --shadow-sm:
+    0px 10px 20px 0px hsl(0 0% 0% / 0.3), 0px 1px 2px -1px hsl(0 0% 0% / 0.3);
+  --shadow:
+    0px 10px 20px 0px hsl(0 0% 0% / 0.3), 0px 1px 2px -1px hsl(0 0% 0% / 0.3);
+  --shadow-md:
+    0px 10px 20px 0px hsl(0 0% 0% / 0.3), 0px 2px 4px -1px hsl(0 0% 0% / 0.3);
+  --shadow-lg:
+    0px 10px 20px 0px hsl(0 0% 0% / 0.3), 0px 4px 6px -1px hsl(0 0% 0% / 0.3);
+  --shadow-xl:
+    0px 10px 20px 0px hsl(0 0% 0% / 0.3), 0px 8px 10px -1px hsl(0 0% 0% / 0.3);
+  --shadow-2xl: 0px 10px 20px 0px hsl(0 0% 0% / 0.75);
+  /* GitHub アラート: 暗背景でも読めるよう明度を上げ、地の色は濃くする */
+  --alert-note: oklch(0.72 0.13 250);
+  --alert-tip: oklch(0.74 0.15 150);
+  --alert-important: oklch(0.74 0.14 300);
+  --alert-warning: oklch(0.8 0.14 85);
+  --alert-caution: oklch(0.72 0.16 25);
+  --alert-tint: 16%;
+  /* ダークは黄ではなくシアン。@codemirror/search のダーク既定と同値 */
+  --search-highlight: #00ffff8a;
+}
+
+/*
+ * ピンクテーマ。`.dark` とは排他で、OS の明暗設定とは合成しない。
+ *
+ * 配分は「面は桜色・差し色はショッキングピンク」——高彩度のピンクは塗り役
+ * （--primary / --ring）だけに閉じ込め、広い面は低彩度の桜色にする。逆にすると
+ * UI 全体が眠くなり本文のコントラストが落ちる。--card を純白のまま残すのも
+ * 同じ理由で、桜色の面が額縁として働く。
+ *
+ * ⚠ 導出トークン（--primary-hover / --button-outline-hover /
+ * --workspace-tree-row / --workspace-scrollbar-*）はここに書かない。:root 側の
+ * color-mix() が var() 経由でこのブロックの値へ解決されるため自動で追従する。
+ * .dark がそれらを書き直しているのは暗地向けに比率そのものを変えているからで、
+ * ライト扱いのピンクにその必要はない。
+ *
+ * ⚠ --destructive / --status-* / --alert-* もここに書かない。「赤＝危険」
+ * 「緑＝完了」はテーマをまたいで一定であるべきなので :root の値を継承する。
+ * destructive（彩度 0.096 のくすんだ煉瓦色）と --primary（彩度 0.2 台の
+ * ショッキングピンク）は、色相と同じくらい彩度で隔たっていて識別できる。
+ */
+.pink {
+  color-scheme: light;
+  --background: #fdf2f5; /* 桜（極低彩度）: ページ背景 */
+  --foreground: #2a1a20; /* 暖かい黒: テキスト（メイン） */
+  --card: #ffffff;
+  --card-foreground: #2a1a20;
+  --canvas: #ffffff;
+  --popover: #ffffff;
+  --popover-foreground: #2a1a20;
+  --primary: #d6006e; /* ショッキングピンク: 塗り */
+  --primary-foreground: #ffffff;
+  --secondary: #fad4e0; /* 桜: 淡いアクセント */
+  --secondary-foreground: #a8003f; /* 深いローズ */
+  --muted: #fbe9ef;
+  /* 面のうち最も明るい --muted の上でも AA（4.5:1）を満たす暖かいグレー。
+     候補だった #8A7078 は --muted 上で 3.86 しか出ず落選した */
+  --muted-foreground: #7d646c;
+  /* ヘッダー右上ボタン群。ライト側と同じく、サブテキストより一段濃い「操作の色」 */
+  --header-action: #6e4e5a;
+  --accent: #fad4e0;
+  --accent-foreground: #a8003f;
+  --border: #f0d0dc;
+  --input: #f0d0dc;
+  --ring: #d6006e;
+  /* 系列の判別性を保つため、単一のピンクへ寄せずローズ〜サーモン〜藤色に散らす */
+  --chart-1: #d6006e;
+  --chart-2: #f2789a;
+  --chart-3: #9b4dca;
+  --chart-4: #c97b94;
+  --chart-5: #fad4e0;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #2a1a20;
+  --sidebar-primary: #d6006e;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #fad4e0;
+  --sidebar-accent-foreground: #a8003f;
+  --sidebar-border: #f0d0dc;
+  --sidebar-ring: #d6006e;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    letter-spacing: var(--tracking-normal);
+    line-height: 1.65;
+  }
+  html {
+    @apply font-sans;
+  }
+
+  /* ダーク時: type=number の上下スピナーをダーク UI 配色に（設定モーダル等） */
+  html.dark input[type="number"] {
+    color-scheme: dark;
+  }
+}
+
+/* supergraphic 帯（body 先頭・高さ 6px）は全幅を占める。
+   ペイン1 の Sidebar は `fixed inset-y-0 h-svh` でビューポート最上端から始まるため、
+   そのままだと左カラムぶんの帯を覆い隠す。shadcn の部品には手を入れず、
+   位置だけをアプリ側で帯のぶん下げる。 */
+[data-slot="sidebar-container"] {
+  top: var(--supergraphic-h);
+  height: calc(100svh - var(--supergraphic-h));
+}
+
+/* SidebarProvider のラッパも `min-h-svh` で帯を勘定に入れていない。
+   ワークスペース本体が overflow-hidden で切るため、そのままだと下端 6px が欠ける */
+[data-slot="sidebar-wrapper"] {
+  min-height: calc(100svh - var(--supergraphic-h));
+}
+
+/* Pane3 Agent ビュー: 編集ビューと同じスクロールバー形状・位置、背景は極めて白に近いグレー */
+.agent-chat-pane {
+  --agent-chat-pane-bg: #fdfdfc;
+  background-color: var(--agent-chat-pane-bg);
+  --workspace-scrollbar-track: var(--agent-chat-pane-bg);
+}
+
+.dark .agent-chat-pane {
+  --agent-chat-pane-bg: #1e1e1e;
+}
+
+.agent-chat-pane__scroll-fade {
+  pointer-events: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  height: 1.25rem;
+}
+
+.agent-chat-pane__scroll-fade-top {
+  top: 0;
+  background: linear-gradient(to bottom, var(--agent-chat-pane-bg), transparent);
+}
+
+.agent-chat-pane__scroll-fade-bottom {
+  bottom: 0;
+  background: linear-gradient(to top, var(--agent-chat-pane-bg), transparent);
+}
+
+/* Pane2 等: スクロールは有効・スクロールバーは非表示 */
+.workspace-scrollbar-hidden {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none;
+  scrollbar-gutter: auto;
+}
+
+.workspace-scrollbar-hidden::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+  display: none;
+}
+
+.workspace-scrollbar-hidden::-webkit-scrollbar-thumb,
+.workspace-scrollbar-hidden::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Pane3・Pane4・グローバル曼陀羅: ネイティブスクロールバー（ライト/ダークで形状同一） */
+.workspace-scrollbar,
+.lesson-content-editor .cm-scroller {
+  scrollbar-width: thin;
+  scrollbar-color: var(--workspace-scrollbar-thumb) var(--workspace-scrollbar-track);
+}
+
+.workspace-scrollbar::-webkit-scrollbar,
+.lesson-content-editor .cm-scroller::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.workspace-scrollbar::-webkit-scrollbar-track,
+.lesson-content-editor .cm-scroller::-webkit-scrollbar-track {
+  background: var(--workspace-scrollbar-track);
+}
+
+.workspace-scrollbar::-webkit-scrollbar-thumb,
+.lesson-content-editor .cm-scroller::-webkit-scrollbar-thumb {
+  background-color: var(--workspace-scrollbar-thumb);
+  border: 2px solid var(--workspace-scrollbar-track);
+  border-radius: 9999px;
+}
+
+.workspace-scrollbar::-webkit-scrollbar-thumb:hover,
+.lesson-content-editor .cm-scroller::-webkit-scrollbar-thumb:hover {
+  background-color: var(--workspace-scrollbar-thumb-hover);
+}
+
+/* Pane3 プレビュー: 本文上のメタラベル行。
+   配色・形状は公開サイト（mandala の .dxm-label 系）と同一に保つ——
+   状態=赤系 / 所要時間=緑系 / 受講形態=青系、右端に著者 */
+.lesson-preview-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.lesson-preview-meta-labels {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.lesson-preview-meta-label {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.05rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.7;
+  white-space: nowrap;
+}
+
+.lesson-preview-meta-status {
+  background: color-mix(in srgb, #dc2626 14%, transparent);
+  color: #b91c1c;
+}
+
+.lesson-preview-meta-minutes {
+  background: color-mix(in srgb, #16a34a 14%, transparent);
+  color: #15803d;
+}
+
+.lesson-preview-meta-style {
+  background: rgba(0, 123, 192, 0.12);
+  color: #007bc0;
+}
+
+.dark .lesson-preview-meta-status {
+  color: #fca5a5;
+}
+
+.dark .lesson-preview-meta-minutes {
+  color: #86efac;
+}
+
+.dark .lesson-preview-meta-style {
+  color: #7dd3fc;
+}
+
+.lesson-preview-meta-author {
+  font-size: 0.78rem;
+  opacity: 0.65;
+  white-space: nowrap;
+}
+
+/* Pane3 プレビュー: preflight で flat になる見出し・リストを復元（typography プラグイン非依存） */
+@layer components {
+  .lesson-preview {
+    @apply max-w-none text-sm leading-relaxed text-foreground;
+  }
+
+  .lesson-preview > :first-child {
+    @apply mt-0;
+  }
+
+  .lesson-preview h1 {
+    @apply mb-4 mt-0 text-2xl font-semibold text-foreground;
+  }
+
+  .lesson-preview h2 {
+    @apply mb-3 mt-8 text-xl font-semibold text-foreground;
+  }
+
+  .lesson-preview h3 {
+    @apply mb-2 mt-6 scroll-mt-4 text-lg font-semibold text-foreground;
+  }
+
+  .lesson-preview h4 {
+    @apply mb-2 mt-4 text-base font-semibold text-foreground;
+  }
+
+  .lesson-preview p {
+    @apply my-3 leading-relaxed;
+  }
+
+  .lesson-preview ul:not(.contains-task-list) {
+    @apply my-3 list-disc pl-6;
+  }
+
+  .lesson-preview ol {
+    @apply my-3 list-decimal pl-6;
+  }
+
+  .lesson-preview li {
+    @apply my-0.5;
+  }
+
+  .lesson-preview ul.contains-task-list {
+    @apply my-3 list-none pl-0;
+  }
+
+  .lesson-preview li.task-list-item {
+    @apply list-none;
+  }
+
+  .lesson-preview input[type="checkbox"] {
+    @apply mr-2 size-4 shrink-0 align-middle accent-primary;
+  }
+
+  .lesson-preview strong {
+    @apply font-semibold text-foreground;
+  }
+
+  .lesson-preview a {
+    @apply text-primary underline underline-offset-2;
+  }
+
+  .lesson-preview code {
+    @apply rounded bg-muted px-1 py-0.5 font-mono text-sm;
+  }
+
+  .lesson-preview pre {
+    @apply my-4 overflow-x-auto rounded-lg border border-border bg-muted/30 p-4;
+  }
+
+  .lesson-preview pre code {
+    @apply bg-transparent p-0 font-mono;
+  }
+
+  .lesson-preview blockquote {
+    @apply my-4 border-l-4 border-primary pl-4 text-muted-foreground;
+  }
+
+  .lesson-preview img {
+    @apply block h-auto max-w-full;
+  }
+
+  .lesson-preview hr {
+    @apply my-6 border-border;
+  }
+
+  .lesson-preview table {
+    @apply my-4 w-full border-collapse border border-border text-sm;
+  }
+
+  .lesson-preview th,
+  .lesson-preview td {
+    @apply border border-border px-3 py-2 text-left align-top;
+  }
+
+  .lesson-preview th {
+    @apply bg-muted/40 font-semibold text-foreground;
+  }
+
+  /* 折りたたみ（<details>）: 本文の答えや補足を隠す */
+  .lesson-preview details {
+    @apply my-4 rounded-lg border border-border bg-muted/20 px-4 py-2;
+  }
+
+  .lesson-preview details > summary {
+    @apply -mx-1 cursor-pointer rounded px-1 py-1 font-semibold text-foreground;
+  }
+
+  .lesson-preview details > summary:hover {
+    @apply bg-muted/60;
+  }
+
+  .lesson-preview details[open] > summary {
+    @apply mb-2 border-b border-border pb-2;
+  }
+
+  /* GitHub アラート（rehype-github-alerts の出力）: 種別ごとに色分けする */
+  .lesson-preview .markdown-alert {
+    --alert-color: var(--alert-note);
+    @apply my-4 rounded-lg border-l-4 py-2 pl-4 pr-3;
+    border-left-color: var(--alert-color);
+    background-color: color-mix(
+      in oklab,
+      var(--alert-color) var(--alert-tint),
+      transparent
+    );
+  }
+
+  .lesson-preview .markdown-alert-tip {
+    --alert-color: var(--alert-tip);
+  }
+
+  .lesson-preview .markdown-alert-important {
+    --alert-color: var(--alert-important);
+  }
+
+  .lesson-preview .markdown-alert-warning {
+    --alert-color: var(--alert-warning);
+  }
+
+  .lesson-preview .markdown-alert-caution {
+    --alert-color: var(--alert-caution);
+  }
+
+  .lesson-preview .markdown-alert > :first-child {
+    @apply mt-0;
+  }
+
+  .lesson-preview .markdown-alert > :last-child {
+    @apply mb-0;
+  }
+
+  .lesson-preview .markdown-alert-title {
+    @apply mb-1 flex items-center gap-2 font-semibold;
+    color: var(--alert-color);
+  }
+
+  .lesson-preview .markdown-alert-title svg {
+    @apply size-4 shrink-0;
+    fill: currentColor;
+  }
+
+  /*
+   * コードブロックのフォントは編集モードと同一にする（`--font-code`）。
+   * 編集画面で揃って見えるアスキーアートが、プレビューでも同じ字送りで並ぶ。
+   * Agent チャットは対象外。
+   */
+  .lesson-preview:not(.agent-chat-message) pre code {
+    font-family: var(--font-code);
+  }
+
+  /* Agent チャット: プレビュー同等の Markdown をコンパクトに */
+  .agent-chat-message.lesson-preview h1 {
+    @apply mb-2 mt-0 text-lg;
+  }
+
+  .agent-chat-message.lesson-preview h2 {
+    @apply mb-2 mt-4 text-base;
+  }
+
+  .agent-chat-message.lesson-preview h3 {
+    @apply mb-1 mt-3 text-sm;
+  }
+
+  .agent-chat-message.lesson-preview h4 {
+    @apply mb-1 mt-2 text-sm;
+  }
+
+  .agent-chat-message.lesson-preview p {
+    @apply my-2;
+  }
+
+  .agent-chat-message.lesson-preview ul:not(.contains-task-list),
+  .agent-chat-message.lesson-preview ol {
+    @apply my-2;
+  }
+
+  .agent-chat-message.lesson-preview blockquote {
+    @apply my-2;
+  }
+
+  .agent-chat-message.lesson-preview hr {
+    @apply my-4;
+  }
+
+  .agent-chat-message.lesson-preview pre {
+    @apply my-2;
+  }
+
+  .agent-chat-message.lesson-preview table {
+    @apply my-2;
+  }
+
+  .agent-chat-message--user.lesson-preview > :only-child,
+  .agent-chat-message--user.lesson-preview p:only-child {
+    @apply my-0;
+  }
+
+  /* 曼陀羅 SVG: 実寸表示（横スクロール時も縮小しない） */
+  .global-mandala-graph svg,
+  .mini-mandala-graph svg {
+    display: block;
+    max-width: none;
+    height: auto;
+  }
+
+  /* グローバル曼陀羅: シリーズ名（subgraph タイトル）を太字 */
+  .global-mandala-graph g.cluster-label text,
+  .global-mandala-graph g.cluster g.cluster-label div,
+  .global-mandala-graph g.cluster g.cluster-label span {
+    font-weight: 700 !important;
+  }
+
+  /* Pane2 サムネイル: 寸法の正本は scaleMiniMandalaThumbnailSvg（TS）の
+     インライン style（width:100%; height:100%; meet でセルに収める）。
+     ⚠ ここに width / height を書き戻さないこと——`!important` がインラインに
+     勝ち、縦向きグラフがセルを押し広げて左列の行間が引き伸ばされる */
+  .mini-mandala-thumbnail svg {
+    margin-inline: auto;
+  }
+
+  /* Pane2 サムネイル: 全体クリックで拡大のみ。ノードの pointer は使わない */
+  .mini-mandala-thumbnail svg,
+  .mini-mandala-thumbnail svg * {
+    cursor: inherit !important;
+  }
+
+  .lesson-content-editor .cm-editor {
+    background-color: color-mix(in oklab, var(--muted) 20%, transparent);
+  }
+
+  html.dark .lesson-content-editor .cm-editor,
+  html.dark .lesson-content-editor .cm-scroller,
+  html.dark .lesson-content-editor .cm-content {
+    background-color: #1e1e1e !important;
+  }
+
+  html.dark .lesson-content-editor .cm-gutters {
+    background-color: #1e1e1e !important;
+  }
+}
+
+/* Pane3 編集ビュー: ライトテーマ時は CodeMirror 背景を白に固定（@layer 外） */
+html:not(.dark) .lesson-content-editor .cm-editor,
+html:not(.dark) .lesson-content-editor .cm-scroller,
+html:not(.dark) .lesson-content-editor .cm-content {
+  background-color: #ffffff !important;
+}
+
+html:not(.dark) .lesson-content-editor .cm-gutters {
+  background-color: color-mix(in oklab, var(--muted) 20%, transparent) !important;
+}
+
+/* FM: @layer 外 + !important（CodeMirror シンタックスハイライトより優先） */
+.lesson-content-editor .cm-frontmatter-fade,
+.lesson-content-editor .cm-frontmatter-fade * {
+  color: color-mix(in oklab, var(--muted-foreground) 88%, transparent) !important;
+}
+
+/* 折りたたみガター: 行番号と同色（ライト） */
+.lesson-content-editor .cm-foldGutter.lesson-fold-gutter .lesson-fold-icon,
+.lesson-content-editor .cm-foldGutter.lesson-fold-gutter span.lesson-fold-open,
+.lesson-content-editor .cm-foldGutter.lesson-fold-gutter span.lesson-fold-closed {
+  color: #237893 !important;
+  -webkit-text-fill-color: #237893 !important;
+}
+
+html.dark .lesson-content-editor .cm-foldGutter.lesson-fold-gutter .lesson-fold-icon,
+html.dark .lesson-content-editor .cm-foldGutter.lesson-fold-gutter span.lesson-fold-open,
+html.dark .lesson-content-editor .cm-foldGutter.lesson-fold-gutter span.lesson-fold-closed {
+  color: #858585 !important;
+  -webkit-text-fill-color: #858585 !important;
+}
+
+.lesson-content-editor .lesson-fold-gutter span.lesson-fold-open {
+  opacity: 0 !important;
+  pointer-events: none;
+  transition: opacity 0.12s ease;
+}
+
+/* 展開中の ▼ は「ガターのどこかにマウスがある間」出す。行番号列と折りたたみ列の
+   共通の親が .cm-gutters なので、これ 1 本で両方を覆える——手はまず行番号の上を
+   通るため、折りたたみ列だけを条件にすると畳めること自体が見えない。
+   ⚠ 見えるのはガター全体だが、畳めるのは折りたたみ列の上だけ（▼ は
+   pointer-events: none で、クリックは gutter() 側のハンドラが受ける）。
+   行番号列のクリックには別の意味があるため、この非対称は意図的 */
+.lesson-content-editor .cm-gutters:hover span.lesson-fold-open {
+  opacity: 1 !important;
+}
+
+.lesson-content-editor .lesson-fold-gutter span.lesson-fold-closed {
+  opacity: 1 !important;
+}
+
+/* ===== 曼陀羅（React Flow）=====
+   公開サイト `mandala/app/globals.css` の `.dxm-*` を移植したもの。
+   サイトは `--dxm-*` 独自トークンを使うが、Studio は役割トークンで書く。
+   ⚠ 相互依存禁止の規約によりコピーで持つ。見た目を変えるときは両方直す */
+
+.dxm-mandala {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-height: 0;
+}
+
+/* 親の高さいっぱいに広げるモード（`Mandala` の `fill`）。
+   ⚠ `.dxm-mandala` 自体に `height: 100%` を書かないこと——キャンバスが絶対長の
+   ままの面（ツールバー付きの全体曼陀羅）で、ツールバーのぶん親を溢れる。
+   「親いっぱい」を選んだときだけキャンバスを残りの高さへ切り替える */
+.dxm-mandala-fill {
+  height: 100%;
+  min-height: 0;
+}
+
+.dxm-mandala-fill .dxm-mandala-canvas {
+  flex: 1;
+  /* flex アイテムの既定は `min-height: auto`（中身の実寸が下限になる）。
+     実数で置き換えることで、①中身の実寸に引きずられない ②ビューポートが低い
+     環境でキャンバスが潰れない、の両方を満たす。下限に当たったぶんのはみ出しは
+     親（ダイアログ・セル）側が処理する */
+  min-height: 8rem;
+  /* 直下の React Flow を絶対配置で埋めるための基準（下の規則を参照） */
+  position: relative;
+}
+
+/* ⚠ React Flow のルートは既定で `height: 100%` を持つ。キャンバスの高さが
+   `min-height` や `flex` の伸長だけで立っている（`height` は auto の）とき、
+   このパーセントは解決できず**ルートが 0px になり error #004 が出る**
+   （2026-08-21 に実機で発生）。絶対配置で埋めればパーセントに依存しない。
+   ⚠ 親の高さが確定しているかどうかは呼び出し側の都合で変わるので、
+   ここを外して「呼び出し側が必ず確定させる」に頼らないこと。 */
+.dxm-mandala-fill .dxm-mandala-canvas > .react-flow {
+  position: absolute;
+  inset: 0;
+  width: auto;
+  height: auto;
+}
+
+.dxm-mandala-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.dxm-mandala-toggle {
+  padding: 0.15rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
+.dxm-mandala-toggle[aria-pressed="true"] {
+  background: var(--muted);
+  opacity: 0.75;
+}
+
+/* 地はほぼ透明にする——曼陀羅を「特別な箱」に見せず、置かれた面と地続きにする
+   （公開サイトの `.dxm-mandala-canvas` と同じ意図・同じ割合）。
+   ⚠ `--muted` のような不透明色を使わないこと。Studio では `--muted` が
+   `--background` と同値なので、白い `bg-card` のモーダルの中でグレーの箱として浮く。
+   ⚠ 完全な透明にはしない: クリック後はパン・ズームが働きノードは領域の縁で
+   切り落とされるので、輪郭がまったく無いと「何もない所で切れる」ように見える */
+.dxm-mandala-canvas {
+  background: color-mix(in srgb, var(--foreground) 3%, transparent);
+  border-radius: 0.6rem;
+  overflow: hidden;
+}
+
+/* ミニマップと Controls の配色。React Flow の CSS 変数で与える——
+   props で渡すとインラインになりテーマ側から上書きできない */
+.dxm-mandala-canvas .react-flow {
+  --xy-minimap-background-color: var(--card);
+  --xy-minimap-mask-background-color: color-mix(in oklab, var(--muted) 60%, transparent);
+  --xy-minimap-node-background-color: color-mix(in oklab, var(--muted-foreground) 40%, var(--card));
+  --xy-minimap-node-stroke-color: var(--muted-foreground);
+  --xy-minimap-node-stroke-width: 2;
+  --xy-controls-button-background-color: var(--card);
+  --xy-controls-button-background-color-hover: var(--muted);
+  --xy-controls-button-color: var(--muted-foreground);
+  --xy-controls-button-color-hover: var(--foreground);
+  --xy-controls-button-border-color: var(--border);
+
+  /* 接続点の丸ポチ。辺・矢印と同じ色にそろえる。
+     ⚠ 辺側は `Mandala.tsx` の `EDGE_COLOR` にあるので、変えるときは両方直す
+     ——SVG マーカーが CSS 変数を引けず 1 箇所にまとめられない */
+  --xy-handle-background-color: #7a8189;
+  --xy-handle-border-color: transparent;
+}
+
+/* 見える円は 4px。箱（6×6）は React Flow が辺の接続点の計測に使うので触らない */
+.dxm-mandala-canvas .react-flow__handle {
+  background-clip: padding-box;
+}
+
+/* 丸ポチは「辺が出ていく側」にだけ残す。
+   ⚠ `display: none` にはしないこと——React Flow はハンドルの矩形から辺の
+   接続点を測るので、箱は残したまま色だけ透明にする */
+.dxm-mandala-canvas .react-flow__handle.target,
+.dxm-mandala-canvas .react-flow__handle.dxm-handle-idle {
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.dxm-node {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.5rem 0.7rem;
+  /* サイトの `.dxm-node` と同じ割合。⚠ `--border` を使わないこと——地を薄くした
+     ぶんノードの輪郭が弱くなり、白地に白いカードが浮かぶ絵になる。曼陀羅は完結した
+     1 枚の地図なので、Studio の他のフォーム部品と枠の濃さを揃える動機はない */
+  border: 1px solid color-mix(in srgb, var(--card-foreground) 45%, transparent);
+  border-radius: 0.5rem;
+  background: var(--card);
+  color: var(--card-foreground);
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+
+/* ⚠ 寸法は `Mandala.tsx` の SIZES.compact と一致させること（dagre は固定寸法前提）。
+   受講形態ラベルに約 61px を取られ、タイトルに残るのは約 150px——契約の上限
+   （半角36字）はここで最大3行になる */
+.dxm-node-compact {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.4rem;
+  width: 240px;
+  height: 72px;
+}
+
+/* シリーズ名・コース名・レッスン数の 3 行＋右端ラベル。
+   ⚠ 寸法は `Mandala.tsx` の SIZES.card と一致させること——dagre は固定寸法を
+   前提に座標を出すので、CSS 側だけ変えると辺の接続位置がずれる */
+.dxm-node-card {
+  width: 260px;
+  height: 88px;
+}
+
+/* 折りたたんだシリーズ 1 つ分。展開時のシリーズ枠がそのまま縮んだように見せる。
+   破線を使わないのは、曼陀羅では破線が「確定でないもの」を指す語彙だから */
+.dxm-node-collapsed {
+  width: 210px;
+  height: 72px;
+  border-color: color-mix(in oklab, var(--primary) 45%, transparent);
+  background: color-mix(in oklab, var(--primary) 4%, var(--card));
+}
+
+.dxm-node-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+/* ミニ曼陀羅サムネイル。受講形態を載せないぶん compact より狭くし、コース名を
+   中央にそろえる（1 つしか中身が無いので `justify-content` で決まる）。
+   ⚠ 寸法は `Mandala.tsx` の SIZES.thumbnail と一致させること——dagre は固定寸法を
+   前提に座標を出すので、片方だけ変えると辺の接続位置がノードの縁からずれる */
+.dxm-node-thumbnail {
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 220px;
+  height: 56px;
+}
+
+/* 名前は折り返して全体を見せる（`…` で切らない）。曼陀羅は一目で見渡すための
+   図なので、名前の一部が隠れると目的が損なわれる。
+   ⚠ 行数の上限は「契約の上限（半角36字）がその幅で何行になるか」の実測値。
+   compact は受講形態ラベルに幅を取られてタイトルが約 150px しかないので 3 行、
+   ラベルの無いサムネイル・折りたたみノードは 2 行で収まる。
+   ⚠ 行数を変えるときはノードの height も一緒に見直すこと */
+.dxm-node-compact .dxm-node-title,
+.dxm-node-thumbnail .dxm-node-title,
+.dxm-node-collapsed .dxm-node-title {
+  min-width: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.dxm-node-compact .dxm-node-title {
+  -webkit-line-clamp: 3;
+}
+
+.dxm-node-thumbnail .dxm-node-title {
+  text-align: center;
+}
+
+.dxm-node-series {
+  font-size: 0.68rem;
+  color: var(--muted-foreground);
+}
+
+.dxm-node-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.7rem;
+  color: var(--muted-foreground);
+  margin-top: auto;
+}
+
+/* 受講形態。compact は右端へ寄せ、card は右端・高さ中央に絶対配置する。
+   地はブランド色の薄い敷き（サイトの `--dxm-brand-soft` と同じ 12%）。
+   ⚠ サイトのように `#007bc0` を直値で書き写さないこと——サイトの `--dxm-brand` は
+   テーマ非依存の固定値で、暗い地では字が沈む（約 2.3:1）。Studio の `--primary` は
+   ダークで明るい青へ振れるので、役割トークンで書くほうが安全。ライトでは同値 */
+.dxm-node-style {
+  margin-left: auto;
+  padding: 0.02rem 0.4rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--primary) 12%, transparent);
+  color: var(--primary);
+  font-size: 0.68rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.dxm-node-card .dxm-node-style {
+  position: absolute;
+  top: 50%;
+  right: 0.7rem;
+  translate: 0 -50%;
+  margin-left: 0;
+}
+
+.dxm-node-card {
+  position: relative;
+  /* 右端のラベルと本文が重ならないだけの逃げ。ラベルは絶対配置なので、足りないと
+     コース名の上に重なる。
+     ⚠ 見込むのは語彙のうち**最も長いラベル**——「独習 / 講義」の 2 文字ではなく
+     「ハンズオン」の 5 文字。実測（Chrome）で 2 文字は 45.7px、5 文字は 75.8px 要る。
+     4rem（64px）では 5 文字がコース名へ 11.8px 食い込むので 5rem（80px）にした。
+     受講形態の語彙（`COURSE_STYLES`）を増やしたら測り直すこと */
+  padding-right: 5rem;
+}
+
+/* いま選んでいるコース。枠を青くしてノードの左外にピンを重ねる。
+   ⚠ 状態の指定なので変種（`-compact` / `-collapsed` 等）より後に置く
+   ——同じ詳細度なら後勝ちで、集約ノードの枠色をここが上書きする */
+.dxm-node-here {
+  position: relative;
+  border-color: var(--primary);
+  /* 太さは inset の影で出す。border-width を上げるとノードは固定寸法なので
+     内側が 1px 削れ、コース名の位置が他のノードとずれる */
+  box-shadow: inset 0 0 0 1px var(--primary);
+}
+
+/* ピンはノードの左外・高さ中央。絶対配置なのでノードの寸法にも文字位置にも
+   影響しない。`right: 100%` なのは lucide の MapPin が箱の 2/3 しか使わず
+   左右に size/6 の余白を持つため、箱の右辺をノード左辺に合わせるだけで
+   絵の中心が -size/2 に決まるから——実数のオフセットだと寸法変更で黙ってずれる */
+.dxm-node-here-pin {
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  translate: 0 -50%;
+  margin-right: 1px;
+  color: var(--primary);
+  /* 塗りは透過。ピンはノードの外＝キャンバスの上に乗るので、塗ると背景や辺を
+     隠して浮いて見える。現在地は輪郭線（`color`）だけで示す */
+  fill: transparent;
+}
+
+/* 別シリーズの相手コース。区別は透明度と、カードならシリーズ名の行が担う。
+   ⚠ 枠を破線にしないこと——曼陀羅では辺とシリーズ枠がすでに破線なので、
+   3 種類目の破線を足すと 1 枚の絵の読み取りが重くなる。
+   ゴーストが立つのは `courseView` だけなので、効くのはミニ曼陀羅の 2 面のみ */
+.dxm-node-ghost {
+  opacity: 0.85;
+}
+
+.dxm-terminal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 90px;
+  height: 30px;
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  /* ⚠ サイトの `opacity: .75` を式ごと移さないこと。あちらは Nextra の本文色
+     （スレート系）に掛けているので実効値は約 #6e757f になる。Studio の
+     `--foreground` はほぼ黒なので同じ式だと #565859 まで濃くなり、かえってずれる。
+     `--muted-foreground`（#71767C）がサイトの実効値と一致する（両テーマで実測） */
+  color: var(--muted-foreground);
+}
+
+.dxm-series-frame {
+  position: relative;
+  border: 1.5px dashed color-mix(in oklab, var(--primary) 45%, transparent);
+  border-radius: 0.8rem;
+  background: color-mix(in oklab, var(--primary) 4%, transparent);
+  /* 背景として敷くものは自分では何も拾わない */
+  pointer-events: none;
+}
+
+/* 枠はクリックでそのシリーズを選ぶ。手がかりはカーソルだけにする
+   ——枠は大きく、この面積が hover で色を変えると目障り。
+   当たり判定は React Flow の wrapper が持つ（`onNodeClick` を渡した時点で
+   `pointer-events: all` になる）。枠の中でもコースノードが優先されるのは
+   z-index で決まっている（コース 0 / 枠 -1） */
+.dxm-mandala-canvas .react-flow__node-seriesFrame {
+  cursor: pointer;
+}
+
+/* そのシリーズ自身を選んでいるときは枠が現在地になる。実線にして太さは影で出す
+   ——`.dxm-node-here` と同じ流儀（「現在地の太さはいつも影」を 1 つの規則にする）。
+   ⚠ 枠のピンは基底の `.dxm-node-here-pin` をそのまま使うので専用の指定は要らない */
+.dxm-series-frame-here {
+  border-style: solid;
+  border-color: var(--primary);
+  box-shadow: inset 0 0 0 1px var(--primary);
+}
+
+.dxm-series-frame-label {
+  display: inline-block;
+  margin: 0.3rem 0 0 0.7rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+/* ペイン1 の中身検索の一致箇所。編集ビュー（CodeMirror の装飾）とプレビュー
+   （rehype が挿す <mark>）の両方がこの 1 本を見る */
+.lesson-content-editor .lesson-search-highlight,
+.lesson-preview mark.lesson-search-highlight {
+  background-color: var(--search-highlight);
+  color: inherit;
+  border-radius: 2px;
+}
+
+/* 折りたたみプレースホルダー: 「…」テキストのみ背景付き・クリック可能 */
+.lesson-content-editor .cm-foldPlaceholder.lesson-fold-placeholder {
+  display: inline;
+  margin: 0;
+  padding: 0 0.2em;
+  border: none;
+  border-radius: 0.125rem;
+  background-color: color-mix(in oklab, var(--muted) 45%, transparent);
+  color: var(--muted-foreground);
+  cursor: pointer;
+  user-select: none;
+}
+
+.lesson-content-editor .cm-foldPlaceholder.lesson-fold-placeholder:hover {
+  background-color: color-mix(in oklab, var(--muted) 65%, transparent);
+  color: var(--foreground);
+}
+
+/* カーソル行: 行番号・折りガター・本文（CM 標準クラスではなく独自マーカー） */
+.lesson-content-editor .cm-gutterElement.lesson-active-line-gutter,
+.lesson-content-editor .cm-line.lesson-active-line {
+  background-color: color-mix(in oklab, var(--muted) 50%, transparent) !important;
+}
+
+/* 行番号のみ太字（テキスト色は変更しない） */
+.lesson-content-editor .cm-lineNumbers .cm-gutterElement.lesson-active-line-number {
+  font-weight: 700;
+}
+
+/* Pane3 差分: 編集モード .cm-lineNumbers + 行番号列と本文間の空白ガター */
+.lesson-diff-view {
+  font-family: var(--font-code);
+  font-size: 0.875rem;
+  line-height: 1.375rem;
+  overscroll-behavior: contain;
+}
+
+.lesson-diff-view .lesson-diff-row {
+  display: flex;
+  min-height: 1.375rem;
+}
+
+.lesson-diff-view .lesson-diff-gutters {
+  display: flex;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.lesson-diff-view .lesson-diff-gutter-element {
+  box-sizing: border-box;
+  min-width: 20px;
+  padding: 0 3px 0 5px;
+  text-align: right;
+  white-space: nowrap;
+  font-size: 11px;
+  line-height: 1.375rem;
+  color: #237893;
+  user-select: none;
+}
+
+.dark .lesson-diff-view .lesson-diff-gutter-element {
+  color: #858585;
+}
+
+/* 2列目の行番号と差分本文の間（編集モード .cm-line の padding-left: 6px 相当） */
+.lesson-diff-view .lesson-diff-gutter-spacer {
+  flex: 0 0 12px;
+  box-sizing: border-box;
+}
+
+.lesson-diff-view .lesson-diff-marker {
+  box-sizing: border-box;
+  flex: 0 0 12px;
+  padding: 0 2px 0 0;
+  text-align: center;
+  line-height: 1.375rem;
+  user-select: none;
+}
+
+.lesson-diff-view .lesson-diff-content {
+  min-width: 0;
+  flex: 1;
+  padding: 0 2px 0 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* 編集ビュー テキスト選択: lesson-content-editor-setup.ts（LESSON_EDITOR_SELECTION_*）で制御 */
+
+/* 社内コンテキスト: date 入力のプレースホルダー見た目（タグ入力 placeholder と同系） */
+input.context-date-input[type="date"] {
+  color: var(--muted-foreground);
+}
+
+input.context-date-input[type="date"]::-webkit-datetime-edit {
+  padding: 0;
+}
+
+input.context-date-input[type="date"]::-webkit-datetime-edit-fields-wrapper {
+  padding: 0;
+}
+
+input.context-date-input[type="date"]::-webkit-datetime-edit-text {
+  color: var(--muted-foreground);
+  padding: 0 0.125rem;
+}
+
+input.context-date-input[type="date"]::-webkit-datetime-edit-month-field,
+input.context-date-input[type="date"]::-webkit-datetime-edit-day-field,
+input.context-date-input[type="date"]::-webkit-datetime-edit-year-field {
+  color: var(--muted-foreground);
+}
+
+input.context-date-input--empty[type="date"]::-webkit-datetime-edit {
+  opacity: 0;
+}
+
+input.context-date-input[type="date"]:not([value=""]) {
+  color: var(--foreground);
+}
+
+input.context-date-input[type="date"]:not([value=""])::-webkit-datetime-edit-text,
+input.context-date-input[type="date"]:not([value=""])::-webkit-datetime-edit-month-field,
+input.context-date-input[type="date"]:not([value=""])::-webkit-datetime-edit-day-field,
+input.context-date-input[type="date"]:not([value=""])::-webkit-datetime-edit-year-field {
+  color: var(--foreground);
+}

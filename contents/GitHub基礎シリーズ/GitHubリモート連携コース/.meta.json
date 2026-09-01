@@ -1,0 +1,19 @@
+{
+  "order": [
+    "リポジトリを作る／clone",
+    "push と pull"
+  ],
+  "target": "社内GitHubアカウントがあり、ローカルのcommitはできる人",
+  "id": "crs-github-waedts",
+  "style": "self-study",
+  "cross_series_prev": [],
+  "cross_series_next": [],
+  "slug": "remote",
+  "catch": "手元と共有保管庫をつなぐ",
+  "description": "社内GitHubにリポジトリを作って手元に clone し、コミットを push して変更を pull できるようになるコース。README.md を書いて整形表示を確かめます。",
+  "name_en": "GitHub Remote Workflow Course",
+  "catch_en": "Connect your machine to the shared vault",
+  "description_en": "A course where you create a repository on internal GitHub, clone it to your machine, push your commits, and pull changes back. You also write a README.md and check how it renders.",
+  "target_en": "People with an internal GitHub account who can already commit locally",
+  "en_source_hash": "sha256:9ec348aa685f596c71e79ac20df30ccc04724425483427f4e788ce03d5e4c9fa"
+}

@@ -1,0 +1,17 @@
+{
+  "slug": "first-script",
+  "status": "in_progress",
+  "description": "uv init で練習用プロジェクトを作り、hello.py を書いて uv run で実行する一周を体験する",
+  "tags": [
+    "python",
+    "setup",
+    "uv"
+  ],
+  "estimated_minutes": 15,
+  "author": "北村",
+  "id": "lsn-first-script-j7z7q9",
+  "name_en": "Running your first script",
+  "description_en": "Create a practice project with uv init, write hello.py, and run it with uv run to go through the whole loop once",
+  "en_source_hash": "sha256:54681bc299fb178b2331c06ee33d54513c025225f695a1659b43d6ba14ce4d06",
+  "author_en": "Kitamura"
+}

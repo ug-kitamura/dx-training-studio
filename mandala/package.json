@@ -1,0 +1,39 @@
+{
+  "name": "dx-training-mandala",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:content": "node --experimental-strip-types scripts/build-content.mts",
+    "dev": "npm run build:content && next dev --webpack -p 3002",
+    "build": "npm run build:content && next build --webpack",
+    "postbuild": "node --experimental-strip-types scripts/set-en-lang.mts && pagefind --site .next/server/app --output-path public/_pagefind && node -e \"require('fs').cpSync('public/_pagefind','out/_pagefind',{recursive:true})\" && node --experimental-strip-types scripts/flatten-export-segments.mts",
+    "start": "npx serve out -l 3002 -L",
+    "test": "vitest run",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@dagrejs/dagre": "^1.1.5",
+    "@xyflow/react": "^12.11.3",
+    "lucide-react": "^1.31.0",
+    "next": "^16.3.1",
+    "nextra": "^4.6.1",
+    "nextra-theme-docs": "^4.6.1",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "rehype-github-alerts": "^4.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.7",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^16.3.3",
+    "pagefind": "^1.5.2",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4",
+    "zod": "4.3.6"
+  },
+  "overrides": {
+    "zod": "4.3.6"
+  }
+}

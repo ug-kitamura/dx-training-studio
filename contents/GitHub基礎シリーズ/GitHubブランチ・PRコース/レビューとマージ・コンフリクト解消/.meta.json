@@ -1,0 +1,16 @@
+{
+  "slug": "review-merge",
+  "status": "in_progress",
+  "description": "PR の行にコメントを付け、マージして本編に合流させ、衝突（コンフリクト）を解消できるようになる",
+  "tags": [
+    "github",
+    "branch-pr"
+  ],
+  "estimated_minutes": 15,
+  "author": "北村",
+  "id": "lsn-review-merge-5iyy3o",
+  "name_en": "Review, merge, and fix conflicts",
+  "description_en": "Comment on a line in a pull request, merge to join the main story, and resolve conflicts",
+  "en_source_hash": "sha256:d5bf11b126b4002f4f46144e1b6542c86037780929a995fca3a7a9fcbf1cfb20",
+  "author_en": "Kitamura"
+}

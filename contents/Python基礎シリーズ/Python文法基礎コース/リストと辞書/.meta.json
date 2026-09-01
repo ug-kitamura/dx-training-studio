@@ -1,0 +1,16 @@
+{
+  "slug": "list-and-dict",
+  "status": "in_progress",
+  "description": "番号で引くリストと名札で引く辞書を使い分け、実務データの定番「辞書のリスト」の形に見覚えを作る",
+  "tags": [
+    "python",
+    "basics"
+  ],
+  "estimated_minutes": 15,
+  "author": "北村",
+  "id": "lsn-list-and-dict-8iyzqz",
+  "name_en": "Lists and dictionaries",
+  "description_en": "Use lists, which you look up by number, and dictionaries, which you look up by name tag, and get familiar with the list-of-dictionaries shape that real data usually takes",
+  "en_source_hash": "sha256:cb8716580599d2149009200241c89989698540c59f84518d654ff65395798fb6",
+  "author_en": "Kitamura"
+}

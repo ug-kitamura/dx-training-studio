@@ -1,0 +1,16 @@
+{
+  "id": "lsn-chocolatey-iiwwkb",
+  "slug": "chocolatey",
+  "status": "in_progress",
+  "description": "社内の IT Service Portal から Chocolatey を申請・導入し、VSCode と uv の供給元を準備する",
+  "tags": [
+    "start",
+    "setup"
+  ],
+  "estimated_minutes": 10,
+  "author": "北村",
+  "name_en": "Setting up Chocolatey",
+  "description_en": "Request and install Chocolatey through the internal IT Service Portal, preparing the source you will install VSCode and uv from",
+  "en_source_hash": "sha256:378c82d9e87a78c2238f1b5c38183fe54f377b3e55778c26cd2013ec59a1b7e2",
+  "author_en": "Kitamura"
+}

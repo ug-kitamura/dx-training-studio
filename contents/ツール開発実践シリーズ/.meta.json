@@ -1,0 +1,14 @@
+{
+  "order": [
+    "ハンズオン事前準備コース",
+    "ハンズオン当日コース"
+  ],
+  "slug": "build",
+  "description": "これまでのシリーズで手にした道具を全部使って、課題を解く Python スクリプトを1つ完成させるシリーズ。Pull Request と相互レビューを通し、自分のコードを自分の言葉で説明できるようになります。",
+  "catch": "集めた武器で、実践へ",
+  "id": "srs-n-6vrm6h-5re3qx",
+  "name_en": "Tool Development Practice Series",
+  "catch_en": "Into the field, with the weapons you gathered",
+  "description_en": "A series where you use every tool you picked up in the earlier series to finish one Python script that solves a real task. You go through a pull request and peer review, and learn to explain your own code in your own words.",
+  "en_source_hash": "sha256:8cbed0da491996442ee87f838674b2bc8f3c2d7d42fa01608edeeb11bc1853f2"
+}
