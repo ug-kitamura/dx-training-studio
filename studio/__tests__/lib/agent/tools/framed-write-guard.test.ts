@@ -70,17 +70,17 @@ afterEach(() => {
 
 describe("resolveFramedWriteTarget", () => {
   it("diverts a write to a single-section frame", () => {
-    writeProjectFile("output/bosch-company.html", SINGLE_SECTION_FRAME);
+    writeProjectFile("output/company-profile.html", SINGLE_SECTION_FRAME);
 
-    const decision = resolveFor("output/bosch-company.html");
+    const decision = resolveFor("output/company-profile.html");
 
     expect(decision.kind).toBe("divert");
     if (decision.kind !== "divert") return;
     expect(decision.relativePath).toBe(
-      `contents/${FOLDER_ID}/_work/output__bosch-company.html`,
+      `contents/${FOLDER_ID}/_work/output__company-profile.html`,
     );
     expect(decision.requested.relativePath).toBe(
-      `contents/${FOLDER_ID}/output/bosch-company.html`,
+      `contents/${FOLDER_ID}/output/company-profile.html`,
     );
     expect(decision.markerNames).toEqual(["CONTENT"]);
   });
@@ -148,10 +148,10 @@ describe("resolveFramedWriteTarget", () => {
   });
 
   it("returns the same divert target for the same requested path", () => {
-    writeProjectFile("output/bosch-company.html", SINGLE_SECTION_FRAME);
+    writeProjectFile("output/company-profile.html", SINGLE_SECTION_FRAME);
 
-    const first = resolveFor("output/bosch-company.html");
-    const second = resolveFor("output/bosch-company.html");
+    const first = resolveFor("output/company-profile.html");
+    const second = resolveFor("output/company-profile.html");
 
     expect(first).toEqual(second);
   });
@@ -168,8 +168,8 @@ describe("resolveFramedWriteTarget", () => {
 
 describe("deriveDivertRelativePath", () => {
   it("flattens nested paths into a single file under the work dir", () => {
-    expect(deriveDivertRelativePath("output/bosch-company.html")).toBe(
-      "_work/output__bosch-company.html",
+    expect(deriveDivertRelativePath("output/company-profile.html")).toBe(
+      "_work/output__company-profile.html",
     );
     expect(deriveDivertRelativePath("a/b/c.md")).toBe("_work/a__b__c.md");
   });
@@ -181,13 +181,13 @@ describe("deriveDivertRelativePath", () => {
 
 describe("framedWriteDivertNotice", () => {
   it("names the divert target and the next replace_between call", () => {
-    writeProjectFile("output/bosch-company.html", SINGLE_SECTION_FRAME);
-    const decision = resolveFor("output/bosch-company.html");
+    writeProjectFile("output/company-profile.html", SINGLE_SECTION_FRAME);
+    const decision = resolveFor("output/company-profile.html");
     if (decision.kind !== "divert") throw new Error("expected divert");
 
     const notice = framedWriteDivertNotice(decision);
 
-    expect(notice).toContain("_work/output__bosch-company.html");
+    expect(notice).toContain("_work/output__company-profile.html");
     expect(notice).toContain("replace_between");
     expect(notice).toContain("<!-- CONTENT_START -->");
     expect(notice).toContain("<!-- CONTENT_END -->");
