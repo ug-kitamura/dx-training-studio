@@ -1,0 +1,109 @@
+name: DX Training Mandala Release (GitHub Pages)
+
+# 公開サイトの GitHub Pages 配信（社内トライアル用）。main に含まれるコミットへ
+# v* タグを打ったときと、動作確認のための手動実行で走る。
+#
+# Vercel 向けの配信は dx-training-mandala-release-vercel.yml が別に担う。
+# 契機（v* タグ）は共有するが、Pages と Vercel は目的が異なる（社内トライアル /
+# ゲーミフィケーションを見据えた理想追求）ためファイルを分けている。
+# タグ検証ロジックは両ファイルに重複するが、単純さを優先して意図的に共通化していない。
+
+on:
+  push:
+    tags:
+      - "v*"
+  # 動作確認用。マージせずに配信経路を試すために任意のブランチから起動できる。
+  # ⚠ GitHub Pages は 1リポジトリ 1サイトでプレビューの概念が無いため、**手動実行でも
+  # 本番サイト（社内トライアル版）へ出る**。しかも下のタグ検証は手動では飛ばすので、
+  # main に含まれない内容が一時的に公開されうる。次のタグ実行で上書き復旧できる。
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "サイドバーに出すリリース番号（空なら番号を表示しない）"
+        required: false
+        default: ""
+
+concurrency:
+  group: dx-training-mandala-release-pages
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+env:
+  NODE_VERSION: "24"
+  SITE_DIR: dx-training-studio/mandala
+  # GitHub Pages はプロジェクトページ配信なのでサブパスになる
+  PAGES_BASE_PATH: /AI_Driven_School
+  PAGES_ARTIFACT_DIR: _pages_out
+
+jobs:
+  build:
+    name: Verify tag and build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          # タグと main の関係を調べるため全履歴が要る
+          fetch-depth: 0
+
+      # タグはブランチに紐付かないため、作業ブランチのコミットにタグを打っても発火する。
+      # main に含まれないコミットからは公開しない。
+      # ⚠ 手動実行では丸ごと飛ばす——任意のブランチから確認できることが手動トリガーの
+      # 目的そのもののため。本番公開の保証はタグ経路にだけ残る。
+      - name: Verify the tag is on main
+        if: github.event_name == 'push'
+        run: |
+          git fetch origin main --quiet
+          if git merge-base --is-ancestor "${GITHUB_SHA}" origin/main; then
+            echo "タグ ${GITHUB_REF_NAME} は main に含まれるコミットを指しています"
+          else
+            echo "::error::タグ ${GITHUB_REF_NAME} が指すコミットは main に含まれていません。公開を中止します"
+            exit 1
+          fi
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: dx-training-studio/mandala/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ${{ env.SITE_DIR }}
+        run: npm ci
+
+      - name: Build for GitHub Pages
+        working-directory: ${{ env.SITE_DIR }}
+        env:
+          NEXT_PUBLIC_BASE_PATH: ${{ env.PAGES_BASE_PATH }}
+          # タグ起動はタグ名、手動起動は入力値（既定は空）。空のときサイトは
+          # リリース番号を行ごと出さないので、確認用の配信に偽の番号が出ない。
+          NEXT_PUBLIC_SITE_RELEASE: ${{ github.event_name == 'push' && github.ref_name || inputs.version }}
+        run: |
+          npm run build
+          # artifact 方式では不要だが、将来ブランチ配信へ切り替えたときに
+          # Jekyll が _next/ を無視して 404 になるのを防ぐ
+          touch out/.nojekyll
+          mv out "${GITHUB_WORKSPACE}/${PAGES_ARTIFACT_DIR}"
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: ${{ env.PAGES_ARTIFACT_DIR }}
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy-pages.outputs.page_url }}
+    steps:
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Deploy
+        id: deploy-pages
+        uses: actions/deploy-pages@v5
