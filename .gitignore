@@ -1,28 +1,36 @@
-# skills work folder
-/contents-work/runs/
-/contents-work/sessions/
-
-# dependencies
-node_modules/
-
-# next.js
-.next/
+# secret env
+.env
+.env.local
 
 # debug logs
 *.log
 
-# vercel
-.vercel
-
-# typescript
+# Next.js
+.next/
+node_modules/
 *.tsbuildinfo
 next-env.d.ts
 
-# secret env
-.env.local
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+.python-version
+
+# contents work outputs
+/contents-work/runs/
+/contents-work/sessions/
+
+# mandala site outputs
+/mandala/content/
+/mandala/public/images/
+/mandala/public/_pagefind/
+/mandala/out/
+/mandala/.next/
 
 # local storage
-# images 直下の正本画像は追跡する（動画を除く）
 /images/uploaded/
 /images/ai/
 /images/web/
@@ -32,12 +40,8 @@ next-env.d.ts
 /images/*.webm
 /local-db/
 
-# 公開サイトの生成物
-/mandala/content/
-/mandala/public/images/
-/mandala/public/_pagefind/
-/mandala/out/
-/mandala/.next/
+# Claude Code
+.claude/settings.local.json
 
 # OpenSpec
 .claude/commands/opsx/
@@ -48,10 +52,5 @@ openspec/changes/
 .claude/skills/graphify/
 graphify-out/
 
-# Python
-__pycache__/
-*.pyc
-*.pyo
-.venv/
-venv/
-.python-version
+# Vercel
+.vercel
