@@ -67,6 +67,10 @@ env:
   # basePath はその URL パス部分。末尾スラッシュは付けない（Next がエラーにする）。
   # 配信先ディレクトリを変えたら必ずビルドし直すこと——basePath は 600 以上の
   # ファイルに絶対パスとして焼き込まれるため、コピーだけでは移せない。
+  #
+  # ⚠ この値は入れ物直下の preview-mandala-deploy.bat にも既定値として持たせて
+  # ある（二重定義。受け入れ済みの判断）。変えるときは両方を直すこと。同 bat で
+  # 「配信先での見え方」を手元で確認できる。
   INTRANET_BASE_PATH: /doku/ccdx/dx-training-mandala
   SITE_ARTIFACT_NAME: intranet-site
 

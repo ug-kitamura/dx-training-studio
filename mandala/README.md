@@ -68,10 +68,11 @@ npm run test    # 変換・曼陀羅グラフのテスト
 {
   "siteName": "DX Training Mandala",
   "imageSource": "local",
-  "repositoryUrl": "https://github.com/ug-kitamura/dx-training-studio"
+  "repositoryUrl": "https://github.com/"
 }
 ```
 
+- **`repositoryUrl`**: ナビバーの GitHub リンクの**フォールバック**。表示される値は3層で決まる——`contents/.meta.json` の `github_url`（最優先。Studio のホームメタ編集で変更可）>`site.config.json` の `repositoryUrl` >`lib/site-data.ts` の `FALLBACK_CHROME`（旧形式の生成物向けで通常は到達しない）。⚠ **現在はどの層も暫定的に `https://github.com/`（github.com トップ）** にしてある——**意図的な設定であり不具合ではない**ので、「リンクがリポジトリに飛ばない」を"修正"しないこと。第1層はいずれ実リポジトリの URL へ手で更新し、社内 GHES へ移行する際は第2層・第3層を社内ドメインへ変える
 - **`imageSource`**: `local`（正本画像を `public/images/` へコピー）か `blob`。
   **デプロイ先ごとの環境変数ではなくこのファイルで持つ**——GitHub Pages と Vercel で画像の参照先が食い違うと、画像の有無で挙動差が生まれるため。
 - **`blob` は未実装**。現在の Blob は `access: "private"` で公開サイトから参照できない。public 化の手順が決まるまでは `local` を使う（選ぶとエラーで停止する）。
@@ -88,6 +89,30 @@ $env:NEXT_PUBLIC_BASE_PATH="/dx-training-studio"; npm run build
 
 - ⚠ **Git Bash で `VAR=/path npm run build` の形は使えない**——MSYS のパス変換が `/dx-training-studio` を `C:/Program Files/Git/dx-training-studio` に書き換える。PowerShell を使うか、`MSYS_NO_PATHCONV=1` を付ける
 - **`trailingSlash: true` は常時 ON**（`next.config.mjs`）。各ページは `<slug>/index.html` で出力され、リンクは末尾スラッシュ付きになる。「拡張子なし URL に `.html` を補うサーバー」への依存を断ち、ディレクトリインデックスしか持たない素朴なサーバー（社内ホスティング等）でも動かすため。⚠ 配信先ごとに切り替えないこと——配信先間のビルド差は `NEXT_PUBLIC_BASE_PATH` の1軸に閉じる
+
+## 配信先での見え方を確かめる（`preview-mandala-deploy.bat`）
+
+入れ物直下の **`preview-mandala-deploy.bat`** が、指定した basePath でビルド → 一時フォルダに配信先と同じ階層を再現して展開 → ローカル配信 → ブラウザを開く、までをまとめて行う。**社内ホスティングへ手でコピーする前の確認**に使う。
+
+```powershell
+.\preview-mandala-deploy.bat /doku/ccdx/dx-training-mandala   # 社内ホスティング
+.\preview-mandala-deploy.bat /dx-training-studio              # GitHub Pages 相当
+.\preview-mandala-deploy.bat                                  # 引数なしなら対話で選ぶ
+```
+
+| basePath | 展開先（`%TEMP%\dx-training-mandala-preview\` 配下） | 開く URL |
+| --- | --- | --- |
+| `/doku/ccdx/dx-training-mandala` | `doku\ccdx\dx-training-mandala\` | `http://localhost:3003/doku/ccdx/dx-training-mandala/` |
+| `/dx-training-studio` | `dx-training-studio\` | `http://localhost:3003/dx-training-studio/` |
+| なし | 直下 | `http://localhost:3003/` |
+
+- **配信ルートは常に一時フォルダの最上位。** ⚠ サイト自身のディレクトリをルートにするとパスが二重になって 404 になる
+- ⚠ **ルート URL（`http://localhost:3003/`）はディレクトリ一覧か 404 になるのが正常**。中身は basePath 配下にしかない
+- **ポートは 3003** なので `start-mandala.bat`（3002）と並走して見比べられる
+- **一時フォルダは実行のたびに消して作り直す**（前回の別 basePath の残骸と混ざらないように）
+- ⚠ **`file://` で `index.html` を直接開いても表示できない。** ①絶対パスがドライブのルートを指す ②`trailingSlash` によりリンクがディレクトリ URL になるが `file://` は `index.html` を補わない ③`fetch()` が不透明オリジンとしてブロックされ検索とクライアント遷移が動かない。**③は basePath をどう設定しても直らない**ので、確認には必ずサーバーが要る
+- ⚠ **ローカルの `public/_pagefind` には過去ビルドの fragment が溜まる**（実測: CI 50 件に対しローカル 326 件）。動作に害は無いが、`out/` を「公開物と完全に同一」と見なすときは注意する。厳密に見たいなら `mandala/public/_pagefind` を消してから実行する
+- ⚠ **`.bat` は ASCII・CRLF で書くこと**（既存5本すべて）。cmd はバッチをシステムの ANSI コードページで読むため、日本語コメントを入れると化けて**コメント行がコマンドとして実行され、変数の設定が壊れる**
 
 ## デプロイ
 

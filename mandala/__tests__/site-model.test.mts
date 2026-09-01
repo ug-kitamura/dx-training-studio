@@ -300,7 +300,7 @@ describe("buildMandalaGraph", () => {
 describe("resolveSiteChrome", () => {
   const config = {
     siteName: "DX Training Mandala",
-    repositoryUrl: "https://github.com/ug-kitamura/dx-training-studio",
+    repositoryUrl: "https://github.com/",
   };
 
   it("全体メタの値が優先される", () => {
@@ -325,7 +325,7 @@ describe("resolveSiteChrome", () => {
   it("未設定は site.config.json / 同梱 hero（null）へフォールバックする", () => {
     expect(resolveSiteChrome({}, config)).toEqual({
       name: "DX Training Mandala",
-      githubUrl: "https://github.com/ug-kitamura/dx-training-studio",
+      githubUrl: "https://github.com/",
       hero: null,
     });
   });
