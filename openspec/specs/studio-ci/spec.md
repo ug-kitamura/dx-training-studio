@@ -3,7 +3,6 @@
 ## Purpose
 
 Studio の継続的検証。何を・どの契機で・どの順で検証するか、および意図的に検証しないものとその理由を定める。デプロイは扱わない。
-
 ## Requirements
 ### Requirement: Studio は pull request で検証される
 
@@ -15,7 +14,7 @@ Studio の変更は、main へ入る前に GitHub Actions で検証されなけ�
 
 #### Scenario: PR で検証が走る
 
-- **WHEN** `dx-training-studio/studio/` 配下を変更した pull request を開く
+- **WHEN** `studio/` 配下を変更した pull request を開く
 - **THEN** Studio の CI が発火する
 
 #### Scenario: 二重発火しない
@@ -55,19 +54,25 @@ CI は次の 4 つをこの順で実行しなければならない（SHALL）。
 - **WHEN** `next-env.d.ts` と `.next/` が存在しない状態から CI が走る
 - **THEN** `next typegen` がそれらを生成し、`tsc --noEmit` が画像 import を解決できる
 - **AND** `Cannot find module './supergraphic.png'` のような、生成物の欠落に起因するエラーが出ない
+
 ### Requirement: 境界を越えて読まれるファイルの変更でも発火する
 
-`paths` フィルタには、Studio 自身に加えて **Studio が境界を越えて読むもの**と **Studio がビルド時に取り込むもの**を含めなければならない（SHALL）。
+`paths` フィルタには、Studio 自身に加えて **Studio が境界を越えて読むもの**と **Studio がビルド時に取り込むもの**を含めなければならない（SHALL）。パスは単独リポジトリの構造（`studio/` `mandala/` `contents/` がリポジトリ直下）を前提とし、旧モノレポの `dx-training-studio/` プレフィックスを付けてはならない（MUST NOT）——一致しない `paths` はワークフローを**発火させないだけで赤にもしない**ため、壊れに気づけない。
 
-- `dx-training-studio/studio/**`
-- `dx-training-studio/mandala/lib/**` — parity テストが `mandala/lib/site-labels.ts` を読むため
-- `dx-training-studio/contents/**` — デモが正本をビルド時に静的ペイロードへ焼き込むため
+- `studio/**`
+- `mandala/lib/**` — parity テストが `mandala/lib/site-labels.ts` を読むため
+- `contents/**` — デモが正本をビルド時に静的ペイロードへ焼き込むため
 - ワークフロー自身のファイル
 
 #### Scenario: mandala の語彙変更で Studio の CI が発火する
 
-- **WHEN** `dx-training-studio/mandala/lib/site-labels.ts` だけを変更した pull request を開く
+- **WHEN** `mandala/lib/site-labels.ts` だけを変更した pull request を開く
 - **THEN** Studio の CI が発火し、parity テストが語彙のずれを検出する
+
+#### Scenario: paths がリポジトリ構造と一致している
+
+- **WHEN** `paths` フィルタの各パターンをリポジトリの実ディレクトリと突き合わせる
+- **THEN** すべてのパターンが実在するディレクトリ・ファイルに対応している
 
 ### Requirement: lint と整形検査は当面 CI に含めない
 
@@ -138,3 +143,4 @@ CI は次の 4 つをこの順で実行しなければならない（SHALL）。
 
 - **WHEN** テストがフィクスチャの存在を条件にスキップする
 - **THEN** そのフィクスチャは git の追跡対象であり、クリーンなチェックアウトで存在する
+

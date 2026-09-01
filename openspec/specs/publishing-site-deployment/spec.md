@@ -149,11 +149,25 @@ if [ "$VERCEL_GIT_COMMIT_REF" = "main" ]; then exit 1; else exit 0; fi
 
 Pages への配り方は1つのジョブに閉じ込め、配信先に依存する値（`basePath` 等）はワークフロー冒頭でまとめて定義しなければならない（SHALL）。将来「成果物のみを専用 public リポへ push する」方式へ切り替える際に、**サイト側のコードと変換スクリプトを変更せずに済む**構成でなければならない（SHALL）。
 
+Pages の `basePath` はリポジトリ名をハードコードしてはならない（MUST NOT）——リポジトリ名の変更・移設に追随できず、配信されたサイトの全アセットが 404 になる事故の元。github.com の project Pages（`https://<owner>.github.io/<リポ名>/`）では `/${{ github.event.repository.name }}` から導出しなければならない（SHALL）。
+
+社内 GHES への移行（Pages URL 形式: `https://pages.github.<会社>.com/<組織名>/<リポ名>/`）に備え、GHES 用の導出（`/${{ github.repository }}`）を**コメントアウトの形で併記**し、移行時の変更がワークフロー冒頭の 1 行の入れ替えに閉じるようにしなければならない（SHALL）。
+
 #### Scenario: 専用 public リポ方式へ切り替える
 
 - **WHEN** 配信方法を「別リポジトリへの push」に変更する
 - **THEN** 変更はワークフローのデプロイジョブと冒頭の設定値に閉じる
 - **AND** `mandala/` 配下のコードと `scripts/` の変換処理は変更されない
+
+#### Scenario: リポジトリ名を変えても配信が壊れない
+
+- **WHEN** リポジトリ名を変更した状態で Pages リリースを実行する
+- **THEN** `basePath` は新しいリポジトリ名から導出され、アセットは 404 にならない
+
+#### Scenario: GHES 移行の変更箇所が1行に閉じる
+
+- **WHEN** ワークフローファイルの `PAGES_BASE_PATH` 定義部を読む
+- **THEN** github.com 用の導出が有効で、GHES 用の導出がコメントとして併記されており、移行時はこの 1 行の入れ替えだけで済むことが読み取れる
 
 ### Requirement: Pages と Vercel は役割が異なる
 
@@ -210,9 +224,9 @@ CI・リリースの各ワークフローは `mandala/` でのみ `npm ci` を�
 - **THEN** parity テストを含む全テストが成功する
 - **AND** parity テストはスキップされず、実際に Studio 側ローダーを実行して比較している
 
-#### Scenario: 3ワークフローすべてでビルドが通る
+#### Scenario: 全ワークフローでビルドが通る
 
-- **WHEN** 検証（CI）・GitHub Pages リリース・Vercel リリースの各ワークフローが `mandala/` でのみ `npm ci` してビルドする
+- **WHEN** 検証（CI）・GitHub Pages リリース・社内ホスティング配信（build ジョブ）の各ワークフローが `mandala/` でのみ `npm ci` してビルドする
 - **THEN** どのワークフローでもビルドが成功する
 - **AND** ワークフロー側に `mandala/` 外の依存をインストールする手順は含まれない
 
@@ -226,4 +240,13 @@ CI・リリースの各ワークフローは `mandala/` でのみ `npm ci` を�
 - **WHEN** `mandala/` の外のソースが、許可リストに無い npm パッケージを import した状態でテストを実行する
 - **THEN** そのテストは解決できずに失敗する
 - **AND** 失敗は握り潰されず、どのパッケージが不足しているかが分かる
+
+### Requirement: Vercel のタグ連動配信ワークフローは持たない
+
+Vercel の配信は git 連携（`main` へのマージ）のみで行い、GitHub Actions に Vercel 向けの配信ワークフローを置いてはならない（MUST NOT）——タグ連動の Vercel 配信は廃止済みであり、復元しない。他のワークフローやドキュメントから、削除された Vercel ワークフローを参照してはならない（SHALL NOT）——実在しないファイルへの参照は次に読む人を迷わせる。
+
+#### Scenario: 削除済みワークフローへの参照が残っていない
+
+- **WHEN** `.github/workflows/` 配下の全ファイルと `docs/handoff.md` を確認する
+- **THEN** Vercel 向けリリースワークフローのファイルは存在せず、それを参照するコメント・記述も存在しない
 

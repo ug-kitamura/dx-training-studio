@@ -8,15 +8,24 @@
 
 サイトは Nextra 4（Next.js）で構築し、`output: 'export'` で全ページを静的 HTML として生成できなければならない（SHALL）。サーバーランタイムを前提とする機能（Route Handlers・middleware・画像最適化）に依存してはならない（SHALL NOT）。GitHub Pages のサブパス配信（`basePath`）と Vercel のルート配信の両方でリンク・アセットが解決できなければならない（SHALL）。
 
+出力は **`trailingSlash: true` を常時有効**とし、各ページを `<slug>/index.html` の形で生成しなければならない（SHALL）。配信先やビルドごとに `trailingSlash` を切り替えてはならない（MUST NOT）——配信先間のビルド差は `basePath` の 1 軸に閉じる。「拡張子なし URL（`/git`）に `.html` を補って返す」というサーバー側の機能に依存してはならない（MUST NOT）——ディレクトリ URL に `index.html` を補う**ディレクトリインデックスだけを持つ素朴なサーバー**（社内ホスティング等）でも全リンク・アセットが解決できなければならない（SHALL）。
+
 #### Scenario: 静的 export が通る
 
 - **WHEN** 変換済みの `content/` がある状態で `next build`（export 設定）を実行する
 - **THEN** `out/` に全ページの HTML が生成される
+- **AND** 各ページは `<slug>/index.html` の形で出力され、ページ内リンクは末尾スラッシュ付きである
 
 #### Scenario: basePath 配信でアセットが解決する
 
 - **WHEN** `basePath` を設定してビルドし、サブパス配下で配信する
 - **THEN** ページ内のリンクと画像・JS・CSS が 404 にならない
+
+#### Scenario: ディレクトリインデックスだけのサーバーで閲覧できる
+
+- **WHEN** 「ディレクトリ URL に `index.html` を補う」機能しか持たない静的サーバーに `out/` を配置して閲覧する
+- **THEN** トップ・シリーズ・コース・レッスンの全ページと検索が動作する
+- **AND** 拡張子なし URL の `.html` 補完機能が無くても 404 は発生しない
 
 ### Requirement: 全体・シリーズ・コースのトップページを自動生成する
 
